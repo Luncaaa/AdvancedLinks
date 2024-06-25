@@ -1,0 +1,13 @@
+# The prefix in front of the plugin's messages.
+prefix: "&7[&6AL&7]"
+
+# The links that will appear in the links menu
+links:
+  # Any name to identify this link
+  example:
+    displayName: "<gradient:yellow:red>My custom name with gradients</gradient> &6and legacy colors!" # The text that will appear in the button.
+    # The type of the button. If you are using this field, the "displayName" field will be ignored.
+    # WARNING! This may override or be overriden by server links of the same type from other plugins.
+    # Must be a value from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/ServerLinks.Type.html
+    # type: NEWS
+    url: "https://www.google.com" # The link that will be opened when the button is clicked.

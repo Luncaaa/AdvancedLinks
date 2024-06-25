@@ -1,0 +1,27 @@
+main: me.lucaaa.advancedlinks.AdvancedLinks
+description: "Create server links in the links menu!"
+name: "AdvancedLinks"
+version: 1.0
+author: Lucaaa
+prefix: AL
+api-version: 1.21
+
+commands:
+  al:
+    description: Main command.
+
+permissions:
+  al.admin:
+    description: Admin permission - Allows everything
+    default: op
+    children:
+      ad.reload: true
+  al.reload:
+    description: Reloads the plugin's configuration files.
+    default: op
+  al.add:
+    description: Adds a new server link.
+    default: op
+  al.remove:
+    description: Removes a server link.
+    default: op
