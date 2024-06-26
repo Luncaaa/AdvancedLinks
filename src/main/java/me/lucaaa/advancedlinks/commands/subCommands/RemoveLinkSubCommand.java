@@ -9,7 +9,7 @@ public class RemoveLinkSubCommand extends SubCommandsFormat {
     public RemoveLinkSubCommand(AdvancedLinks plugin) {
         super(plugin);
         this.name = "remove";
-        this.description = "Removes a server link.";
+        this.description = "Removes an existing server link.";
         this.usage = "/al remove [name]";
         this.minArguments = 1;
         this.executableByConsole = true;

@@ -23,5 +23,5 @@ permissions:
     description: Adds a new server link.
     default: op
   al.remove:
-    description: Removes a server link.
+    description: Removes an existing server link.
     default: op
