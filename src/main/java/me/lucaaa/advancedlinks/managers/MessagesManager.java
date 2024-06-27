@@ -3,6 +3,8 @@ package me.lucaaa.advancedlinks.managers;
 import me.lucaaa.advancedlinks.utils.Logger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.ChatColor;
 
@@ -32,19 +34,34 @@ public class MessagesManager {
             return "Invalid text component!";
         }
 
-        return componentToString((TextComponent) MiniMessage.miniMessage().deserialize(message), "");
+        return componentToString((TextComponent) MiniMessage.miniMessage().deserialize(message), null);
     }
 
-    private String componentToString(TextComponent component, String initial) {
-        ChatColor color = (component.color() == null) ? ChatColor.WHITE : ChatColor.of(Objects.requireNonNull(component.color()).asHexString());
-        String componentString = initial + color + component.content();
+    private String componentToString(TextComponent component, TextColor parentColor) {
+        StringBuilder componentString = new StringBuilder(component.content());
 
-        if (component.children().isEmpty()) return componentString;
+        if (component.hasDecoration(TextDecoration.BOLD)) componentString.insert(0, ChatColor.BOLD);
+        if (component.hasDecoration(TextDecoration.UNDERLINED)) componentString.insert(0, ChatColor.UNDERLINE);
+        if (component.hasDecoration(TextDecoration.STRIKETHROUGH)) componentString.insert(0, ChatColor.STRIKETHROUGH);
+        if (component.hasDecoration(TextDecoration.OBFUSCATED)) componentString.insert(0, ChatColor.MAGIC);
 
-        for (Component child : component.children()) {
-            componentString = componentToString((TextComponent) child, componentString);
+        ChatColor color;
+        if (component.color() == null && parentColor == null) {
+            color = ChatColor.WHITE;
+        } else if (component.color() != null) {
+            color = ChatColor.of(Objects.requireNonNull(component.color()).asHexString());
+        } else {
+            color = ChatColor.of(parentColor.asHexString());
         }
 
-        return ChatColor.translateAlternateColorCodes('&', componentString);
+        componentString.insert(0, color).insert(0, "");
+
+        if (component.children().isEmpty()) return ChatColor.translateAlternateColorCodes('&', componentString.toString());
+
+        for (Component child : component.children()) {
+            componentString.append(componentToString((TextComponent) child, component.color()));
+        }
+
+        return ChatColor.translateAlternateColorCodes('&', componentString.toString());
     }
 }
