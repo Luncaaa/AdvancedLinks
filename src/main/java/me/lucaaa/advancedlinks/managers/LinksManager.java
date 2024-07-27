@@ -71,7 +71,7 @@ public class LinksManager {
 
             ServerLinks.ServerLink serverLink;
             if (type == null) {
-                serverLink = Bukkit.getServerLinks().addLink(plugin.getMessagesManager().getColoredMessageMM(key, Objects.requireNonNull(link.getString("displayName"))), url);
+                serverLink = Bukkit.getServerLinks().addLink(plugin.getMessagesManager().parseMessage(Objects.requireNonNull(link.getString("displayName"))), url);
             } else {
                 serverLink = Bukkit.getServerLinks().addLink(type, url);
             }
@@ -89,7 +89,7 @@ public class LinksManager {
         link.set("url", url.toASCIIString());
         configManager.save();
 
-        ServerLinks.ServerLink serverLink = Bukkit.getServerLinks().addLink(plugin.getMessagesManager().getColoredMessageMM(key, displayName), url);
+        ServerLinks.ServerLink serverLink = Bukkit.getServerLinks().addLink(plugin.getMessagesManager().parseMessage(displayName), url);
         this.links.put(key, serverLink);
         sendLinks();
 

@@ -1,15 +1,11 @@
 package me.lucaaa.advancedlinks.managers;
 
-import me.lucaaa.advancedlinks.utils.Logger;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
-
-import java.util.Objects;
-import java.util.logging.Level;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class MessagesManager {
     private final String prefix;
@@ -25,6 +21,18 @@ public class MessagesManager {
         return ChatColor.translateAlternateColorCodes('&', messageToSend);
     }
 
+    public String parseMessage(String message) {
+        // From legacy and minimessage format to a component
+        Component legacy = LegacyComponentSerializer.legacyAmpersand().deserialize(message);
+        // From component to Minimessage String. Replacing the "\" with nothing makes the minimessage formats work.
+        String minimessage = MiniMessage.miniMessage().serialize(legacy).replace("\\", "");
+        // From Minimessage String to Minimessage component
+        Component component = MiniMessage.miniMessage().deserialize(minimessage);
+        // From Minimessage component to legacy string.
+        return TextComponent.toLegacyText(BungeeComponentSerializer.get().serialize(component));
+    }
+
+    /* Code for old method - "manually" converts a component to a string.
     public String getColoredMessageMM(String key, String message) {
         MiniMessage mm = MiniMessage.miniMessage();
         Component component = mm.deserialize(message);
@@ -63,5 +71,5 @@ public class MessagesManager {
         }
 
         return ChatColor.translateAlternateColorCodes('&', componentString.toString());
-    }
+    }*/
 }
