@@ -1,7 +1,7 @@
 main: me.lucaaa.advancedlinks.AdvancedLinks
 description: "Create server links in the links menu!"
 name: "AdvancedLinks"
-version: 1.1
+version: 1.1.1
 author: Lucaaa
 prefix: AL
 api-version: 1.21
