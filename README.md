@@ -5,6 +5,7 @@ Create server links in the links menu!
 You can download the plugin here:
 - Spigot resource page: https://www.spigotmc.org/resources/advancedlinks.117605/
 - Hangar resource page: https://hangar.papermc.io/Lucaaa/AdvancedLinks
+- Modrinth resource page: https://modrinth.com/plugin/advancedlinks
 - Wiki: https://lucaaa.gitbook.io/advancedlinks/
 
 If you have an issue, found a bug or want to suggest something, you can do it here:
