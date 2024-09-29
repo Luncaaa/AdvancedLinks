@@ -2,10 +2,8 @@ package me.lucaaa.advancedlinks.managers;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.TextComponent;
 
 public class MessagesManager {
     private final String prefix;
@@ -29,7 +27,8 @@ public class MessagesManager {
         // From Minimessage String to Minimessage component
         Component component = MiniMessage.miniMessage().deserialize(minimessage);
         // From Minimessage component to legacy string.
-        return TextComponent.toLegacyText(BungeeComponentSerializer.get().serialize(component));
+        return LegacyComponentSerializer.legacySection().serialize(component);
+        // return TextComponent.toLegacyText(BungeeComponentSerializer.get().serialize(component));
     }
 
     /* Code for old method - "manually" converts a component to a string.
