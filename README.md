@@ -14,5 +14,5 @@ If you have an issue, found a bug or want to suggest something, you can do it he
 - Contact me on Discord: Lucaaa#6268 / luncaaa
 
 ## How to compile
-The plugin is compiled using Maven and Java 21.
-Build the jar running the Maven command "mvn clean package" in the parent POM.
+The plugin is compiled using Gradle and Java 21.
+Build the jar running the Gradle command "./gradlew build" in the root folder.
