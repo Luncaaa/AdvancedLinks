@@ -26,6 +26,14 @@ tasks {
     }
 
     shadowJar {
+        manifest {
+            attributes(
+                mapOf(
+                    "paperweight-mappings-namespace" to "mojang"
+                )
+            )
+        }
+
         minimize()
         relocate("net.kyori", "net.kyori")
         archiveFileName.set("${project.name}-${project.version}.jar")
