@@ -13,12 +13,31 @@ import java.util.Arrays;
 public class AddLinkSubCommand extends SubCommandsFormat {
     public AddLinkSubCommand(AdvancedLinks plugin) {
         super(plugin);
-        this.name = "add";
-        this.description = "Adds a new server link.";
-        this.usage = "/al add [name] [url] [type / display name]";
-        this.minArguments = 3;
-        this.executableByConsole = true;
-        this.neededPermission = "al.add";
+    }
+
+    @Override
+    public String name() {
+        return "add";
+    }
+
+    @Override
+    public String description() {
+        return "Adds a new server link.";
+    }
+
+    @Override
+    public String usage() {
+        return "/al add [name] [url] [type / display name]";
+    }
+
+    @Override
+    public int minArguments() {
+        return 3;
+    }
+
+    @Override
+    public String neededPermission() {
+        return "al.add";
     }
 
     @Override

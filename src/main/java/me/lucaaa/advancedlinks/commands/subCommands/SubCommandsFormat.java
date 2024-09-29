@@ -13,25 +13,22 @@ public abstract class SubCommandsFormat {
     }
 
     // The name of the subcommand
-    public String name;
+    public abstract String name();
 
     // The description of the subcommand
-    public String description;
+    public abstract String description();
 
     // How the subcommand is used
-    public String usage;
+    public abstract String usage();
 
     /*How many arguments are required to execute the subcommand (name not included)
      * For example:
      * [] required, () not required
      * /cmd giveSword [player] (customName) -> minArguments would be 1 */
-    public int minArguments;
-
-    // If the command can be executed by console or not
-    public boolean executableByConsole;
+    public abstract int minArguments();
 
     // The permission needed to run this command other than plugin.admin. Can be null (no permission needed)
-    public String neededPermission;
+    public abstract String neededPermission();
 
     /**
      * Gets the tab completions for a command in case you want to have any. Returns an empty list by default.

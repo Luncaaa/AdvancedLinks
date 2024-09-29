@@ -8,12 +8,31 @@ import java.util.ArrayList;
 public class RemoveLinkSubCommand extends SubCommandsFormat {
     public RemoveLinkSubCommand(AdvancedLinks plugin) {
         super(plugin);
-        this.name = "remove";
-        this.description = "Removes an existing server link.";
-        this.usage = "/al remove [name]";
-        this.minArguments = 1;
-        this.executableByConsole = true;
-        this.neededPermission = "al.remove";
+    }
+
+    @Override
+    public String name() {
+        return "remove";
+    }
+
+    @Override
+    public String description() {
+        return "Removes an existing server link.";
+    }
+
+    @Override
+    public String usage() {
+        return "/al remove [name]";
+    }
+
+    @Override
+    public int minArguments() {
+        return 1;
+    }
+
+    @Override
+    public String neededPermission() {
+        return "al.remove";
     }
 
     @Override

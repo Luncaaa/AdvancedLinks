@@ -2,6 +2,7 @@ package me.lucaaa.advancedlinks.commands;
 
 import me.lucaaa.advancedlinks.AdvancedLinks;
 import me.lucaaa.advancedlinks.commands.subCommands.*;
+import me.lucaaa.advancedlinks.managers.MessagesManager;
 import org.bukkit.command.*;
 
 import javax.annotation.Nonnull;
@@ -11,31 +12,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainCommand implements CommandExecutor, TabCompleter {
+public class MainCommand implements TabExecutor {
     private final AdvancedLinks plugin;
     private final HashMap<String, SubCommandsFormat> subCommands = new HashMap<>();
 
     public MainCommand(AdvancedLinks plugin) {
         this.plugin = plugin;
-        subCommands.put("help", new HelpSubCommand(plugin, this.subCommands));
-        subCommands.put("reload", new ReloadSubCommand(plugin));
-        subCommands.put("add", new AddLinkSubCommand(plugin));
-        subCommands.put("remove", new RemoveLinkSubCommand(plugin));
+        addSubCommand(new ReloadSubCommand(plugin));
+        addSubCommand(new AddLinkSubCommand(plugin));
+        addSubCommand(new RemoveLinkSubCommand(plugin));
+        addSubCommand(new HelpSubCommand(plugin, subCommands));
+    }
+
+    public void addSubCommand(SubCommandsFormat subCommand) {
+        subCommands.put(subCommand.name(), subCommand);
     }
 
     @Override
     public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
+        MessagesManager messagesManager = plugin.getMessagesManager();
+
         // If there are no arguments, show an error.
         if (args.length == 0) {
-            sender.sendMessage(plugin.getMessagesManager().getColoredMessage("&cYou need to enter more arguments to run this command!", true));
-            sender.sendMessage(plugin.getMessagesManager().getColoredMessage("&cUse &b/ad help &cto see the list of existing commands.", true));
+            sender.sendMessage(messagesManager.getColoredMessage("&cYou need to enter more arguments to run this command!", true));
+            sender.sendMessage(messagesManager.getColoredMessage("&cUse &b/ad help &cto see the list of existing commands.", true));
             return true;
         }
 
         // If the subcommand does not exist, show an error.
         if (!subCommands.containsKey(args[0])) {
-            sender.sendMessage(plugin.getMessagesManager().getColoredMessage("&cThe command " + args[0] + " &cdoes not exist!", true));
-            sender.sendMessage(plugin.getMessagesManager().getColoredMessage("&cUse &b/ad help &cto see the list of existing commands.", true));
+            sender.sendMessage(messagesManager.getColoredMessage("&cThe command " + args[0] + " &cdoes not exist!", true));
+            sender.sendMessage(messagesManager.getColoredMessage("&cUse &b/ad help &cto see the list of existing commands.", true));
             return true;
         }
 
@@ -43,22 +50,16 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         SubCommandsFormat subCommand = subCommands.get(args[0]);
 
         // If the player who ran the command does not have the needed permissions, show an error.
-        if (!sender.hasPermission("al.admin") && (subCommand.neededPermission != null && !sender.hasPermission(subCommand.neededPermission))) {
-            sender.sendMessage(plugin.getMessagesManager().getColoredMessage("&cYou don't have permission to execute this command!", true));
-            return true;
-        }
-
-        // If the command was executed by console but only players can execute it, show an error.
-        if (sender instanceof ConsoleCommandSender && !subCommand.executableByConsole) {
-            sender.sendMessage(plugin.getMessagesManager().getColoredMessage("&cOnly players can execute this command!", true));
+        if (subCommand.neededPermission() != null && !sender.hasPermission(subCommand.neededPermission())) {
+            sender.sendMessage(messagesManager.getColoredMessage("&cYou don't have permission to execute this command!", true));
             return true;
         }
 
         // If the user entered fewer arguments than the subcommand needs, an error will appear.
         // args.size - 1 because the name of the subcommand is not included in the minArguments
-        if (args.length - 1 < subCommand.minArguments) {
-            sender.sendMessage(plugin.getMessagesManager().getColoredMessage("&cYou need to enter more arguments to run this command!", true));
-            sender.sendMessage(plugin.getMessagesManager().getColoredMessage("&7Correct usage: &c" + subCommand.usage, true));
+        if (args.length - 1 < subCommand.minArguments()) {
+            sender.sendMessage(messagesManager.getColoredMessage("&cYou need to enter more arguments to run this command!", true));
+            sender.sendMessage(messagesManager.getColoredMessage("&7Correct usage: &c" + subCommand.usage(), true));
             return true;
         }
 
@@ -76,9 +77,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         // to be executed, complete it. If it needs a permission, check if the user has it and add more completions.
         if (args.length == 1) {
             for (Map.Entry<String, SubCommandsFormat> entry : subCommands.entrySet()) {
-                if (entry.getValue().neededPermission == null || sender.hasPermission(entry.getValue().neededPermission) || sender.hasPermission("ad.admin")) {
-                    completions.add(entry.getKey());
-                } else if (sender.hasPermission(entry.getValue().neededPermission) || sender.hasPermission("plugin.admin")) {
+                if (entry.getValue().neededPermission() == null || sender.hasPermission(entry.getValue().neededPermission())) {
                     completions.add(entry.getKey());
                 }
             }

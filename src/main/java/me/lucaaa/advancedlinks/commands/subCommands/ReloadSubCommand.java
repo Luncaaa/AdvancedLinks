@@ -6,12 +6,31 @@ import org.bukkit.command.CommandSender;
 public class ReloadSubCommand extends SubCommandsFormat {
     public ReloadSubCommand(AdvancedLinks plugin) {
         super(plugin);
-        this.name = "reload";
-        this.description = "Reloads the plugin's configuration files.";
-        this.usage = "/al reload";
-        this.minArguments = 0;
-        this.executableByConsole = true;
-        this.neededPermission = "al.reload";
+    }
+
+    @Override
+    public String name() {
+        return "reload";
+    }
+
+    @Override
+    public String description() {
+        return "Reloads the plugin's configuration files.";
+    }
+
+    @Override
+    public String usage() {
+        return "/al reload";
+    }
+
+    @Override
+    public int minArguments() {
+        return 0;
+    }
+
+    @Override
+    public String neededPermission() {
+        return "al.reload";
     }
 
     @Override

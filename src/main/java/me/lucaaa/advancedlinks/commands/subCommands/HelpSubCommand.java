@@ -10,13 +10,32 @@ public class HelpSubCommand extends SubCommandsFormat {
 
     public HelpSubCommand(AdvancedLinks plugin, Map<String, SubCommandsFormat> subCommands) {
         super(plugin);
-        this.name = "help";
-        this.description = "Information about the commands the plugin has.";
-        this.usage = "/al help";
-        this.minArguments = 0;
-        this.executableByConsole = true;
-        this.neededPermission = null;
         this.subCommands = subCommands;
+    }
+
+    @Override
+    public String name() {
+        return "help";
+    }
+
+    @Override
+    public String description() {
+        return "Information about the commands the plugin has.";
+    }
+
+    @Override
+    public String usage() {
+        return "/al help";
+    }
+
+    @Override
+    public int minArguments() {
+        return 0;
+    }
+
+    @Override
+    public String neededPermission() {
+        return null;
     }
 
     @Override
@@ -24,9 +43,9 @@ public class HelpSubCommand extends SubCommandsFormat {
         sender.sendMessage(plugin.getMessagesManager().getColoredMessage("&c---------[ AdvancedLinks help menu ]---------", false));
 
         sender.sendMessage(plugin.getMessagesManager().getColoredMessage("&cCommands: &7&o([] - mandatory args, <> - optional args)", false));
-        for (SubCommandsFormat value : this.subCommands.values()) {
-            if (value.neededPermission == null || sender.hasPermission(value.neededPermission) || sender.hasPermission("al.admin")) {
-                sender.sendMessage(plugin.getMessagesManager().getColoredMessage(" &7- &6" + value.usage + "&7: &e" + value.description, false));
+        for (SubCommandsFormat value : subCommands.values()) {
+            if (value.neededPermission() == null || sender.hasPermission(value.neededPermission())) {
+                sender.sendMessage(plugin.getMessagesManager().getColoredMessage(" &7- &6" + value.usage() + "&7: &e" + value.description(), false));
             }
         }
     }
