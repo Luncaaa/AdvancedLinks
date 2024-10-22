@@ -1,6 +1,9 @@
 # The prefix in front of the plugin's messages.
 prefix: "&7[&6AL&7]"
 
+# Whether the plugin should check for updates or not.
+updateChecker: true
+
 # The links that will appear in the links menu
 links:
   # Any name to identify this link

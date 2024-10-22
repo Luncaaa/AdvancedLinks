@@ -12,6 +12,9 @@ import java.util.Objects;
 import java.util.logging.Level;
 
 public class AdvancedLinks extends JavaPlugin {
+    // Config files.
+    private ConfigManager mainConfig;
+
     // Managers.
     private MessagesManager messagesManager;
     private LinksManager linksManager;
@@ -23,7 +26,7 @@ public class AdvancedLinks extends JavaPlugin {
             saveResource("config.yml", false);
 
         // Config file.
-        ConfigManager mainConfig = new ConfigManager(this, "config.yml");
+        mainConfig = new ConfigManager(this, "config.yml");
 
         // Managers
         messagesManager = new MessagesManager(mainConfig);
@@ -37,7 +40,9 @@ public class AdvancedLinks extends JavaPlugin {
         reloadConfigs();
 
         // Look for updates.
-        new UpdateManager(this).getVersion(v -> UpdateManager.sendStatus(this, v, getDescription().getVersion()));
+        if (mainConfig.getConfig().getBoolean("updateChecker", true)) {
+            new UpdateManager(this).getVersion(v -> UpdateManager.sendStatus(this, v, getDescription().getVersion()));
+        }
 
         // Registers the main command and adds tab completions.
         MainCommand commandHandler = new MainCommand(this);
