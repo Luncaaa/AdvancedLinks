@@ -69,7 +69,7 @@ public class LinksManager {
 
             ServerLinks.ServerLink serverLink;
             if (type == null) {
-                serverLink = plugin.getServer().getServerLinks().addLink(plugin.getMessagesManager().parseMessage(Objects.requireNonNull(link.getString("displayName"))), url);
+                serverLink = plugin.getServer().getServerLinks().addLink(plugin.getMessagesManager().parseMessage(link.getString("displayName", "No display name provided")), url);
             } else {
                 serverLink = plugin.getServer().getServerLinks().addLink(type, url);
             }
