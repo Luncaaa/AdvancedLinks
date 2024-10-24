@@ -7,6 +7,7 @@ You can download the plugin here:
 - Hangar resource page: https://hangar.papermc.io/Lucaaa/AdvancedLinks
 - Modrinth resource page: https://modrinth.com/plugin/advancedlinks
 - Wiki: https://lucaaa.gitbook.io/advancedlinks/
+- Dev build: - Dev build: https://github.com/Luncaaa/AdvancedLinks/releases/tag/dev
 
 If you have an issue, found a bug or want to suggest something, you can do it here:
 - Spigot discussion page: https://www.spigotmc.org/threads/advancedlinks.652835/
