@@ -33,7 +33,7 @@ jobs:
         env:
           NAME: ${{ github.event.release.name }}
           DESCRIPTION: ${{ github.event.release.body }}
-          GAME_VERSIONS: "1.21 1.21.1"
+          GAME_VERSIONS: "1.21 1.21.1 1.21.2 1.21.3"
 
           GITHUB_TOKEN: ${{ github.token }}
 
