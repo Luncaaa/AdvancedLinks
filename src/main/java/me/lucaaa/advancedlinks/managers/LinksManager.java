@@ -3,6 +3,7 @@ package me.lucaaa.advancedlinks.managers;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.lucaaa.advancedlinks.AdvancedLinks;
 import me.lucaaa.advancedlinks.data.Link;
+import me.lucaaa.advancedlinks.data.Ticking;
 import org.bukkit.ServerLinks;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -14,7 +15,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 @SuppressWarnings("UnstableApiUsage")
-public class LinksManager {
+public class LinksManager extends Ticking {
     private final AdvancedLinks plugin;
     private final ConfigManager configManager;
     private final boolean isPapiInstalled;
@@ -22,11 +23,13 @@ public class LinksManager {
     private final Map<String, ServerLinks.ServerLink> globalLinks = new HashMap<>();
 
     public LinksManager(AdvancedLinks plugin, ConfigManager configManager, boolean isPapiInstalled, boolean reload) {
+        super(plugin);
         this.plugin = plugin;
         this.configManager = configManager;
         this.isPapiInstalled = isPapiInstalled;
-        this.loadLinks();
+        loadLinks();
         if (reload) sendLinks();
+        startTicking();
     }
 
     private void loadLinks() {
@@ -217,5 +220,10 @@ public class LinksManager {
         }
 
         return text;
+    }
+
+    @Override
+    public void tick() {
+        sendLinks();
     }
 }

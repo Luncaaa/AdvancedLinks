@@ -2,10 +2,7 @@ package me.lucaaa.advancedlinks;
 
 import me.lucaaa.advancedlinks.commands.MainCommand;
 import me.lucaaa.advancedlinks.listeners.PlayerListener;
-import me.lucaaa.advancedlinks.managers.ConfigManager;
-import me.lucaaa.advancedlinks.managers.LinksManager;
-import me.lucaaa.advancedlinks.managers.MessagesManager;
-import me.lucaaa.advancedlinks.managers.UpdateManager;
+import me.lucaaa.advancedlinks.managers.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -17,6 +14,7 @@ public class AdvancedLinks extends JavaPlugin {
     private ConfigManager mainConfig;
 
     // Managers.
+    private TickManager tickManager;
     private MessagesManager messagesManager;
     private LinksManager linksManager;
 
@@ -33,6 +31,8 @@ public class AdvancedLinks extends JavaPlugin {
         mainConfig = new ConfigManager(this, "config.yml");
 
         // Managers
+        if (tickManager != null) tickManager.stop();
+        tickManager = new TickManager(this, mainConfig.getConfig().getLong("updateTime", 0));
         messagesManager = new MessagesManager(mainConfig);
         if (linksManager != null) linksManager.removeLinks();
         linksManager = new LinksManager(this, mainConfig, isPapiInstalled, linksManager != null);
@@ -58,8 +58,17 @@ public class AdvancedLinks extends JavaPlugin {
         getServer().getConsoleSender().sendMessage(messagesManager.getColoredMessage("&aThe plugin has been successfully enabled! &7Version: " + this.getDescription().getVersion(), true));
     }
 
+    @Override
+    public void onDisable() {
+        if (tickManager != null) tickManager.stop();
+    }
+
     public void log(Level level, String message) {
         getLogger().log(level, message);
+    }
+
+    public TickManager getTickManager() {
+        return tickManager;
     }
 
     public MessagesManager getMessagesManager() {

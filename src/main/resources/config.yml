@@ -4,6 +4,10 @@ prefix: "&7[&6AL&7]"
 # Whether the plugin should check for updates or not.
 updateChecker: true
 
+# If set to any value higher than 0, the links will update every x ticks (they will be removed and set again parsing the placeholders).
+# If set to 0, they will not update. It is not recommended to change this value unless you have placeholders which may change.
+updateTime: 0
+
 # The links that will appear in the links menu
 links:
   # Any name to identify this link
