@@ -4,8 +4,6 @@ import me.lucaaa.advancedlinks.AdvancedLinks;
 import org.bukkit.ServerLinks;
 import org.bukkit.command.CommandSender;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -58,23 +56,12 @@ public class AddLinkSubCommand extends SubCommandsFormat {
         String name = args[1];
         String link = args[2];
 
-        URI url;
-        try {
-            url = new URI(link);
-        } catch (URISyntaxException e) {
+        if (!link.startsWith("https://") && !link.startsWith("http://")) {
             sender.sendMessage(plugin.getMessagesManager().getColoredMessage("&cThe link you provided is invalid! Make sure it starts with &bhttps:// &cor &bhttp://", true));
             return;
         }
 
-        boolean success;
-        try {
-            ServerLinks.Type type = ServerLinks.Type.valueOf(args[3].toUpperCase());
-            success = plugin.getLinksManager().addLink(name, type, url);
-        } catch (IllegalArgumentException e) {
-            String displayName = String.join(" ", Arrays.copyOfRange(args, 3, args.length));
-            success = plugin.getLinksManager().addLink(name, displayName, url);
-        }
-
+        boolean success = plugin.getLinksManager().addLink(name, String.join(" ", Arrays.copyOfRange(args, 3, args.length)), link);
         if (success) {
             sender.sendMessage(plugin.getMessagesManager().getColoredMessage("&aThe link &e" + name + " &ahas been successfully created!", true));
         } else {

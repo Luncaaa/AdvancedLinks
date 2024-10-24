@@ -1,6 +1,7 @@
 package me.lucaaa.advancedlinks;
 
 import me.lucaaa.advancedlinks.commands.MainCommand;
+import me.lucaaa.advancedlinks.listeners.PlayerListener;
 import me.lucaaa.advancedlinks.managers.ConfigManager;
 import me.lucaaa.advancedlinks.managers.LinksManager;
 import me.lucaaa.advancedlinks.managers.MessagesManager;
@@ -25,13 +26,16 @@ public class AdvancedLinks extends JavaPlugin {
         if (!new File(getDataFolder().getAbsolutePath() + File.separator + "config.yml").exists())
             saveResource("config.yml", false);
 
+        // Other
+        boolean isPapiInstalled = getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
+
         // Config file.
         mainConfig = new ConfigManager(this, "config.yml");
 
         // Managers
         messagesManager = new MessagesManager(mainConfig);
         if (linksManager != null) linksManager.removeLinks();
-        linksManager = new LinksManager(this, mainConfig, linksManager != null);
+        linksManager = new LinksManager(this, mainConfig, isPapiInstalled, linksManager != null);
     }
 
     @Override
@@ -43,6 +47,9 @@ public class AdvancedLinks extends JavaPlugin {
         if (mainConfig.getConfig().getBoolean("updateChecker", true)) {
             new UpdateManager(this).getVersion(v -> UpdateManager.sendStatus(this, v, getDescription().getVersion()));
         }
+
+        // Register events.
+        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
 
         // Registers the main command and adds tab completions.
         MainCommand commandHandler = new MainCommand(this);

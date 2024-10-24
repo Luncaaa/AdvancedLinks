@@ -14,3 +14,21 @@ links:
     # Must be a value from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/ServerLinks.Type.html
     # type: NEWS
     url: "https://www.google.com" # The link that will be opened when the button is clicked.
+    # If true, the link will be sent individually to every player.
+    # The advantage is that the placeholders in the "placeholders" section will be parsed for every player.
+    # The disadvantage is that if any other plugin updates the server links, the individual links will be
+    # removed from the menu until the plugin is reloaded or the player reconnects.
+    # Unless you need to use per-player placeholders, it is recommended to keep it set to false or unset.
+    # This setting is optional and defaults to false.
+    individual: false
+    # Placeholders won't be replaced by default in the URL. Only those defined in this section will be replaced.
+    # The exact text in the "match" field will be replaced with the text in the "replacement" field.
+    # If the optional setting "parsePapi" is set to true and "replacement" has a placeholder, it will be replaced using PAPI.
+    # This setting is optional and applies to both the name and URL.
+    placeholders:
+      - match: "{toReplace}"
+        # If "parsePapi" is set to true, the value in "match" will be replaced with the value of the placeholder you put here.
+        # You can also write any text other than placeholders.
+        replacement: "%player_name%"
+        # This setting is optional and defaults to true.
+        parsePapi: true
