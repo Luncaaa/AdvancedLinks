@@ -35,7 +35,7 @@ public class LinksManager extends Ticking {
     private void loadLinks() {
         YamlConfiguration config = configManager.getConfig();
 
-        if (!config.contains("links")) {
+        if (!config.isConfigurationSection("links")) {
             plugin.log(Level.WARNING, "The config file does not have any \"links\" section! The server will not have any links.");
             return;
         }
@@ -48,7 +48,7 @@ public class LinksManager extends Ticking {
             ConfigurationSection link = links.getConfigurationSection(key);
             assert link != null;
 
-            if ((!link.contains("displayName") && !link.contains("type")) || !link.contains("url")) {
+            if ((!link.isString("displayName") && !link.isString("type")) || !link.isString("url")) {
                 plugin.log(Level.WARNING, errorPrefix + "It must have the properties \"displayName\" or \"type\" and \"url\"! This link will be ignored.");
                 continue;
             }
@@ -56,7 +56,7 @@ public class LinksManager extends Ticking {
             String displayName = link.getString("displayName", "No display name provided");
 
             ServerLinks.Type type = null;
-            if (link.contains("type")) {
+            if (link.isString("type")) {
                 try {
                     type = ServerLinks.Type.valueOf(Objects.requireNonNull(link.getString("type")).toUpperCase());
                 } catch (IllegalArgumentException e) {
@@ -96,7 +96,7 @@ public class LinksManager extends Ticking {
             if (!isIndividual) {
                 // Adds the link to the server's links.
                 ServerLinks.ServerLink serverLink = parseLink(plugin.getServer().getServerLinks(), configLink, null);
-                globalLinks.put(key, serverLink);
+                if (serverLink != null) globalLinks.put(key, serverLink);
             } else {
                 individualLinks.put(key, configLink);
             }
