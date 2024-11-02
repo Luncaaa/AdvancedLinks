@@ -37,7 +37,7 @@ tasks {
         }
 
         minimize()
-        relocate("net.kyori", "net.kyori")
+        relocate("net.kyori", "shaded.net.kyori")
         archiveFileName.set("${project.name}-${project.version}.jar")
     }
 
