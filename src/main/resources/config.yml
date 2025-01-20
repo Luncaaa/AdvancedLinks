@@ -14,7 +14,7 @@ links:
   example:
     # The type of the button. If you are using this field, the "displayName" field will be ignored.
     # WARNING! This may override or be overriden by server links of the same type from other plugins.
-    # Must be a value from this list: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/ServerLinks.Type.html
+    # Must be a value from this list: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/ServerLinks.Type.html
     type: NEWS
     # The custom name for your plugin. Supports legacy color codes & minimessage format.
     # You must comment out the "type" setting in order for this to work.
