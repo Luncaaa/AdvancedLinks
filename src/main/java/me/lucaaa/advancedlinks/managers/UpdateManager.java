@@ -23,9 +23,10 @@ public class UpdateManager {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             try {
                 InputStream resourcePage = new URI("https://api.spigotmc.org/legacy/update.php?resource=" + RESOURCE_ID + "/~").toURL().openStream();
-                Scanner scanner = new Scanner(resourcePage);
-                if (scanner.hasNext()) {
-                    consumer.accept(scanner.next());
+                try (Scanner scanner = new Scanner(resourcePage)) {
+                    if (scanner.hasNext()) {
+                        consumer.accept(scanner.next());
+                    }
                 }
             } catch (IOException | URISyntaxException e) {
                 plugin.log(Level.INFO, "Unable to check for updates: " + e.getMessage());

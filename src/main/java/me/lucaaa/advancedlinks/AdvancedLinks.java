@@ -5,7 +5,6 @@ import me.lucaaa.advancedlinks.listeners.PlayerListener;
 import me.lucaaa.advancedlinks.managers.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.Objects;
 import java.util.logging.Level;
 
@@ -20,21 +19,18 @@ public class AdvancedLinks extends JavaPlugin {
 
     // Reload the config files.
     public void reloadConfigs() {
-        // Creates the config file.
-        if (!new File(getDataFolder().getAbsolutePath() + File.separator + "config.yml").exists())
-            saveResource("config.yml", false);
-
         // Other
         boolean isPapiInstalled = getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
 
         // Config file.
-        mainConfig = new ConfigManager(this, "config.yml");
+        mainConfig = new ConfigManager(this, "config.yml", true);
 
         // Managers
         if (tickManager != null) tickManager.stop();
+        if (linksManager != null) linksManager.removeLinks();
+
         tickManager = new TickManager(this, mainConfig.getConfig().getLong("updateTime", 0));
         messagesManager = new MessagesManager(mainConfig);
-        if (linksManager != null) linksManager.removeLinks();
         linksManager = new LinksManager(this, mainConfig, isPapiInstalled, linksManager != null);
     }
 

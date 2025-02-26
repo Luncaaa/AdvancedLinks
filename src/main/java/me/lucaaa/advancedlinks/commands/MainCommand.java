@@ -4,8 +4,8 @@ import me.lucaaa.advancedlinks.AdvancedLinks;
 import me.lucaaa.advancedlinks.commands.subCommands.*;
 import me.lucaaa.advancedlinks.managers.MessagesManager;
 import org.bukkit.command.*;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +29,7 @@ public class MainCommand implements TabExecutor {
     }
 
     @Override
-    public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         MessagesManager messagesManager = plugin.getMessagesManager();
 
         // If there are no arguments, show an error.
@@ -70,7 +70,7 @@ public class MainCommand implements TabExecutor {
 
     @Nullable
     @Override
-    public List<String> onTabComplete(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String alias, @Nonnull String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         ArrayList<String> completions = new ArrayList<>();
 
         // Tab completions for each subcommand. If the user is going to type the first argument, and it does not need any permission

@@ -40,20 +40,17 @@ public class LinksManager extends Ticking {
             return;
         }
 
-        ConfigurationSection links = config.getConfigurationSection("links");
-        linkMap: for (String key : Objects.requireNonNull(links).getKeys(false)) {
+        ConfigurationSection links = Objects.requireNonNull(config.getConfigurationSection("links"));
+        linkMap: for (String key : links.getKeys(false)) {
             if (!links.isConfigurationSection(key)) continue;
 
             String errorPrefix = "Error in link \"" + key + "\" - ";
-            ConfigurationSection link = links.getConfigurationSection(key);
-            assert link != null;
+            ConfigurationSection link = Objects.requireNonNull(links.getConfigurationSection(key));
 
             if ((!link.isString("displayName") && !link.isString("type")) || !link.isString("url")) {
                 plugin.log(Level.WARNING, errorPrefix + "It must have the properties \"displayName\" or \"type\" and \"url\"! This link will be ignored.");
                 continue;
             }
-
-            String displayName = link.getString("displayName", "No display name provided");
 
             ServerLinks.Type type = null;
             if (link.isString("type")) {
@@ -91,6 +88,7 @@ public class LinksManager extends Ticking {
                 placeholders.add(new Link.Placeholder(match, replacement, usePapi));
             }
 
+            String displayName = link.getString("displayName", "No display name provided");
             Link configLink = new Link(key, displayName, type, url, isIndividual, placeholders);
 
             if (!isIndividual) {
