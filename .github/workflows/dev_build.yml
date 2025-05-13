@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -27,11 +29,71 @@ jobs:
       - name: Build
         run: ./gradlew build
 
-      - name: Create Release
-        uses: "marvinpinto/action-automatic-releases@latest"
+      - name: Generate changelog
+        id: changelog
+        run: |
+          ALL_TAGS=$(git tag --sort=-v:refname)
+          
+          LATEST_TAG=""
+          for tag in $ALL_TAGS; do
+            if [[ $tag != "dev" ]]; then
+              LATEST_TAG=$tag
+              break
+            fi
+          done
+          
+          echo "latest_tag=$LATEST_TAG" >> $GITHUB_ENV
+          
+          if [ -z "$LATEST_TAG" ]; then
+            COMMIT_LOG=$(git log --pretty=format:'- [`%h`](https://github.com/${{ github.repository }}/commit/%H) %s (%an)')
+          else
+           COMMIT_LOG=$(git log $LATEST_TAG..HEAD --pretty=format:'- [`%h`](https://github.com/${{ github.repository }}/commit/%H) %s (%an)')
+          fi
+          
+          echo "commits<<EOF" >> $GITHUB_ENV
+          echo "$COMMIT_LOG" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Delete dev release
+        uses: actions/github-script@v7
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: "dev"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Get all releases and fetch the one with "dev" tag
+            const { data: releases } = await github.rest.repos.listReleases({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            
+            const devRelease = releases.find(release => release.tag_name === 'dev');
+            
+            // Delete the "dev" release and tag if it's found.
+            if (devRelease) {
+              await github.rest.repos.deleteRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                release_id: devRelease.id
+              });
+              console.log(`Successfully deleted the dev release. ID: ${devRelease.id}`);
+            
+              // Delete the tag
+              try {
+                await github.rest.git.deleteRef({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ref: 'tags/dev'
+                });
+                console.log('Successfully deleted the "dev" tag.');
+              } catch (error) {
+                console.log(`Error deleting tag: ${error.message}`);
+              }
+            }
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: dev
+          name: Development Build
           prerelease: true
-          title: "Development Build"
+          body: ${{ env.commits || 'No changelog generated' }}
           files: build/libs/AdvancedLinks-*.jar
