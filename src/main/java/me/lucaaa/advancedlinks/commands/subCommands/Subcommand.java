@@ -5,10 +5,10 @@ import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 
-public abstract class SubCommandsFormat {
+public abstract class Subcommand {
     protected final AdvancedLinks plugin;
 
-    public SubCommandsFormat(AdvancedLinks plugin) {
+    public Subcommand(AdvancedLinks plugin) {
         this.plugin = plugin;
     }
 

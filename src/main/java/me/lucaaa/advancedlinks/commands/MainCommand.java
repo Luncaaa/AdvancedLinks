@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class MainCommand implements TabExecutor {
     private final AdvancedLinks plugin;
-    private final HashMap<String, SubCommandsFormat> subCommands = new HashMap<>();
+    private final HashMap<String, Subcommand> subCommands = new HashMap<>();
 
     public MainCommand(AdvancedLinks plugin) {
         this.plugin = plugin;
@@ -24,7 +24,7 @@ public class MainCommand implements TabExecutor {
         addSubCommand(new HelpSubCommand(plugin, subCommands));
     }
 
-    public void addSubCommand(SubCommandsFormat subCommand) {
+    public void addSubCommand(Subcommand subCommand) {
         subCommands.put(subCommand.name(), subCommand);
     }
 
@@ -47,7 +47,7 @@ public class MainCommand implements TabExecutor {
         }
 
         // If the subcommand exists, get it from the map.
-        SubCommandsFormat subCommand = subCommands.get(args[0]);
+        Subcommand subCommand = subCommands.get(args[0]);
 
         // If the player who ran the command does not have the needed permissions, show an error.
         if (subCommand.neededPermission() != null && !sender.hasPermission(subCommand.neededPermission())) {
@@ -76,7 +76,7 @@ public class MainCommand implements TabExecutor {
         // Tab completions for each subcommand. If the user is going to type the first argument, and it does not need any permission
         // to be executed, complete it. If it needs a permission, check if the user has it and add more completions.
         if (args.length == 1) {
-            for (Map.Entry<String, SubCommandsFormat> entry : subCommands.entrySet()) {
+            for (Map.Entry<String, Subcommand> entry : subCommands.entrySet()) {
                 if (entry.getValue().neededPermission() == null || sender.hasPermission(entry.getValue().neededPermission())) {
                     completions.add(entry.getKey());
                 }

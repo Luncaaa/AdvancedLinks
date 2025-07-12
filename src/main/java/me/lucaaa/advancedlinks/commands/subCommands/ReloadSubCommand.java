@@ -3,7 +3,7 @@ package me.lucaaa.advancedlinks.commands.subCommands;
 import me.lucaaa.advancedlinks.AdvancedLinks;
 import org.bukkit.command.CommandSender;
 
-public class ReloadSubCommand extends SubCommandsFormat {
+public class ReloadSubCommand extends Subcommand {
     public ReloadSubCommand(AdvancedLinks plugin) {
         super(plugin);
     }

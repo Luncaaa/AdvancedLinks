@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @SuppressWarnings("UnstableApiUsage")
-public class AddLinkSubCommand extends SubCommandsFormat {
+public class AddLinkSubCommand extends Subcommand {
     public AddLinkSubCommand(AdvancedLinks plugin) {
         super(plugin);
     }

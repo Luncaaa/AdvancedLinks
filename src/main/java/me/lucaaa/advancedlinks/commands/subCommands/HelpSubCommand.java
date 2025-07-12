@@ -5,10 +5,10 @@ import org.bukkit.command.CommandSender;
 
 import java.util.Map;
 
-public class HelpSubCommand extends SubCommandsFormat {
-    private final Map<String, SubCommandsFormat> subCommands;
+public class HelpSubCommand extends Subcommand {
+    private final Map<String, Subcommand> subCommands;
 
-    public HelpSubCommand(AdvancedLinks plugin, Map<String, SubCommandsFormat> subCommands) {
+    public HelpSubCommand(AdvancedLinks plugin, Map<String, Subcommand> subCommands) {
         super(plugin);
         this.subCommands = subCommands;
     }
@@ -43,7 +43,7 @@ public class HelpSubCommand extends SubCommandsFormat {
         sender.sendMessage(plugin.getMessagesManager().getColoredMessage("&c---------[ AdvancedLinks help menu ]---------", false));
 
         sender.sendMessage(plugin.getMessagesManager().getColoredMessage("&cCommands: &7&o([] - mandatory args, <> - optional args)", false));
-        for (SubCommandsFormat value : subCommands.values()) {
+        for (Subcommand value : subCommands.values()) {
             if (value.neededPermission() == null || sender.hasPermission(value.neededPermission())) {
                 sender.sendMessage(plugin.getMessagesManager().getColoredMessage(" &7- &6" + value.usage() + "&7: &e" + value.description(), false));
             }

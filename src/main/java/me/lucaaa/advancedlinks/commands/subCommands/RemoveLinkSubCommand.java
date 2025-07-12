@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 
-public class RemoveLinkSubCommand extends SubCommandsFormat {
+public class RemoveLinkSubCommand extends Subcommand {
     public RemoveLinkSubCommand(AdvancedLinks plugin) {
         super(plugin);
     }
