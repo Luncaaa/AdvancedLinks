@@ -30,6 +30,7 @@ links:
     # This setting is optional and defaults to false.
     individual: false
     # Placeholders won't be replaced in the URL. Only those defined in this section will be replaced.
+    # Why? Because "%player_name%" might be an actual part of the URL and replacing it could break the link.
     # The exact text in the "match" field will be replaced with the text in the "replacement" field.
     # If the optional setting "parsePapi" is set to true and "replacement" has a placeholder, it will be replaced using PAPI.
     # This setting is optional and applies to both the name and URL.
