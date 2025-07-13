@@ -13,7 +13,6 @@ public class AdvancedLinks extends JavaPlugin {
     private ConfigManager mainConfig;
 
     // Managers.
-    private TickManager tickManager;
     private MessagesManager messagesManager;
     private LinksManager linksManager;
 
@@ -26,10 +25,8 @@ public class AdvancedLinks extends JavaPlugin {
         mainConfig = new ConfigManager(this, "config.yml", true);
 
         // Managers
-        if (tickManager != null) tickManager.stop();
-        if (linksManager != null) linksManager.removeLinks();
+        if (linksManager != null) linksManager.shutdown();
 
-        tickManager = new TickManager(this, mainConfig.getConfig().getLong("updateTime", 0));
         messagesManager = new MessagesManager(mainConfig);
         linksManager = new LinksManager(this, mainConfig, isPapiInstalled, linksManager != null);
     }
@@ -56,15 +53,11 @@ public class AdvancedLinks extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (tickManager != null) tickManager.stop();
+        if (linksManager != null) linksManager.shutdown();
     }
 
-    public void log(Level level, String message) {
-        getLogger().log(level, message);
-    }
-
-    public TickManager getTickManager() {
-        return tickManager;
+    public ConfigManager getMainConfig() {
+        return mainConfig;
     }
 
     public MessagesManager getMessagesManager() {
@@ -73,5 +66,9 @@ public class AdvancedLinks extends JavaPlugin {
 
     public LinksManager getLinksManager() {
         return linksManager;
+    }
+
+    public void log(Level level, String message) {
+        getLogger().log(level, message);
     }
 }

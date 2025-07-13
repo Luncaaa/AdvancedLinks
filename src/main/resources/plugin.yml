@@ -10,6 +10,11 @@ commands:
   al:
     description: Main command.
 
+libraries:
+  - net.kyori:adventure-api:4.23.0
+  - net.kyori:adventure-text-minimessage:4.23.0
+  - net.kyori:adventure-text-serializer-legacy:4.23.0
+
 permissions:
   al.admin:
     description: Admin permission - Allows everything

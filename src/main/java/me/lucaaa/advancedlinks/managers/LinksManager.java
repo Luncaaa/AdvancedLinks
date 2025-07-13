@@ -3,11 +3,12 @@ package me.lucaaa.advancedlinks.managers;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.lucaaa.advancedlinks.AdvancedLinks;
 import me.lucaaa.advancedlinks.data.Link;
-import me.lucaaa.advancedlinks.data.Ticking;
 import org.bukkit.ServerLinks;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -15,21 +16,38 @@ import java.util.*;
 import java.util.logging.Level;
 
 @SuppressWarnings("UnstableApiUsage")
-public class LinksManager extends Ticking {
+public class LinksManager {
     private final AdvancedLinks plugin;
     private final ConfigManager configManager;
     private final boolean isPapiInstalled;
+
     private final Map<String, Link> individualLinks = new HashMap<>();
     private final Map<String, ServerLinks.ServerLink> globalLinks = new HashMap<>();
 
+    private final BukkitTask tickingTask;
+    // Because this class will update every x ticks, this method prevents the same error from occurring
+    // every single time. To fix it, the player will have to reload the plugin, which will create a new
+    // instance of this class and, therefore, resetting the list.
+    private final List<Link> disabledLinks = new ArrayList<>();
+
     public LinksManager(AdvancedLinks plugin, ConfigManager configManager, boolean isPapiInstalled, boolean reload) {
-        super(plugin);
         this.plugin = plugin;
         this.configManager = configManager;
         this.isPapiInstalled = isPapiInstalled;
         loadLinks();
         if (reload) sendLinks();
-        startTicking();
+
+        long updateTime = plugin.getMainConfig().getConfig().getLong("updateTime", 0);
+        if (updateTime > 0) {
+            this.tickingTask = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    sendLinks();
+                }
+            }.runTaskTimerAsynchronously(plugin, 0L, updateTime);
+        } else {
+            this.tickingTask = null;
+        }
     }
 
     private void loadLinks() {
@@ -124,7 +142,7 @@ public class LinksManager extends Ticking {
         Link newLink = new Link(key, displayName, type, url, false, List.of());
         // Adds the link to the server's links.
         ServerLinks.ServerLink serverLink = parseLink(plugin.getServer().getServerLinks(), newLink, null);
-        globalLinks.put(key, serverLink);
+        if (serverLink != null) globalLinks.put(key, serverLink);
         sendLinks();
 
         return true;
@@ -148,9 +166,13 @@ public class LinksManager extends Ticking {
         return true;
     }
 
-    public void removeLinks() {
+    public void shutdown() {
         for (ServerLinks.ServerLink link : globalLinks.values()) {
             plugin.getServer().getServerLinks().removeLink(link);
+        }
+
+        if (tickingTask != null) {
+            tickingTask.cancel();
         }
 
         // This method is called when the plugin is reloaded. After this method, a new instance of this
@@ -179,9 +201,14 @@ public class LinksManager extends Ticking {
     }
 
     private ServerLinks.ServerLink parseLink(ServerLinks links, Link link, Player player) {
+        if (disabledLinks.contains(link)) return null;
+
         URI url = parseUrl(replacePlaceholders(link.url(), link.placeholders(), player), "Error in link \"" + link.name() + "\" - ");
 
-        if (url == null) return null;
+        if (url == null) {
+            disabledLinks.add(link);
+            return null;
+        }
 
         if (link.type() == null) {
             String displayName = replacePlaceholders(link.displayName(), link.placeholders(), player);
@@ -218,10 +245,5 @@ public class LinksManager extends Ticking {
         }
 
         return text;
-    }
-
-    @Override
-    public void tick() {
-        sendLinks();
     }
 }

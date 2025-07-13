@@ -1,10 +1,15 @@
 plugins {
     id("java")
-    id("com.gradleup.shadow") version("8.3.4")
 }
 
 group = "me.lucaaa"
 version = "1.3.1"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
 
 repositories {
     mavenCentral()
@@ -17,17 +22,18 @@ repositories {
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.6")
-    implementation("net.kyori:adventure-api:4.21.0")
-    implementation("net.kyori:adventure-text-minimessage:4.21.0")
-    implementation("net.kyori:adventure-text-serializer-legacy:4.21.0")
+    implementation("net.kyori:adventure-api:4.23.0")
+    implementation("net.kyori:adventure-text-minimessage:4.23.0")
+    implementation("net.kyori:adventure-text-serializer-legacy:4.23.0")
 }
 
 tasks {
     compileJava {
+        options.release = 17
         options.encoding = "UTF-8"
     }
 
-    shadowJar {
+    jar {
         manifest {
             attributes(
                 mapOf(
@@ -35,13 +41,5 @@ tasks {
                 )
             )
         }
-
-        minimize()
-        relocate("net.kyori", "shaded.net.kyori")
-        archiveFileName.set("${project.name}-${project.version}.jar")
-    }
-
-    assemble {
-        dependsOn(shadowJar)
     }
 }
