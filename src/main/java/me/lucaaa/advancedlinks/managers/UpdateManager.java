@@ -51,7 +51,7 @@ public class UpdateManager {
 
         } else if (spigotVerMajor > pluginVerMajor || (spigotVerMajor == pluginVerMajor && spigotVerMinor > pluginVerMinor)) {
             console.sendMessage(messagesManager.getColoredMessage("&6There's a new update available on Spigot! &c" + pluginVersion + " &7-> &a" + spigotVersion, true));
-            console.sendMessage(messagesManager.getColoredMessage("&6Download it at &7https://www.spigotmc.org/resources/advanceddisplays.110865/", true));
+            console.sendMessage(messagesManager.getColoredMessage("&6Download it at &7https://www.spigotmc.org/resources/advancedlinks.117605/", true));
 
         } else {
             console.sendMessage(messagesManager.getColoredMessage("&6Your plugin version is newer than the Spigot version! &a" + pluginVersion + " &7-> &c" + spigotVersion, true));
