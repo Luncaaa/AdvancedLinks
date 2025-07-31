@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "me.lucaaa"
-version = "1.3.1"
+version = "1.3.2"
 
 java {
     toolchain {
@@ -22,9 +22,9 @@ repositories {
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.6")
-    implementation("net.kyori:adventure-api:4.23.0")
-    implementation("net.kyori:adventure-text-minimessage:4.23.0")
-    implementation("net.kyori:adventure-text-serializer-legacy:4.23.0")
+    implementation("net.kyori:adventure-api:4.24.0")
+    implementation("net.kyori:adventure-text-minimessage:4.24.0")
+    implementation("net.kyori:adventure-text-serializer-legacy:4.24.0")
 }
 
 tasks {
