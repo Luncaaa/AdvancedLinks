@@ -35,14 +35,14 @@ public class MainCommand implements TabExecutor {
         // If there are no arguments, show an error.
         if (args.length == 0) {
             sender.sendMessage(messagesManager.getColoredMessage("&cYou need to enter more arguments to run this command!", true));
-            sender.sendMessage(messagesManager.getColoredMessage("&cUse &b/ad help &cto see the list of existing commands.", true));
+            sender.sendMessage(messagesManager.getColoredMessage("&cUse &b/al help &cto see the list of existing commands.", true));
             return true;
         }
 
         // If the subcommand does not exist, show an error.
         if (!subCommands.containsKey(args[0])) {
             sender.sendMessage(messagesManager.getColoredMessage("&cThe command " + args[0] + " &cdoes not exist!", true));
-            sender.sendMessage(messagesManager.getColoredMessage("&cUse &b/ad help &cto see the list of existing commands.", true));
+            sender.sendMessage(messagesManager.getColoredMessage("&cUse &b/al help &cto see the list of existing commands.", true));
             return true;
         }
 
