@@ -1,9 +1,10 @@
 plugins {
     id("java")
+    id("com.gradleup.shadow") version("latest.release")
 }
 
 group = "me.lucaaa"
-version = "1.3.2"
+version = "1.3.3"
 
 java {
     toolchain {
@@ -29,11 +30,10 @@ dependencies {
 
 tasks {
     compileJava {
-        options.release = 17
         options.encoding = "UTF-8"
     }
 
-    jar {
+    shadowJar {
         manifest {
             attributes(
                 mapOf(
@@ -41,5 +41,13 @@ tasks {
                 )
             )
         }
+
+        minimize()
+        relocate("net.kyori", "shaded.net.kyori")
+        archiveFileName.set("${project.name}-${project.version}.jar")
+    }
+
+    assemble {
+        dependsOn(shadowJar)
     }
 }

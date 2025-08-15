@@ -10,10 +10,12 @@ commands:
   al:
     description: Main command.
 
-libraries:
-  - net.kyori:adventure-api:4.24.0
-  - net.kyori:adventure-text-minimessage:4.24.0
-  - net.kyori:adventure-text-serializer-legacy:4.24.0
+# https://www.sonatype.com/blog/free-isnt-free-the-hidden-costs-of-tooling-decisions-in-open-source-infrastructure
+# Back to shading - could use Paper's library loader but that isn't compatible with Spigot
+# libraries:
+#   - net.kyori:adventure-api:4.24.0
+#   - net.kyori:adventure-text-minimessage:4.24.0
+#   - net.kyori:adventure-text-serializer-legacy:4.24.0
 
 permissions:
   al.admin:
