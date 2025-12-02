@@ -1,6 +1,7 @@
 package me.lucaaa.advancedlinks;
 
 import me.lucaaa.advancedlinks.commands.MainCommand;
+import me.lucaaa.advancedlinks.common.TasksManager;
 import me.lucaaa.advancedlinks.listeners.PlayerListener;
 import me.lucaaa.advancedlinks.managers.*;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,6 +14,7 @@ public class AdvancedLinks extends JavaPlugin {
     private ConfigManager mainConfig;
 
     // Managers.
+    private me.lucaaa.advancedlinks.managers.TasksManager tasksManager;
     private MessagesManager messagesManager;
     private LinksManager linksManager;
 
@@ -27,6 +29,7 @@ public class AdvancedLinks extends JavaPlugin {
         // Managers
         if (linksManager != null) linksManager.shutdown();
 
+        tasksManager = new me.lucaaa.advancedlinks.managers.TasksManager(this);
         messagesManager = new MessagesManager(mainConfig);
         linksManager = new LinksManager(this, mainConfig, isPapiInstalled, linksManager != null);
     }
@@ -58,6 +61,10 @@ public class AdvancedLinks extends JavaPlugin {
 
     public ConfigManager getMainConfig() {
         return mainConfig;
+    }
+
+    public TasksManager getTasksManager() {
+        return tasksManager.getTasksManager();
     }
 
     public MessagesManager getMessagesManager() {

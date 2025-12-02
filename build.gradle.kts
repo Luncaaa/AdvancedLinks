@@ -1,53 +1,41 @@
 plugins {
     id("java")
-    id("com.gradleup.shadow") version("latest.release")
 }
 
-group = "me.lucaaa"
-version = "1.3.3"
+allprojects {
+    apply(plugin = "java")
+    group = "me.lucaaa"
+    version = "1.4"
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
-repositories {
-    mavenCentral()
-    mavenLocal()
-    maven("https://oss.sonatype.org/content/repositories/snapshots")
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-}
-
-dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
-    compileOnly("me.clip:placeholderapi:2.11.7")
-    implementation("net.kyori:adventure-api:4.25.0")
-    implementation("net.kyori:adventure-text-minimessage:4.25.0")
-    implementation("net.kyori:adventure-text-serializer-legacy:4.25.0")
-}
-
-tasks {
-    compileJava {
-        options.encoding = "UTF-8"
-    }
-
-    shadowJar {
-        manifest {
-            attributes(
-                mapOf(
-                    "paperweight-mappings-namespace" to "mojang"
-                )
-            )
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
         }
-
-        minimize()
-        relocate("net.kyori", "shaded.net.kyori")
-        archiveFileName.set("${project.name}-${project.version}.jar")
     }
 
-    assemble {
-        dependsOn(shadowJar)
+    tasks {
+        compileJava {
+            options.encoding = "UTF-8"
+            options.release = 21
+        }
+    }
+}
+
+subprojects {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        maven("https://oss.sonatype.org/content/repositories/snapshots")
+        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+        maven("https://repo.papermc.io/repository/maven-public/")
+        maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    }
+
+    dependencies {
+        compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
+        compileOnly("me.clip:placeholderapi:2.11.7")
+        implementation("net.kyori:adventure-api:4.25.0")
+        implementation("net.kyori:adventure-text-minimessage:4.25.0")
+        implementation("net.kyori:adventure-text-serializer-legacy:4.25.0")
     }
 }

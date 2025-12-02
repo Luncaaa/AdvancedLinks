@@ -2,13 +2,12 @@ package me.lucaaa.advancedlinks.managers;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.lucaaa.advancedlinks.AdvancedLinks;
+import me.lucaaa.advancedlinks.common.ITask;
 import me.lucaaa.advancedlinks.data.Link;
 import org.bukkit.ServerLinks;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,7 +23,7 @@ public class LinksManager {
     private final Map<String, Link> individualLinks = new HashMap<>();
     private final Map<String, ServerLinks.ServerLink> globalLinks = new HashMap<>();
 
-    private final BukkitTask tickingTask;
+    private final ITask tickingTask;
     // Because this class will update every x ticks, this method prevents the same error from occurring
     // every single time. To fix it, the player will have to reload the plugin, which will create a new
     // instance of this class and, therefore, resetting the list.
@@ -39,12 +38,12 @@ public class LinksManager {
 
         long updateTime = plugin.getMainConfig().getConfig().getLong("updateTime", 0);
         if (updateTime > 0) {
-            this.tickingTask = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    sendLinks();
-                }
-            }.runTaskTimerAsynchronously(plugin, 0L, updateTime);
+            this.tickingTask = plugin.getTasksManager().runTaskTimerAsynchronously(
+                    plugin,
+                    this::sendLinks,
+                    0L,
+                    updateTime
+            );
         } else {
             this.tickingTask = null;
         }
