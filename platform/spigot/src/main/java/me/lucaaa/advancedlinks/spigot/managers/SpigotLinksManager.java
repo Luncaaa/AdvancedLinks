@@ -13,8 +13,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 @SuppressWarnings("UnstableApiUsage")
 public class SpigotLinksManager extends LinksManager<ServerLinks.ServerLink, ServerLinks.Type> {
-    public SpigotLinksManager(AdvancedLinks plugin, Class<ServerLinks.Type> enumTypeClass, boolean reload) {
-        super(plugin, enumTypeClass, reload);
+    public SpigotLinksManager(AdvancedLinks plugin, boolean reload) {
+        super(plugin, ServerLinks.Type.class, reload);
     }
 
     @Override

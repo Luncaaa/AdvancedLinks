@@ -21,4 +21,6 @@ public interface AdvancedLinks {
     <T, S extends Enum<S>> LinksManager<T, S> getLinksManager();
 
     void log(Level level, String message);
+
+    void logError(Level level, String message, Throwable error);
 }
