@@ -25,6 +25,8 @@ subprojects {
     repositories {
         mavenCentral()
         mavenLocal()
+        maven("https://oss.sonatype.org/content/repositories/snapshots")
+        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
         maven("https://repo.papermc.io/repository/maven-public/")
         maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     }
@@ -34,5 +36,6 @@ subprojects {
         implementation("net.kyori:adventure-api:4.25.0")
         implementation("net.kyori:adventure-text-minimessage:4.25.0")
         implementation("net.kyori:adventure-text-serializer-legacy:4.25.0")
+        implementation("net.kyori:adventure-text-serializer-bungeecord:4.4.1")
     }
 }

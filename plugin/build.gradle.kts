@@ -6,9 +6,11 @@ dependencies {
     implementation(project(":platform"))
     implementation(project(":platform:common"))
     implementation(project(":platform:spigot"))
+    implementation(project(":platform:bungeecord"))
     implementation(project(":platform:velocity"))
 
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
+    compileOnly("net.md-5:bungeecord-api:1.21-R0.5-SNAPSHOT")
     compileOnly("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
     annotationProcessor("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
 }

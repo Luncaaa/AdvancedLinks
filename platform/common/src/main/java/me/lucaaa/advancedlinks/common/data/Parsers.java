@@ -2,12 +2,14 @@ package me.lucaaa.advancedlinks.common.data;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public interface Parsers {
     MiniMessage mm = MiniMessage.miniMessage();
     LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder().hexColors().useUnusualXRepeatedCharacterHexFormat().character('&').build();
     LegacyComponentSerializer legacySectionSerializer = LegacyComponentSerializer.builder().hexColors().useUnusualXRepeatedCharacterHexFormat().character('§').build();
+    BungeeComponentSerializer bungeeSerializer = BungeeComponentSerializer.get();
 
     static Component parseMessage(String message) {
         message = message.replace("\\n", "\n").replace('§', '&');

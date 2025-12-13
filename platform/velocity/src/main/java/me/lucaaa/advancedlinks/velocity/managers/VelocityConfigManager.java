@@ -8,9 +8,9 @@ import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -26,8 +26,9 @@ public class VelocityConfigManager extends ConfigManager {
             //noinspection ResultOfMethodCallIgnored
             file.getParentFile().mkdirs();
             try (InputStream in = getClass().getClassLoader().getResourceAsStream("config.yml")) {
+                FileOutputStream outputStream = new FileOutputStream(file);
                 if (in != null) {
-                    Files.copy(in, file.toPath());
+                    in.transferTo(outputStream);
                 } else {
                     plugin.log(Level.SEVERE, "Couldn't find config.yml file in the JAR!");
                 }

@@ -1,8 +1,3 @@
-repositories {
-    maven("https://oss.sonatype.org/content/repositories/snapshots")
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-}
-
 dependencies {
     implementation(project(":platform:common"))
     implementation(project(":platform:paper"))
