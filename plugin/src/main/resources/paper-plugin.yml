@@ -1,12 +1,17 @@
 main: me.lucaaa.advancedlinks.SpigotAdvancedLinks
 description: "Create server links in the links menu!"
 name: "AdvancedLinks"
-version: 2.0
-softdepend: [PlaceholderAPI]
+version: "2.0"
 author: Lucaaa
 prefix: AL
-api-version: 1.21
+api-version: "1.21"
 folia-supported: true
+
+dependencies:
+  server:
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
 
 commands:
   al:

@@ -1,0 +1,17 @@
+package me.lucaaa.advancedlinks.folia.tasks;
+
+import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
+import me.lucaaa.advancedlinks.common.tasks.ITask;
+
+public class FoliaTask implements ITask {
+    private final ScheduledTask task;
+
+    public FoliaTask(ScheduledTask task) {
+        this.task = task;
+    }
+
+    @Override
+    public void cancel() {
+        task.cancel();
+    }
+}

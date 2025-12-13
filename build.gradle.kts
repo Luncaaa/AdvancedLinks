@@ -5,7 +5,7 @@ plugins {
 allprojects {
     apply(plugin = "java")
     group = "me.lucaaa"
-    version = "1.4"
+    version = "2.0"
 
     java {
         toolchain {
@@ -25,14 +25,11 @@ subprojects {
     repositories {
         mavenCentral()
         mavenLocal()
-        maven("https://oss.sonatype.org/content/repositories/snapshots")
-        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
         maven("https://repo.papermc.io/repository/maven-public/")
         maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     }
 
     dependencies {
-        compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
         compileOnly("me.clip:placeholderapi:2.11.7")
         implementation("net.kyori:adventure-api:4.25.0")
         implementation("net.kyori:adventure-text-minimessage:4.25.0")

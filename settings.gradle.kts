@@ -1,2 +1,2 @@
 rootProject.name = "AdvancedLinks"
-include("plugin", "platform", "platform:spigot", "platform:folia", "platform:common")
+include("plugin", "platform", "platform:common", "platform:spigot", "platform:paper", "platform:folia")

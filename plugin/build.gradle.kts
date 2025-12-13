@@ -4,9 +4,10 @@ plugins {
 
 dependencies {
     implementation(project(":platform"))
-    implementation(project(":platform:spigot"))
-    implementation(project(":platform:folia"))
     implementation(project(":platform:common"))
+    implementation(project(":platform:spigot"))
+
+    compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
 }
 
 tasks {
@@ -25,7 +26,6 @@ tasks {
         }
 
         minimize()
-        relocate("net.kyori", "shaded.net.kyori")
         archiveFileName.set("${project.parent?.name}-${project.version}.jar")
         destinationDirectory.set(file("../build/libs"))
     }
