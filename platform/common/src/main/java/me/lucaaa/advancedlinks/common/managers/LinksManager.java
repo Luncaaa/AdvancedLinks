@@ -87,7 +87,7 @@ public abstract class LinksManager<T, S extends Enum<S>> {
             boolean isIndividual = config.getOrDefault(path + ".individual", false, false);
 
             List<Link.Placeholder> placeholders = new ArrayList<>();
-            for (Map<?, ?> entry : config.getOrDefault(path + ".placeholders", new ArrayList<Map<?, ?>>())) {
+            for (Map<?, ?> entry : config.getOrDefault(path + ".placeholders", (List<Map<?, ?>>) new ArrayList<Map<?, ?>>())) {
                 String match = (String) entry.get("match");
                 if (match == null) {
                     plugin.log(Level.WARNING, errorPrefix + "Missing \"match\" field in some placeholder(s). This link will be ignored.");
@@ -229,6 +229,7 @@ public abstract class LinksManager<T, S extends Enum<S>> {
         try {
             if (!url.startsWith("https://") && !url.startsWith("http://")) {
                 plugin.log(Level.WARNING, "Error in link \"" + name + "\" - The URL in the \"url\" field is invalid! Make sure the URL starts with \"https://\" or \"http://\". This link will be ignored.");
+                plugin.log(Level.WARNING, "Invalid link: " + url);
                 return null;
             }
 
@@ -236,6 +237,7 @@ public abstract class LinksManager<T, S extends Enum<S>> {
 
         } catch (URISyntaxException e) {
             plugin.log(Level.WARNING, "Error in link \"" + name + "\" - The URL in the \"url\" field is invalid! Make sure the URL starts with \"https://\" or \"http://\". This link will be ignored.");
+            plugin.log(Level.WARNING, "Invalid link: " + url);
             return null;
         }
     }
@@ -244,15 +246,18 @@ public abstract class LinksManager<T, S extends Enum<S>> {
         for (Link.Placeholder placeholder : placeholders) {
             String replacement = placeholder.replacement();
 
-            if (placeholder.replacePapi() && plugin.supportsPapi()) {
+            if (placeholder.replacePapi()) {
                 replacement = replacePapiPlaceholders(replacement, receiver);
             }
 
             text = text.replace(placeholder.match(), replacement);
         }
-
         return text;
     }
 
     protected abstract String replacePapiPlaceholders(String text, LinkReceiver<S> receiver);
+
+    public Collection<T> getGlobalLinksCopy() {
+        return Collections.unmodifiableCollection(globalLinks.values());
+    }
 }

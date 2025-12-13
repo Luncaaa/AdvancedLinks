@@ -6,8 +6,11 @@ dependencies {
     implementation(project(":platform"))
     implementation(project(":platform:common"))
     implementation(project(":platform:spigot"))
+    implementation(project(":platform:velocity"))
 
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
+    compileOnly("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
+    annotationProcessor("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
 }
 
 tasks {
@@ -26,6 +29,7 @@ tasks {
         }
 
         minimize()
+        relocate("org.spongepowered.configurate", "me.lucaaa.libs.configurate")
         archiveFileName.set("${project.parent?.name}-${project.version}.jar")
         destinationDirectory.set(file("../build/libs"))
     }
