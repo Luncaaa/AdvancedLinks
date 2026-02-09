@@ -31,12 +31,12 @@ public class VelocityLinksManager extends LinksManager<ServerLink, ServerLink.Ty
     @Override
     protected void sendLinks() {
         for (Player player : ((IVelocityAdvancedLinks) plugin).getServer().getAllPlayers()) {
-            sendLinks(new VelocityLinkReceiver((IVelocityAdvancedLinks) plugin, player));
+            sendLinks(new VelocityLinkReceiver(player));
         }
     }
 
     @Override
-    protected String replacePapiPlaceholders(String text, LinkReceiver<ServerLink.Type> receiver) {
+    protected String replacePapiPlaceholders(String text, LinkReceiver<ServerLink, ServerLink.Type> receiver) {
         return (receiver == null) ? text : receiver.replacePapiPlaceholders(text);
     }
 }

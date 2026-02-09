@@ -93,7 +93,7 @@ public class VelocityAdvancedLinks implements IVelocityAdvancedLinks {
 
     @Subscribe
     public void onPlayerConnect(ServerPostConnectEvent event) {
-        linksManager.sendLinks(new VelocityLinkReceiver(this, event.getPlayer()));
+        linksManager.sendLinks(new VelocityLinkReceiver(event.getPlayer()));
     }
 
     @Override

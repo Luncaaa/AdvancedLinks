@@ -198,8 +198,9 @@ public abstract class LinksManager<T, S extends Enum<S>> {
 
     protected abstract void sendLinks();
 
-    public void sendLinks(LinkReceiver<S> receiver) {
+    public void sendLinks(LinkReceiver<T, S> receiver) {
         receiver.sendLinks(
+                Collections.unmodifiableCollection(globalLinks.values()),
                 individualLinks.values().stream()
                         .filter(link -> isUrlValid(link, receiver))
                         .map(link ->
@@ -212,7 +213,7 @@ public abstract class LinksManager<T, S extends Enum<S>> {
         );
     }
 
-    private boolean isUrlValid(Link<S> link, LinkReceiver<S> receiver) {
+    private boolean isUrlValid(Link<S> link, LinkReceiver<T, S> receiver) {
         if (disabledLinks.contains(link)) return false;
 
         String url = replacePlaceholders(link.url(), link.placeholders(), receiver);
@@ -242,7 +243,7 @@ public abstract class LinksManager<T, S extends Enum<S>> {
         }
     }
 
-    private String replacePlaceholders(String text, List<Link.Placeholder> placeholders, LinkReceiver<S> receiver) {
+    private String replacePlaceholders(String text, List<Link.Placeholder> placeholders, LinkReceiver<T, S> receiver) {
         for (Link.Placeholder placeholder : placeholders) {
             String replacement = placeholder.replacement();
 
@@ -255,9 +256,5 @@ public abstract class LinksManager<T, S extends Enum<S>> {
         return text;
     }
 
-    protected abstract String replacePapiPlaceholders(String text, LinkReceiver<S> receiver);
-
-    public Collection<T> getGlobalLinksCopy() {
-        return Collections.unmodifiableCollection(globalLinks.values());
-    }
+    protected abstract String replacePapiPlaceholders(String text, LinkReceiver<T, S> receiver);
 }

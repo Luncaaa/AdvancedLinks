@@ -8,10 +8,11 @@ import me.lucaaa.advancedlinks.spigot.ISpigotAdvancedLinks;
 import org.bukkit.ServerLinks;
 import org.bukkit.entity.Player;
 
+import java.util.Collection;
 import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
-public class SpigotLinkReceiver implements LinkReceiver<ServerLinks.Type> {
+public class SpigotLinkReceiver implements LinkReceiver<ServerLinks.ServerLink, ServerLinks.Type> {
     private final ISpigotAdvancedLinks plugin;
     private final Player player;
 
@@ -21,7 +22,8 @@ public class SpigotLinkReceiver implements LinkReceiver<ServerLinks.Type> {
     }
 
     @Override
-    public void sendLinks(List<ParsedLink<ServerLinks.Type>> parsedLinks) {
+    public void sendLinks(Collection<ServerLinks.ServerLink> globalLinks, List<ParsedLink<ServerLinks.Type>> parsedLinks) {
+        // Global links are automatically sent by the server.
         ServerLinks serverLinks = plugin.getServer().getServerLinks().copy();
         for (ParsedLink<ServerLinks.Type> parsedLink : parsedLinks) {
             if (parsedLink.type() != null) {

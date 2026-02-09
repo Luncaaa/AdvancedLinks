@@ -74,7 +74,7 @@ public class BungeeAdvancedLinks extends Plugin implements IBungeeAdvancedLinks,
 
     @EventHandler
     public void onPlayerConnect(ServerConnectedEvent event) {
-        linksManager.sendLinks(new BungeeLinkReceiver(this, event.getPlayer()));
+        linksManager.sendLinks(new BungeeLinkReceiver(event.getPlayer()));
     }
 
     @Override

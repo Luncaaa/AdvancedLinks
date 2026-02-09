@@ -1,7 +1,5 @@
 package me.lucaaa.advancedlinks.bungeecord.data;
 
-import me.lucaaa.advancedlinks.bungeecord.IBungeeAdvancedLinks;
-import me.lucaaa.advancedlinks.bungeecord.managers.BungeeLinksManager;
 import me.lucaaa.advancedlinks.common.data.LinkReceiver;
 import me.lucaaa.advancedlinks.common.data.ParsedLink;
 import me.lucaaa.advancedlinks.common.data.Parsers;
@@ -10,20 +8,20 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class BungeeLinkReceiver implements LinkReceiver<ServerLink.LinkType> {
-    private final IBungeeAdvancedLinks plugin;
+public class BungeeLinkReceiver implements LinkReceiver<ServerLink, ServerLink.LinkType> {
     private final ProxiedPlayer player;
 
-    public BungeeLinkReceiver(IBungeeAdvancedLinks plugin, ProxiedPlayer player) {
-        this.plugin = plugin;
+    public BungeeLinkReceiver(ProxiedPlayer player) {
         this.player = player;
     }
 
     @Override
-    public void sendLinks(List<ParsedLink<ServerLink.LinkType>> parsedLinks) {
-        List<ServerLink> serverLinks = new ArrayList<>(((BungeeLinksManager) (Object) plugin.getLinksManager()).getGlobalLinksCopy());
+    public void sendLinks(Collection<ServerLink> globalLinks, List<ParsedLink<ServerLink.LinkType>> parsedLinks) {
+        List<ServerLink> serverLinks = new ArrayList<>(globalLinks);
+
         for (ParsedLink<ServerLink.LinkType> parsedLink : parsedLinks) {
             ServerLink serverLink;
             if (parsedLink.type() != null) {

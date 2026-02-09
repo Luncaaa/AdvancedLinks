@@ -4,24 +4,22 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.util.ServerLink;
 import me.lucaaa.advancedlinks.common.data.LinkReceiver;
 import me.lucaaa.advancedlinks.common.data.ParsedLink;
-import me.lucaaa.advancedlinks.velocity.IVelocityAdvancedLinks;
-import me.lucaaa.advancedlinks.velocity.managers.VelocityLinksManager;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class VelocityLinkReceiver implements LinkReceiver<ServerLink.Type> {
-    private final IVelocityAdvancedLinks plugin;
+public class VelocityLinkReceiver implements LinkReceiver<ServerLink, ServerLink.Type> {
     private final Player player;
 
-    public VelocityLinkReceiver(IVelocityAdvancedLinks plugin, Player player) {
-        this.plugin = plugin;
+    public VelocityLinkReceiver(Player player) {
         this.player = player;
     }
 
     @Override
-    public void sendLinks(List<ParsedLink<ServerLink.Type>> parsedLinks) {
-        List<ServerLink> serverLinks = new ArrayList<>(((VelocityLinksManager) (Object) plugin.getLinksManager()).getGlobalLinksCopy());
+    public void sendLinks(Collection<ServerLink> globalLinks, List<ParsedLink<ServerLink.Type>> parsedLinks) {
+        List<ServerLink> serverLinks = new ArrayList<>(globalLinks);
+
         for (ParsedLink<ServerLink.Type> parsedLink : parsedLinks) {
             ServerLink serverLink;
             if (parsedLink.type() != null) {

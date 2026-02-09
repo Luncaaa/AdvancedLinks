@@ -40,7 +40,7 @@ public class SpigotLinksManager extends LinksManager<ServerLinks.ServerLink, Ser
     }
 
     @Override
-    protected String replacePapiPlaceholders(String text, LinkReceiver<ServerLinks.Type> receiver) {
+    protected String replacePapiPlaceholders(String text, LinkReceiver<ServerLinks.ServerLink, ServerLinks.Type> receiver) {
         if (receiver == null) {
             if (plugin.supportsPapi()) {
                 return PlaceholderAPI.setPlaceholders(null, text);

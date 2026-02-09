@@ -14,10 +14,10 @@ public interface Parsers {
     static Component parseMessage(String message) {
         message = message.replace("\\n", "\n").replace('§', '&');
         // From legacy and minimessage format to a component
-        Component legacy = Parsers.legacySerializer.deserialize(message);
+        Component legacy = legacySerializer.deserialize(message);
         // From component to Minimessage String. Replacing the "\" with nothing makes the minimessage formats work.
-        String minimessage = Parsers.mm.serialize(legacy).replace("\\", "");
+        String minimessage = mm.serialize(legacy).replace("\\", "");
         // From Minimessage String to Minimessage component
-        return Parsers.mm.deserialize(minimessage);
+        return mm.deserialize(minimessage);
     }
 }

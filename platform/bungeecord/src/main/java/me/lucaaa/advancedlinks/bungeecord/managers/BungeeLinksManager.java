@@ -33,12 +33,12 @@ public class BungeeLinksManager extends LinksManager<ServerLink, ServerLink.Link
     @Override
     protected void sendLinks() {
         for (ProxiedPlayer player : ((IBungeeAdvancedLinks) plugin).getServer().getPlayers()) {
-            sendLinks(new BungeeLinkReceiver((IBungeeAdvancedLinks) plugin, player));
+            sendLinks(new BungeeLinkReceiver(player));
         }
     }
 
     @Override
-    protected String replacePapiPlaceholders(String text, LinkReceiver<ServerLink.LinkType> receiver) {
+    protected String replacePapiPlaceholders(String text, LinkReceiver<ServerLink, ServerLink.LinkType> receiver) {
         return (receiver == null) ? text : receiver.replacePapiPlaceholders(text);
     }
 }

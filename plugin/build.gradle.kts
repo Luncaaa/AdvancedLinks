@@ -3,8 +3,8 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":common"))
     implementation(project(":platform"))
-    implementation(project(":platform:common"))
     implementation(project(":platform:spigot"))
     implementation(project(":platform:bungeecord"))
     implementation(project(":platform:velocity"))

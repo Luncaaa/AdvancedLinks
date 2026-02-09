@@ -59,7 +59,7 @@ public class PlatformManager {
         return tasksManager;
     }
 
-    public LinkReceiver<ServerLinks.Type> getLinkReceiver(Player player) {
+    public LinkReceiver<ServerLinks.ServerLink, ServerLinks.Type> getLinkReceiver(Player player) {
         if (platform == Platform.SPIGOT) {
             return new SpigotLinkReceiver(plugin, player);
         } else {
