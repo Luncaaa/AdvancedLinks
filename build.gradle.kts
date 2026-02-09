@@ -32,10 +32,10 @@ subprojects {
     }
 
     dependencies {
-        compileOnly("me.clip:placeholderapi:2.11.7")
-        implementation("net.kyori:adventure-api:4.25.0")
-        implementation("net.kyori:adventure-text-minimessage:4.25.0")
-        implementation("net.kyori:adventure-text-serializer-legacy:4.25.0")
+        compileOnly("me.clip:placeholderapi:2.12.2")
+        implementation("net.kyori:adventure-api:4.26.1")
+        implementation("net.kyori:adventure-text-minimessage:4.26.1")
+        implementation("net.kyori:adventure-text-serializer-legacy:4.26.1")
         implementation("net.kyori:adventure-text-serializer-bungeecord:4.4.1")
     }
 }
