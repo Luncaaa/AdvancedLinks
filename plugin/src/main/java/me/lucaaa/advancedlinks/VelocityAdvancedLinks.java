@@ -28,7 +28,7 @@ import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Plugin(id = "advancedlinks", name = "AdvancedLinks", version = "2.0",
+@Plugin(id = "advancedlinks", name = "AdvancedLinks", version = "2.1",
         url = "https://github.com/Luncaaa/AdvancedLinks/", description = "Create server links in the links menu!", authors = {"Lucaaa"})
 public class VelocityAdvancedLinks implements IVelocityAdvancedLinks {
     // Config files.
@@ -149,6 +149,6 @@ public class VelocityAdvancedLinks implements IVelocityAdvancedLinks {
 
     @Override
     public String getVersion() {
-        return "2.0";
+        return "2.1";
     }
 }

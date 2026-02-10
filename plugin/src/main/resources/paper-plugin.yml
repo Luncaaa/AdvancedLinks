@@ -1,7 +1,7 @@
 main: me.lucaaa.advancedlinks.SpigotAdvancedLinks
 description: "Create server links in the links menu!"
 name: "AdvancedLinks"
-version: "2.0"
+version: "2.1"
 author: Lucaaa
 prefix: AL
 api-version: "1.21"
