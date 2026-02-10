@@ -133,6 +133,11 @@ public class VelocityAdvancedLinks implements IVelocityAdvancedLinks {
     }
 
     @Override
+    public String replacePapiPlaceholders(String text) {
+        return text;
+    }
+
+    @Override
     public ProxyServer getServer() {
         return server;
     }

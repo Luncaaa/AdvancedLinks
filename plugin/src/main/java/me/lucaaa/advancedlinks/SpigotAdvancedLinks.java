@@ -1,5 +1,6 @@
 package me.lucaaa.advancedlinks;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.lucaaa.advancedlinks.common.managers.*;
 import me.lucaaa.advancedlinks.common.tasks.ITasksManager;
 import me.lucaaa.advancedlinks.spigot.ISpigotAdvancedLinks;
@@ -110,5 +111,14 @@ public class SpigotAdvancedLinks extends JavaPlugin implements ISpigotAdvancedLi
     @Override
     public void logError(Level level, String message, Throwable error) {
         getLogger().log(level, message, error);
+    }
+
+    @Override
+    public String replacePapiPlaceholders(String text) {
+        if (isPapiInstalled) {
+            return PlaceholderAPI.setPlaceholders(null, text);
+        } else {
+            return text;
+        }
     }
 }

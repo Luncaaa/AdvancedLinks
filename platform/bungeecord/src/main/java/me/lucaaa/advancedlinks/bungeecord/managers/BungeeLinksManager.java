@@ -3,7 +3,6 @@ package me.lucaaa.advancedlinks.bungeecord.managers;
 import me.lucaaa.advancedlinks.bungeecord.IBungeeAdvancedLinks;
 import me.lucaaa.advancedlinks.bungeecord.data.BungeeLinkReceiver;
 import me.lucaaa.advancedlinks.common.AdvancedLinks;
-import me.lucaaa.advancedlinks.common.data.LinkReceiver;
 import me.lucaaa.advancedlinks.common.data.ParsedLink;
 import me.lucaaa.advancedlinks.common.data.Parsers;
 import me.lucaaa.advancedlinks.common.managers.LinksManager;
@@ -35,10 +34,5 @@ public class BungeeLinksManager extends LinksManager<ServerLink, ServerLink.Link
         for (ProxiedPlayer player : ((IBungeeAdvancedLinks) plugin).getServer().getPlayers()) {
             sendLinks(new BungeeLinkReceiver(player));
         }
-    }
-
-    @Override
-    protected String replacePapiPlaceholders(String text, LinkReceiver<ServerLink, ServerLink.LinkType> receiver) {
-        return (receiver == null) ? text : receiver.replacePapiPlaceholders(text);
     }
 }

@@ -1,11 +1,17 @@
 plugins {
     id("java")
+    id("com.gradleup.shadow") version("latest.release")
 }
+
+val maven_group: String by project
+val mod_version: String by project
 
 allprojects {
     apply(plugin = "java")
-    group = "me.lucaaa"
-    version = "2.0"
+    apply(plugin = "com.gradleup.shadow")
+
+    group = maven_group
+    version = mod_version
 
     java {
         toolchain {
@@ -29,6 +35,7 @@ subprojects {
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
         maven("https://repo.papermc.io/repository/maven-public/")
         maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+        maven("https://maven.nucleoid.xyz/")
     }
 
     dependencies {
@@ -37,5 +44,11 @@ subprojects {
         implementation("net.kyori:adventure-text-minimessage:4.26.1")
         implementation("net.kyori:adventure-text-serializer-legacy:4.26.1")
         implementation("net.kyori:adventure-text-serializer-bungeecord:4.4.1")
+    }
+}
+
+tasks {
+    wrapper {
+        distributionType = Wrapper.DistributionType.BIN
     }
 }

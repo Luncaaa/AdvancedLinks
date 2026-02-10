@@ -114,6 +114,11 @@ public class BungeeAdvancedLinks extends Plugin implements IBungeeAdvancedLinks,
     }
 
     @Override
+    public String replacePapiPlaceholders(String text) {
+        return text;
+    }
+
+    @Override
     public ProxyServer getServer() {
         return super.getProxy();
     }

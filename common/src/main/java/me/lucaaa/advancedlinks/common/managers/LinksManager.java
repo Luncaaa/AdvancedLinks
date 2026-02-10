@@ -256,5 +256,11 @@ public abstract class LinksManager<T, S extends Enum<S>> {
         return text;
     }
 
-    protected abstract String replacePapiPlaceholders(String text, LinkReceiver<T, S> receiver);
+    protected String replacePapiPlaceholders(String text, LinkReceiver<T, S> receiver) {
+        if (receiver == null) {
+            return plugin.replacePapiPlaceholders(text);
+        } else {
+            return receiver.replacePapiPlaceholders(text);
+        }
+    }
 }

@@ -23,4 +23,6 @@ public interface AdvancedLinks {
     void log(Level level, String message);
 
     void logError(Level level, String message, Throwable error);
+
+    String replacePapiPlaceholders(String text);
 }

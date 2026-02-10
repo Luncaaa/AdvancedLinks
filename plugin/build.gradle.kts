@@ -1,7 +1,3 @@
-plugins {
-    id("com.gradleup.shadow") version("latest.release")
-}
-
 dependencies {
     implementation(project(":common"))
     implementation(project(":platform"))
@@ -16,11 +12,6 @@ dependencies {
 }
 
 tasks {
-    compileJava {
-        options.encoding = "UTF-8"
-        options.release = 21
-    }
-
     shadowJar {
         manifest {
             attributes(

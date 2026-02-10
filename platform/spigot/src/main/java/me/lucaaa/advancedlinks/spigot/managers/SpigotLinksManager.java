@@ -1,8 +1,6 @@
 package me.lucaaa.advancedlinks.spigot.managers;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import me.lucaaa.advancedlinks.common.AdvancedLinks;
-import me.lucaaa.advancedlinks.common.data.LinkReceiver;
 import me.lucaaa.advancedlinks.common.data.ParsedLink;
 import me.lucaaa.advancedlinks.common.data.Parsers;
 import me.lucaaa.advancedlinks.common.managers.LinksManager;
@@ -36,19 +34,6 @@ public class SpigotLinksManager extends LinksManager<ServerLinks.ServerLink, Ser
     protected void sendLinks() {
         for (Player player : ((ISpigotAdvancedLinks) plugin).getServer().getOnlinePlayers()) {
             sendLinks(((ISpigotAdvancedLinks) plugin).getPlatformManager().getLinkReceiver(player));
-        }
-    }
-
-    @Override
-    protected String replacePapiPlaceholders(String text, LinkReceiver<ServerLinks.ServerLink, ServerLinks.Type> receiver) {
-        if (receiver == null) {
-            if (plugin.supportsPapi()) {
-                return PlaceholderAPI.setPlaceholders(null, text);
-            } else {
-                return text;
-            }
-        } else {
-            return receiver.replacePapiPlaceholders(text);
         }
     }
 }

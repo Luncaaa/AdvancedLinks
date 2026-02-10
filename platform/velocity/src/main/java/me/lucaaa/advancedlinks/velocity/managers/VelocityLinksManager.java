@@ -3,7 +3,6 @@ package me.lucaaa.advancedlinks.velocity.managers;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.util.ServerLink;
 import me.lucaaa.advancedlinks.common.AdvancedLinks;
-import me.lucaaa.advancedlinks.common.data.LinkReceiver;
 import me.lucaaa.advancedlinks.common.data.ParsedLink;
 import me.lucaaa.advancedlinks.common.managers.LinksManager;
 import me.lucaaa.advancedlinks.velocity.IVelocityAdvancedLinks;
@@ -33,10 +32,5 @@ public class VelocityLinksManager extends LinksManager<ServerLink, ServerLink.Ty
         for (Player player : ((IVelocityAdvancedLinks) plugin).getServer().getAllPlayers()) {
             sendLinks(new VelocityLinkReceiver(player));
         }
-    }
-
-    @Override
-    protected String replacePapiPlaceholders(String text, LinkReceiver<ServerLink, ServerLink.Type> receiver) {
-        return (receiver == null) ? text : receiver.replacePapiPlaceholders(text);
     }
 }
