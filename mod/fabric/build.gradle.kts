@@ -68,5 +68,6 @@ tasks {
 
     remapJar {
         inputFile.set(shadowJar.flatMap { it.archiveFile })
+        destinationDirectory.set(rootProject.layout.buildDirectory.dir("libs"))
     }
 }

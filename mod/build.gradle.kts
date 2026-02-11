@@ -6,7 +6,6 @@ plugins {
 }
 
 val minecraft_version: String by project
-val mod_name: String by project
 
 architectury {
     minecraft = minecraft_version
@@ -15,10 +14,6 @@ architectury {
 subprojects {
     apply(plugin = "dev.architectury.loom")
     apply(plugin = "architectury-plugin")
-
-    base {
-        archivesName.set("${mod_name}-${project.name}")
-    }
 
     configure<LoomGradleExtensionAPI> {
         silentMojangMappingsLicense()

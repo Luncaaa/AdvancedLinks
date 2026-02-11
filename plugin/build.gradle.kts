@@ -23,7 +23,7 @@ tasks {
 
         minimize()
         relocate("org.spongepowered.configurate", "me.lucaaa.libs.configurate")
-        archiveFileName.set("${project.parent?.name}-${project.version}.jar")
+        archiveClassifier.set("")
         destinationDirectory.set(file("../build/libs"))
     }
 

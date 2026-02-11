@@ -5,6 +5,7 @@ plugins {
 
 val maven_group: String by project
 val mod_version: String by project
+val mod_name: String by project
 
 allprojects {
     apply(plugin = "java")
@@ -28,6 +29,10 @@ allprojects {
 }
 
 subprojects {
+    base {
+        archivesName.set("${mod_name}-${project.name}")
+    }
+
     repositories {
         mavenCentral()
         mavenLocal()
@@ -50,5 +55,13 @@ subprojects {
 tasks {
     wrapper {
         distributionType = Wrapper.DistributionType.BIN
+    }
+
+    jar {
+        enabled = false
+    }
+
+    shadowJar {
+        enabled = false
     }
 }
