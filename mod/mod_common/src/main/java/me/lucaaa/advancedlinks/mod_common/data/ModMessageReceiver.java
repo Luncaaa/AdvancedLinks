@@ -2,6 +2,8 @@ package me.lucaaa.advancedlinks.mod_common.data;
 
 import me.lucaaa.advancedlinks.common.data.MessageReceiver;
 import me.lucaaa.advancedlinks.common.data.Parsers;
+import me.lucaaa.advancedlinks.versions.v1_21.OldPermissionChecker;
+import me.lucaaa.advancedlinks.versions.v1_21_11.NewPermissionChecker;
 import me.lucaaa.advancedlinks.mod_common.ModAdvancedLinks;
 import net.minecraft.commands.CommandSourceStack;
 
@@ -21,7 +23,10 @@ public class ModMessageReceiver implements MessageReceiver {
 
     @Override
     public boolean hasPermission(String permission) {
-        //return sender.permissions().hasPermission(Permissions.COMMANDS_OWNER);
-        return true;
+        if (plugin.getServer().getServerVersion().equals("1.21.11")) {
+            return NewPermissionChecker.hasPermission(sender);
+        } else {
+            return OldPermissionChecker.hasPermission(sender);
+        }
     }
 }

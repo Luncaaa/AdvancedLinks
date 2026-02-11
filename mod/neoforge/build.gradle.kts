@@ -40,6 +40,12 @@ dependencies {
     shadowBundle(project(path = ":mod:mod_common", configuration = "transformProductionNeoForge"))
 
     shadowBundle(project(":common"))
+    shadowBundle(project(":mod:versions:v1_21")) {
+        isTransitive = false
+    }
+    shadowBundle(project(":mod:versions:v1_21_11")) {
+        isTransitive = false
+    }
 }
 
 tasks {
