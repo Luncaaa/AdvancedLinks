@@ -1,0 +1,20 @@
+{
+  "prefix": "&7[&6AL&7]",
+  "updateChecker": true,
+  "updateTime": 0,
+  "links": {
+    "example": {
+      "type": "NEWS",
+      "displayName": "<gradient:yellow:red>My custom name with gradients</gradient> &6and legacy colors!",
+      "url": "https://www.google.com",
+      "individual": false,
+      "placeholders": [
+        {
+          "match": "{toReplace}",
+          "replacement": "%player_name%",
+          "parsePapi": true
+        }
+      ]
+    }
+  }
+}
