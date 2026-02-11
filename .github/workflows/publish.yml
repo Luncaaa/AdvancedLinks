@@ -14,22 +14,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
+      - name: Download Release Assets
+        uses: robinraju/release-downloader@v1
         with:
-          java-version: '21'
-          distribution: 'temurin'
-          
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+          tag: ${{ github.event.release.tag_name }}
+          fileName: "*.jar"
+          out-file-path: "files"
 
-      - name: Build
-        run: ./gradlew build
-
-      - name: Release
+      - name: Release Plugin
         uses: HSGamer/action-mcreleaser@main
         with:
-          files: build/libs/AdvancedLinks-*.jar
+          files: files/AdvancedLinks-plugin-*.jar
         env:
           NAME: ${{ github.event.release.name }}
           DESCRIPTION: ${{ github.event.release.body }}
@@ -45,3 +40,33 @@ jobs:
           HANGAR_PROJECT: AdvancedLinks
           HANGAR_CHANNEL: Release
           HANGAR_PLATFORM: paper
+
+      - name: Release Fabric
+        uses: HSGamer/action-mcreleaser@main
+        with:
+          files: files/AdvancedLinks-fabric-*.jar
+        env:
+          NAME: ${{ github.event.release.name }}
+          DESCRIPTION: ${{ github.event.release.body }}
+          GAME_VERSIONS: "1.21 1.21.1 1.21.2 1.21.3 1.21.4 1.21.5 1.21.6 1.21.7 1.21.8 1.21.9 1.21.10 1.21.11"
+
+          GITHUB_TOKEN: ${{ github.token }}
+
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          MODRINTH_PROJECT: gtWDB9au
+          MODRINTH_LOADERS: "fabric"
+
+      - name: Release NeoForge
+        uses: HSGamer/action-mcreleaser@main
+        with:
+          files: files/AdvancedLinks-neoforge-*.jar
+        env:
+          NAME: ${{ github.event.release.name }}
+          DESCRIPTION: ${{ github.event.release.body }}
+          GAME_VERSIONS: "1.21 1.21.1 1.21.2 1.21.3 1.21.4 1.21.5 1.21.6 1.21.7 1.21.8 1.21.9 1.21.10 1.21.11"
+
+          GITHUB_TOKEN: ${{ github.token }}
+
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          MODRINTH_PROJECT: gtWDB9au
+          MODRINTH_LOADERS: "neoforge"
