@@ -127,6 +127,10 @@ public abstract class ModAdvancedLinks implements AdvancedLinks {
     @Override
     public void reloadConfigs() {
         log(Level.INFO, "Detected platform: " + getPlatformName() + ". Enabling support...");
+        if (!supportsPapi()) {
+            log(Level.WARNING, "Placeholders other than \"%player_name%\" are not supported!");
+            log(Level.WARNING, "If you're using Fabric, you can use Text Placeholder API.");
+        }
 
         // Config file.
         mainConfig = new ModConfigManager(this, configDir.resolve("advancedlinks.json").toFile());
