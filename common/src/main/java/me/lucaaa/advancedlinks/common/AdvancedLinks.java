@@ -8,6 +8,10 @@ import me.lucaaa.advancedlinks.common.tasks.ITasksManager;
 import java.util.logging.Level;
 
 public interface AdvancedLinks<T, S extends Enum<S>> {
+    String ID = "advancedlinks";
+    String NAME = "AdvancedLinks";
+    String VERSION = "2.1";
+
     void reloadConfigs();
 
     boolean supportsPapi();

@@ -1,16 +1,16 @@
 package me.lucaaa.advancedlinks;
 
 import com.google.inject.Inject;
-import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.ServerPostConnectEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.util.ServerLink;
-import me.lucaaa.advancedlinks.common.data.MessageReceiver;
+import me.lucaaa.advancedlinks.common.AdvancedLinks;
 import me.lucaaa.advancedlinks.common.managers.ConfigManager;
 import me.lucaaa.advancedlinks.common.managers.LinksManager;
 import me.lucaaa.advancedlinks.common.managers.MessagesManager;
@@ -19,17 +19,17 @@ import me.lucaaa.advancedlinks.common.tasks.ITasksManager;
 import me.lucaaa.advancedlinks.velocity.IVelocityAdvancedLinks;
 import me.lucaaa.advancedlinks.velocity.commands.VelocityMainCommand;
 import me.lucaaa.advancedlinks.velocity.data.VelocityLinkReceiver;
-import me.lucaaa.advancedlinks.velocity.data.VelocityMessageReceiver;
 import me.lucaaa.advancedlinks.velocity.managers.VelocityConfigManager;
 import me.lucaaa.advancedlinks.velocity.managers.VelocityLinksManager;
 import me.lucaaa.advancedlinks.velocity.tasks.VelocityTasksManager;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Plugin(id = "advancedlinks", name = "AdvancedLinks", version = "2.1",
+@Plugin(id = AdvancedLinks.ID, name = AdvancedLinks.NAME, version = AdvancedLinks.VERSION,
         url = "https://github.com/Luncaaa/AdvancedLinks/", description = "Create server links in the links menu!", authors = {"Lucaaa"})
 public class VelocityAdvancedLinks implements IVelocityAdvancedLinks {
     // Config files.
@@ -143,13 +143,8 @@ public class VelocityAdvancedLinks implements IVelocityAdvancedLinks {
         return server;
     }
 
-    @Override
-    public MessageReceiver getMessageReceiver(CommandSource source) {
-        return new VelocityMessageReceiver(source);
-    }
-
-    @Override
-    public String getVersion() {
-        return "2.1";
+    private String getVersion() {
+        Optional<PluginContainer> plugin = server.getPluginManager().getPlugin(AdvancedLinks.ID);
+        return plugin.map(pluginContainer -> pluginContainer.getDescription().getVersion().orElse("Unknown")).orElse("Unknown");
     }
 }

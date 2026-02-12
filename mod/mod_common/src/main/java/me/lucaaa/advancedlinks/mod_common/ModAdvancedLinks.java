@@ -31,8 +31,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 public abstract class ModAdvancedLinks implements AdvancedLinks<ServerLinks.UntrustedEntry, ServerLinks.KnownLinkType> {
-    public static final String MOD_ID = "advancedlinks";
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final Logger LOGGER = LoggerFactory.getLogger(AdvancedLinks.ID);
     private static final GsonComponentSerializer gsonSerializer = GsonComponentSerializer.gson();
 
     // Config files.

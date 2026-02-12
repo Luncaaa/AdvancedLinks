@@ -3,17 +3,14 @@ package me.lucaaa.advancedlinks;
 import me.lucaaa.advancedlinks.bungeecord.IBungeeAdvancedLinks;
 import me.lucaaa.advancedlinks.bungeecord.commands.BungeeMainCommand;
 import me.lucaaa.advancedlinks.bungeecord.data.BungeeLinkReceiver;
-import me.lucaaa.advancedlinks.bungeecord.data.BungeeMessageReceiver;
 import me.lucaaa.advancedlinks.bungeecord.managers.BungeeConfigManager;
 import me.lucaaa.advancedlinks.bungeecord.managers.BungeeLinksManager;
 import me.lucaaa.advancedlinks.bungeecord.tasks.BungeeTasksManager;
-import me.lucaaa.advancedlinks.common.data.MessageReceiver;
 import me.lucaaa.advancedlinks.common.managers.ConfigManager;
 import me.lucaaa.advancedlinks.common.managers.LinksManager;
 import me.lucaaa.advancedlinks.common.managers.MessagesManager;
 import me.lucaaa.advancedlinks.common.managers.UpdateManager;
 import me.lucaaa.advancedlinks.common.tasks.ITasksManager;
-import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.ServerLink;
 import net.md_5.bungee.api.event.ServerConnectedEvent;
@@ -122,10 +119,5 @@ public class BungeeAdvancedLinks extends Plugin implements IBungeeAdvancedLinks,
     @Override
     public ProxyServer getServer() {
         return super.getProxy();
-    }
-
-    @Override
-    public MessageReceiver getMessageReceiver(CommandSender source) {
-        return new BungeeMessageReceiver(source);
     }
 }

@@ -3,6 +3,7 @@ package me.lucaaa.advancedlinks.fabric;
 import eu.pb4.placeholders.api.PlaceholderContext;
 import eu.pb4.placeholders.api.Placeholders;
 import eu.pb4.placeholders.api.node.TextNode;
+import me.lucaaa.advancedlinks.common.AdvancedLinks;
 import me.lucaaa.advancedlinks.common.data.Parsers;
 import me.lucaaa.advancedlinks.mod_common.ModAdvancedLinks;
 import me.lucaaa.advancedlinks.mod_common.data.ModLinkReceiver;
@@ -22,7 +23,7 @@ public class FabricAdvancedLinks extends ModAdvancedLinks implements ModInitiali
             supportsPapi = FabricLoader.getInstance().isModLoaded("placeholder-api");
 
             String version = FabricLoader.getInstance()
-                    .getModContainer(MOD_ID)
+                    .getModContainer(AdvancedLinks.ID)
                     .map(container -> container.getMetadata().getVersion().getFriendlyString())
                     .orElse("Unknown");
 
