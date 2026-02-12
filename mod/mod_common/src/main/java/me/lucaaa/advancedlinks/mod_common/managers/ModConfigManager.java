@@ -25,7 +25,7 @@ public class ModConfigManager extends ConfigManager {
         String path = file.getAbsolutePath();
         JsonObject root;
         if (!file.exists()) {
-            try (InputStream is = getClass().getClassLoader().getResourceAsStream(path)) {
+            try (InputStream is = getClass().getClassLoader().getResourceAsStream(file.getName())) {
                 if (is == null) {
                     plugin.log(Level.WARNING, "Couldn't find default in JAR resources. Creating empty config: " + path);
                     this.root = new JsonObject();

@@ -33,19 +33,14 @@ repositories {
 dependencies {
     "neoForge"("net.neoforged:neoforge:${neo_version}")
 
-    common(project(path = ":mod:mod_common")) {
-        isTransitive = false
-    }
-
-    shadowBundle(project(path = ":mod:mod_common", configuration = "transformProductionNeoForge"))
+    common(project(path = ":mod:mod_common")) { isTransitive = false }
+    common(project(path = ":mod:versions:v1_21")) { isTransitive = false }
+    common(project(path = ":mod:versions:v1_21_11")) { isTransitive = false }
 
     shadowBundle(project(":common"))
-    shadowBundle(project(":mod:versions:v1_21")) {
-        isTransitive = false
-    }
-    shadowBundle(project(":mod:versions:v1_21_11")) {
-        isTransitive = false
-    }
+    shadowBundle(project(path = ":mod:mod_common", configuration = "transformProductionNeoForge"))
+    shadowBundle(project(path = ":mod:versions:v1_21", configuration = "transformProductionNeoForge"))
+    shadowBundle(project(path = ":mod:versions:v1_21_11", configuration = "transformProductionNeoForge"))
 }
 
 tasks {

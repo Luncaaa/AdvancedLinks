@@ -4,6 +4,7 @@ import me.lucaaa.advancedlinks.common.data.Parsers;
 import me.lucaaa.advancedlinks.mod_common.ModAdvancedLinks;
 import me.lucaaa.advancedlinks.mod_common.data.ModLinkReceiver;
 import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -14,7 +15,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 
-@Mod(ModAdvancedLinks.MOD_ID)
+@Mod(value = ModAdvancedLinks.MOD_ID, dist = Dist.DEDICATED_SERVER)
 public class NeoForgeAdvancedLinks extends ModAdvancedLinks {
     private final String version;
 

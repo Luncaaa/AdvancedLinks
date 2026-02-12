@@ -1,8 +1,5 @@
-import net.fabricmc.loom.api.LoomGradleExtensionAPI
-import org.gradle.kotlin.dsl.getByName
+val enabled_platforms: String by project
 
-dependencies {
-    "minecraft"("net.minecraft:minecraft:1.21")
-    val loom = project.extensions.getByName<LoomGradleExtensionAPI>("loom")
-    "mappings"(loom.officialMojangMappings())
+architectury {
+    common(enabled_platforms.split(","))
 }

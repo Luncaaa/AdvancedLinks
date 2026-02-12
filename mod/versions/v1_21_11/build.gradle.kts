@@ -1,6 +1,12 @@
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
 import org.gradle.kotlin.dsl.getByName
 
+val enabled_platforms: String by project
+
+architectury {
+    common(enabled_platforms.split(","))
+}
+
 configurations.named("minecraft") {
     dependencies.clear() // Remove the 1.21 version injected by the "mod" module
 }
