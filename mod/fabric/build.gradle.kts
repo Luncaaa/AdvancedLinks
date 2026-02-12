@@ -1,3 +1,7 @@
+plugins {
+    id("com.modrinth.minotaur")
+}
+
 architectury {
     platformSetupLoomIde()
     fabric()
@@ -64,5 +68,23 @@ tasks {
     remapJar {
         inputFile.set(shadowJar.flatMap { it.archiveFile })
         destinationDirectory.set(rootProject.layout.buildDirectory.dir("libs"))
+    }
+}
+
+val data = rootProject.extra["releaseInfo"] as ReleaseData
+modrinth {
+    token.set(System.getenv("MODRINTH_TOKEN"))
+    projectId.set("advancedlinks")
+    versionNumber.set(project.version as String)
+    uploadFile.set(tasks.remapJar)
+    gameVersions.addAll(data.versions)
+    loaders.add("fabric")
+
+    versionName = data.name
+    changelog = data.body
+
+    dependencies {
+        required.project("fabric-api")
+        optional.project("placeholder-api")
     }
 }

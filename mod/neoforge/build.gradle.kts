@@ -1,3 +1,7 @@
+plugins {
+    id("com.modrinth.minotaur")
+}
+
 architectury {
     platformSetupLoomIde()
     neoForge()
@@ -72,4 +76,17 @@ tasks {
         destinationDirectory.set(rootProject.layout.buildDirectory.dir("libs"))
         destinationDirectory.set(file("../../build/libs"))
     }
+}
+
+val data = rootProject.extra["releaseInfo"] as ReleaseData
+modrinth {
+    token.set(System.getenv("MODRINTH_TOKEN"))
+    projectId.set("advancedlinks")
+    versionNumber.set(project.version as String)
+    uploadFile.set(tasks.remapJar)
+    gameVersions.addAll(data.versions)
+    loaders.add("neoforge")
+
+    versionName = data.name
+    changelog = data.body
 }

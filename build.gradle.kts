@@ -1,11 +1,15 @@
 plugins {
     id("java")
     id("com.gradleup.shadow") version("latest.release")
+    id("io.papermc.hangar-publish-plugin") version("latest.release")
+    id("com.modrinth.minotaur") version("latest.release")
 }
 
 val maven_group: String by project
 val mod_version: String by project
 val mod_name: String by project
+
+val releaseInfo by extra { getReleaseData(mod_version) }
 
 allprojects {
     apply(plugin = "java")
@@ -63,5 +67,14 @@ tasks {
 
     shadowJar {
         enabled = false
+    }
+
+    register("publishAll") {
+        group = "publishing"
+        description = "Builds everything and publishes to all platforms."
+
+        dependsOn(":plugin:publishToSites")
+        dependsOn(":mod:fabric:modrinth")
+        dependsOn(":mod:neoforge:modrinth")
     }
 }
