@@ -7,7 +7,7 @@ import me.lucaaa.advancedlinks.common.tasks.ITasksManager;
 
 import java.util.logging.Level;
 
-public interface AdvancedLinks {
+public interface AdvancedLinks<T, S extends Enum<S>> {
     void reloadConfigs();
 
     boolean supportsPapi();
@@ -18,7 +18,7 @@ public interface AdvancedLinks {
 
     ITasksManager getTasksManager();
 
-    <T, S extends Enum<S>> LinksManager<T, S> getLinksManager();
+    LinksManager<T, S> getLinksManager();
 
     void log(Level level, String message);
 

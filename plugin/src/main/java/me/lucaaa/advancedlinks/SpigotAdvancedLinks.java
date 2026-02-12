@@ -7,15 +7,16 @@ import me.lucaaa.advancedlinks.spigot.ISpigotAdvancedLinks;
 import me.lucaaa.advancedlinks.spigot.managers.PlatformManager;
 import me.lucaaa.advancedlinks.spigot.managers.SpigotConfigManager;
 import me.lucaaa.advancedlinks.spigot.managers.SpigotLinksManager;
+import org.bukkit.ServerLinks;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.logging.Level;
 
-public class SpigotAdvancedLinks extends JavaPlugin implements ISpigotAdvancedLinks, Listener {
+@SuppressWarnings("UnstableApiUsage")
+public class SpigotAdvancedLinks extends ISpigotAdvancedLinks implements Listener {
     // Config files.
     private ConfigManager mainConfig;
 
@@ -50,7 +51,8 @@ public class SpigotAdvancedLinks extends JavaPlugin implements ISpigotAdvancedLi
 
         // Look for updates.
         if (mainConfig.getOrDefault("updateChecker", true)) {
-            new UpdateManager(this).getVersion(v -> UpdateManager.sendStatus(this, platformManager.getMessageReceiver(getServer().getConsoleSender()), v, getDescription().getVersion()));
+            UpdateManager updateManager = new UpdateManager(this);
+            updateManager.getVersion(v -> updateManager.sendStatus(platformManager.getMessageReceiver(getServer().getConsoleSender()), v, getDescription().getVersion()));
         }
 
         // Register events.
@@ -98,9 +100,8 @@ public class SpigotAdvancedLinks extends JavaPlugin implements ISpigotAdvancedLi
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T, S extends Enum<S>> LinksManager<T, S> getLinksManager() {
-        return (LinksManager<T, S>) linksManager;
+    public LinksManager<ServerLinks.ServerLink, ServerLinks.Type> getLinksManager() {
+        return linksManager;
     }
 
     @Override

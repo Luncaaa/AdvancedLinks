@@ -6,10 +6,10 @@ import me.lucaaa.advancedlinks.common.data.MessageReceiver;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AddLinkSubCommand<T extends Enum<T>> extends Subcommand {
-    private final Class<T> enumClass;
+public class AddLinkSubCommand<T, S extends Enum<S>> extends Subcommand {
+    private final Class<S> enumClass;
 
-    public AddLinkSubCommand(AdvancedLinks plugin, Class<T> enumClass) {
+    public AddLinkSubCommand(AdvancedLinks<T, S> plugin, Class<S> enumClass) {
         super(plugin);
         this.enumClass = enumClass;
     }
@@ -45,7 +45,7 @@ public class AddLinkSubCommand<T extends Enum<T>> extends Subcommand {
         if (args.length == 3) {
             completions.add("https://");
         } else if (args.length >= 4) {
-            for (T type : enumClass.getEnumConstants()) {
+            for (S type : enumClass.getEnumConstants()) {
                 completions.add(type.name());
             }
         }

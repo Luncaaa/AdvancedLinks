@@ -8,7 +8,7 @@ import java.util.Map;
 public class HelpSubCommand extends Subcommand {
     private final Map<String, Subcommand> subCommands;
 
-    public HelpSubCommand(AdvancedLinks plugin, Map<String, Subcommand> subCommands) {
+    public HelpSubCommand(AdvancedLinks<?, ?> plugin, Map<String, Subcommand> subCommands) {
         super(plugin);
         this.subCommands = subCommands;
     }

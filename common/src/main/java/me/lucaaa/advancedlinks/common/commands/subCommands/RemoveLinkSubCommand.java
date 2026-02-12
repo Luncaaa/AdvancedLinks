@@ -6,7 +6,7 @@ import me.lucaaa.advancedlinks.common.data.MessageReceiver;
 import java.util.ArrayList;
 
 public class RemoveLinkSubCommand extends Subcommand {
-    public RemoveLinkSubCommand(AdvancedLinks plugin) {
+    public RemoveLinkSubCommand(AdvancedLinks<?, ?> plugin) {
         super(plugin);
     }
 

@@ -17,10 +17,10 @@ import java.util.function.Function;
 public class PaperMainCommand {
     private final MainCommand mainCommand;
 
-    public PaperMainCommand(JavaPlugin plugin, Function<CommandSender, MessageReceiver> getReceiver) {
-        this.mainCommand = new MainCommand((AdvancedLinks) plugin, ServerLinks.Type.class);
+    public PaperMainCommand(AdvancedLinks<ServerLinks.ServerLink, ServerLinks.Type> plugin, Function<CommandSender, MessageReceiver> getReceiver) {
+        this.mainCommand = new MainCommand(plugin, ServerLinks.Type.class);
 
-        plugin.registerCommand(
+        ((JavaPlugin) plugin).registerCommand(
                 "al",
                 "Main command.",
                 new BasicCommand() {

@@ -13,10 +13,10 @@ import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PaperLinkReceiver implements LinkReceiver<ServerLinks.ServerLink, ServerLinks.Type> {
-    private final AdvancedLinks plugin;
+    private final AdvancedLinks<ServerLinks.ServerLink, ServerLinks.Type> plugin;
     private final Player player;
 
-    public PaperLinkReceiver(AdvancedLinks plugin, Player player) {
+    public PaperLinkReceiver(AdvancedLinks<ServerLinks.ServerLink, ServerLinks.Type> plugin, Player player) {
         this.plugin = plugin;
         this.player = player;
     }

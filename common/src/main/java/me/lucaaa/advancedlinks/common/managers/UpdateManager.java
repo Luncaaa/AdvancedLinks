@@ -10,10 +10,10 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 
 public class UpdateManager {
-    private final AdvancedLinks plugin;
+    private final AdvancedLinks<?, ?> plugin;
     private final int RESOURCE_ID = 117605;
 
-    public UpdateManager(AdvancedLinks plugin) {
+    public UpdateManager(AdvancedLinks<?, ?> plugin) {
         this.plugin = plugin;
     }
 
@@ -32,7 +32,7 @@ public class UpdateManager {
         });
     }
 
-    public static void sendStatus(AdvancedLinks plugin, MessageReceiver console, String spigotVersion, String pluginVersion) {
+    public void sendStatus(MessageReceiver console, String spigotVersion, String pluginVersion) {
         MessagesManager messagesManager = plugin.getMessagesManager();
         
         String[] spigotVerDivided = spigotVersion.split("\\.");

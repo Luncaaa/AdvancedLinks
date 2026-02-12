@@ -7,7 +7,6 @@ import com.mojang.serialization.JsonOps;
 import me.lucaaa.advancedlinks.common.AdvancedLinks;
 import me.lucaaa.advancedlinks.common.commands.MainCommand;
 import me.lucaaa.advancedlinks.common.managers.ConfigManager;
-import me.lucaaa.advancedlinks.common.managers.LinksManager;
 import me.lucaaa.advancedlinks.common.managers.MessagesManager;
 import me.lucaaa.advancedlinks.common.managers.UpdateManager;
 import me.lucaaa.advancedlinks.common.tasks.ITasksManager;
@@ -31,11 +30,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.logging.Level;
 
-// TODO:
-// 1. Look into creating either a) A "huge" JAR (Spigot/Proxy/Modded) or b) A JAR for Spigot/Proxy and another for Modded
-// 2. Fix Forge on newer versions (Event listener changed)
-// 3. Look into ModMessageReceiver#hasPermission
-public abstract class ModAdvancedLinks implements AdvancedLinks {
+public abstract class ModAdvancedLinks implements AdvancedLinks<ServerLinks.UntrustedEntry, ServerLinks.KnownLinkType> {
     public static final String MOD_ID = "advancedlinks";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     private static final GsonComponentSerializer gsonSerializer = GsonComponentSerializer.gson();
@@ -63,7 +58,8 @@ public abstract class ModAdvancedLinks implements AdvancedLinks {
 
         // Look for updates.
         if (mainConfig.getOrDefault("updateChecker", true)) {
-            new UpdateManager(this).getVersion(v -> UpdateManager.sendStatus(this, new ModMessageReceiver(this, console), v, version));
+            UpdateManager updateManager = new UpdateManager(this);
+            updateManager.getVersion(v -> updateManager.sendStatus(new ModMessageReceiver(this, console), v, version));
         }
 
         messagesManager.sendColoredMessage(new ModMessageReceiver(this, console), "&aThe plugin has been successfully enabled! &7Version: " + version, true);
@@ -160,9 +156,8 @@ public abstract class ModAdvancedLinks implements AdvancedLinks {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T, S extends Enum<S>> LinksManager<T, S> getLinksManager() {
-        return (LinksManager<T, S>) linksManager;
+    public ModLinksManager getLinksManager() {
+        return linksManager;
     }
 
     @Override

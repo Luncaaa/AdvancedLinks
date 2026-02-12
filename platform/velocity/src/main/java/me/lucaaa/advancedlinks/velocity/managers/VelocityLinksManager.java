@@ -2,14 +2,13 @@ package me.lucaaa.advancedlinks.velocity.managers;
 
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.util.ServerLink;
-import me.lucaaa.advancedlinks.common.AdvancedLinks;
 import me.lucaaa.advancedlinks.common.data.ParsedLink;
 import me.lucaaa.advancedlinks.common.managers.LinksManager;
 import me.lucaaa.advancedlinks.velocity.IVelocityAdvancedLinks;
 import me.lucaaa.advancedlinks.velocity.data.VelocityLinkReceiver;
 
 public class VelocityLinksManager extends LinksManager<ServerLink, ServerLink.Type> {
-    public VelocityLinksManager(AdvancedLinks plugin, boolean reload) {
+    public VelocityLinksManager(IVelocityAdvancedLinks plugin, boolean reload) {
         super(plugin, ServerLink.Type.class, reload);
     }
 

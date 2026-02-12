@@ -6,9 +6,9 @@ import me.lucaaa.advancedlinks.common.data.MessageReceiver;
 import java.util.ArrayList;
 
 public abstract class Subcommand {
-    protected final AdvancedLinks plugin;
+    protected final AdvancedLinks<?, ?> plugin;
 
-    public Subcommand(AdvancedLinks plugin) {
+    public Subcommand(AdvancedLinks<?, ?> plugin) {
         this.plugin = plugin;
     }
 

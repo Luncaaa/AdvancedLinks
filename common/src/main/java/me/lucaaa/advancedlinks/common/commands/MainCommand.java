@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 public class MainCommand {
-    private final AdvancedLinks plugin;
+    private final AdvancedLinks<?, ?> plugin;
     private final HashMap<String, Subcommand> subCommands = new HashMap<>();
 
-    public <T extends Enum<T>> MainCommand(AdvancedLinks plugin, Class<T> enumClass) {
+    public <T, S extends Enum<S>> MainCommand(AdvancedLinks<T, S> plugin, Class<S> enumClass) {
         this.plugin = plugin;
         addSubCommand(new ReloadSubCommand(plugin));
         addSubCommand(new AddLinkSubCommand<>(plugin, enumClass));

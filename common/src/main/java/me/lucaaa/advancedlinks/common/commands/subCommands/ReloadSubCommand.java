@@ -4,7 +4,7 @@ import me.lucaaa.advancedlinks.common.AdvancedLinks;
 import me.lucaaa.advancedlinks.common.data.MessageReceiver;
 
 public class ReloadSubCommand extends Subcommand {
-    public ReloadSubCommand(AdvancedLinks plugin) {
+    public ReloadSubCommand(AdvancedLinks<?, ?> plugin) {
         super(plugin);
     }
 

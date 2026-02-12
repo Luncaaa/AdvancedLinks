@@ -18,7 +18,7 @@ import java.util.logging.Level;
  * @param <S> The ServerLink.Type class for the platform.
  */
 public abstract class LinksManager<T, S extends Enum<S>> {
-    protected final AdvancedLinks plugin;
+    protected final AdvancedLinks<T, S> plugin;
     private final ConfigManager config;
     private final Class<S> enumTypeClass;
 
@@ -31,7 +31,7 @@ public abstract class LinksManager<T, S extends Enum<S>> {
     // instance of this class and, therefore, resetting the list.
     private final List<Link<S>> disabledLinks = new ArrayList<>();
 
-    public LinksManager(AdvancedLinks plugin, Class<S> enumTypeClass, boolean reload) {
+    public LinksManager(AdvancedLinks<T, S> plugin, Class<S> enumTypeClass, boolean reload) {
         this.plugin = plugin;
         this.config = plugin.getConfigManager();
         this.enumTypeClass = enumTypeClass;

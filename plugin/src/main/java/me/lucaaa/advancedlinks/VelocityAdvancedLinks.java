@@ -9,6 +9,7 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.util.ServerLink;
 import me.lucaaa.advancedlinks.common.data.MessageReceiver;
 import me.lucaaa.advancedlinks.common.managers.ConfigManager;
 import me.lucaaa.advancedlinks.common.managers.LinksManager;
@@ -74,7 +75,8 @@ public class VelocityAdvancedLinks implements IVelocityAdvancedLinks {
 
         // Look for updates.
         if (mainConfig.getOrDefault("updateChecker", true)) {
-            new UpdateManager(this).getVersion(v -> UpdateManager.sendStatus(this, getMessageReceiver(server.getConsoleCommandSource()), v, getVersion()));
+            UpdateManager updateManager = new UpdateManager(this);
+            updateManager.getVersion(v -> updateManager.sendStatus(getMessageReceiver(server.getConsoleCommandSource()), v, getVersion()));
         }
 
         // Register events. Not needed because the main class is automatically registered.
@@ -117,9 +119,8 @@ public class VelocityAdvancedLinks implements IVelocityAdvancedLinks {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T, S extends Enum<S>> LinksManager<T, S> getLinksManager() {
-        return (LinksManager<T, S>) linksManager;
+    public LinksManager<ServerLink, ServerLink.Type> getLinksManager() {
+        return linksManager;
     }
 
     @Override

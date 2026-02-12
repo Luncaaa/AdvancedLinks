@@ -6,10 +6,10 @@ import java.io.File;
 import java.util.Set;
 
 public abstract class ConfigManager {
-    protected final AdvancedLinks plugin;
+    protected final AdvancedLinks<?, ?> plugin;
     protected final File file;
 
-    public ConfigManager(AdvancedLinks plugin, File file) {
+    public ConfigManager(AdvancedLinks<?, ?> plugin, File file) {
         this.plugin = plugin;
         this.file = file;
     }

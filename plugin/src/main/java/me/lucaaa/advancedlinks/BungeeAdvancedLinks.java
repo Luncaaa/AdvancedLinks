@@ -15,6 +15,7 @@ import me.lucaaa.advancedlinks.common.managers.UpdateManager;
 import me.lucaaa.advancedlinks.common.tasks.ITasksManager;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.ServerLink;
 import net.md_5.bungee.api.event.ServerConnectedEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -55,7 +56,8 @@ public class BungeeAdvancedLinks extends Plugin implements IBungeeAdvancedLinks,
 
         // Look for updates.
         if (mainConfig.getOrDefault("updateChecker", true)) {
-            new UpdateManager(this).getVersion(v -> UpdateManager.sendStatus(this, getMessageReceiver(getProxy().getConsole()), v, getDescription().getVersion()));
+            UpdateManager updateManager = new UpdateManager(this);
+            updateManager.getVersion(v -> updateManager.sendStatus(getMessageReceiver(getProxy().getConsole()), v, getDescription().getVersion()));
         }
 
         // Register events. Not needed because the main class is automatically registered.
@@ -98,9 +100,8 @@ public class BungeeAdvancedLinks extends Plugin implements IBungeeAdvancedLinks,
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T, S extends Enum<S>> LinksManager<T, S> getLinksManager() {
-        return (LinksManager<T, S>) linksManager;
+    public LinksManager<ServerLink, ServerLink.LinkType> getLinksManager() {
+        return linksManager;
     }
 
     @Override
