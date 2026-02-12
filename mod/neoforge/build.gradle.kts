@@ -81,7 +81,7 @@ tasks {
 val data = rootProject.extra["releaseInfo"] as ReleaseData
 modrinth {
     token.set(System.getenv("MODRINTH_TOKEN"))
-    projectId.set("advancedlinks")
+    projectId.set(data.modrinthId)
     versionNumber.set(project.version as String)
     uploadFile.set(tasks.remapJar)
     gameVersions.addAll(data.versions)

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "advancedlinks",
+  "id": "${mod_id}",
   "version": "${version}",
 
-  "name": "AdvancedLinks",
+  "name": "${mod_name}",
   "description": "Create server links in the links menu!",
   "authors": ["Lucaaa"],
   "contact": {

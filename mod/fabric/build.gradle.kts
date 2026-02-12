@@ -7,6 +7,8 @@ architectury {
     fabric()
 }
 
+val mod_id: String by project
+val mod_name: String by project
 val fabric_loader_version: String by project
 val fabric_version: String by project
 val minecraft_version_range: String by project
@@ -54,7 +56,9 @@ tasks {
                     "loader_version" to fabric_loader_version,
                     "fabric_version" to fabric_version,
                     "minecraft_version_range" to minecraft_version_range,
-                    "placeholder_api_version" to placeholder_api_version
+                    "placeholder_api_version" to placeholder_api_version,
+                    "mod_id" to mod_id,
+                    "mod_name" to mod_name
                 )
             )
         }
@@ -74,7 +78,7 @@ tasks {
 val data = rootProject.extra["releaseInfo"] as ReleaseData
 modrinth {
     token.set(System.getenv("MODRINTH_TOKEN"))
-    projectId.set("advancedlinks")
+    projectId.set(data.modrinthId)
     versionNumber.set(project.version as String)
     uploadFile.set(tasks.remapJar)
     gameVersions.addAll(data.versions)

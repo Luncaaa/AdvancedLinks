@@ -74,7 +74,7 @@ hangarPublish {
 
 modrinth {
     token.set(System.getenv("MODRINTH_TOKEN"))
-    projectId.set("advancedlinks")
+    projectId.set(data.modrinthId)
     versionNumber.set(project.version as String)
     uploadFile.set(tasks.shadowJar)
     gameVersions.addAll(data.versions)
