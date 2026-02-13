@@ -11,10 +11,15 @@ public interface AdvancedLinks<T, S extends Enum<S>> {
     String ID = "advancedlinks";
     String NAME = "AdvancedLinks";
     String VERSION = "2.1";
+    String CHANNEL_ID = ID + ":main";
+    String INSTALLED_MSG = "al-installed"; // Used for backend-server plugin messaging.
+    String DISABLED_MSG = "al-disabled"; // Used for backend-server plugin messaging.
 
     void reloadConfigs();
 
     boolean supportsPapi();
+
+    boolean isEnabled();
 
     ConfigManager getConfigManager();
 

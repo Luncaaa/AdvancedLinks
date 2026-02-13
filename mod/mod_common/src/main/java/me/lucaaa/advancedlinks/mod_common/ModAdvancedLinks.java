@@ -140,6 +140,11 @@ public abstract class ModAdvancedLinks implements AdvancedLinks<ServerLinks.Untr
     }
 
     @Override
+    public boolean isEnabled() {
+        return !server.isShutdown();
+    }
+
+    @Override
     public ConfigManager getConfigManager() {
         return mainConfig;
     }

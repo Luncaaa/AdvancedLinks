@@ -1,6 +1,7 @@
 package me.lucaaa.advancedlinks;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.lucaaa.advancedlinks.common.AdvancedLinks;
 import me.lucaaa.advancedlinks.common.managers.*;
 import me.lucaaa.advancedlinks.common.tasks.ITasksManager;
 import me.lucaaa.advancedlinks.spigot.ISpigotAdvancedLinks;
@@ -8,15 +9,19 @@ import me.lucaaa.advancedlinks.spigot.managers.PlatformManager;
 import me.lucaaa.advancedlinks.spigot.managers.SpigotConfigManager;
 import me.lucaaa.advancedlinks.spigot.managers.SpigotLinksManager;
 import org.bukkit.ServerLinks;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.messaging.PluginMessageListener;
+import org.jspecify.annotations.NonNull;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 @SuppressWarnings("UnstableApiUsage")
-public class SpigotAdvancedLinks extends ISpigotAdvancedLinks implements Listener {
+public class SpigotAdvancedLinks extends ISpigotAdvancedLinks implements Listener, PluginMessageListener {
     // Config files.
     private ConfigManager mainConfig;
 
@@ -61,12 +66,19 @@ public class SpigotAdvancedLinks extends ISpigotAdvancedLinks implements Listene
         // Registers the main command and adds tab completions.
         platformManager.registerMainCommand();
 
+        // Listen to the plugin messaging channel (to print a warning if it's present on both backend and proxy server)
+        getServer().getMessenger().registerOutgoingPluginChannel(this, AdvancedLinks.CHANNEL_ID);
+        getServer().getMessenger().registerIncomingPluginChannel(this, AdvancedLinks.CHANNEL_ID, this);
+
         messagesManager.sendColoredMessage(platformManager.getMessageReceiver(getServer().getConsoleSender()), "&aThe plugin has been successfully enabled! &7Version: " + this.getDescription().getVersion(), true);
     }
 
     @Override
     public void onDisable() {
         if (linksManager != null) linksManager.shutdown();
+
+        getServer().getMessenger().unregisterOutgoingPluginChannel(this, AdvancedLinks.CHANNEL_ID);
+        getServer().getMessenger().unregisterIncomingPluginChannel(this, AdvancedLinks.CHANNEL_ID);
     }
 
     @EventHandler
@@ -120,6 +132,22 @@ public class SpigotAdvancedLinks extends ISpigotAdvancedLinks implements Listene
             return PlaceholderAPI.setPlaceholders(null, text);
         } else {
             return text;
+        }
+    }
+
+    @Override
+    public void onPluginMessageReceived(@NonNull String channel, @NonNull Player player, byte @NonNull [] message) {
+        if (!channel.equals(AdvancedLinks.CHANNEL_ID)) return;
+
+        String msg = new String(message, StandardCharsets.UTF_8);
+        if (msg.equals(AdvancedLinks.INSTALLED_MSG)) {
+            log(Level.SEVERE, "AdvancedLinks is installed in both a backend and the proxy server, which may cause unwanted problems.");
+            log(Level.SEVERE, "Please remove it from either side. Keeping it on the proxy server is suggested for simplicity.");
+            log(Level.SEVERE, "To prevent errors and duplicate or missing links, the plugin will disable for this server (proxy's will still work)");
+
+            getServer().sendPluginMessage(this, AdvancedLinks.CHANNEL_ID, AdvancedLinks.DISABLED_MSG.getBytes(StandardCharsets.UTF_8));
+
+            getServer().getPluginManager().disablePlugin(this);
         }
     }
 }

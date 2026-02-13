@@ -44,7 +44,7 @@ public class HelpSubCommand extends Subcommand {
 
         plugin.getMessagesManager().sendColoredMessage(sender, "&cCommands: &7&o([] - mandatory args, <> - optional args)", false);
         for (Subcommand value : subCommands.values()) {
-            if (value.neededPermission() == null || sender.hasPermission(value.neededPermission())) {
+            if (value.neededPermission() == null || sender.hasPermission(value.neededPermission()) || sender.hasPermission("al.admin")) {
                 plugin.getMessagesManager().sendColoredMessage(sender, " &7- &6" + value.usage() + "&7: &e" + value.description(), false);
             }
         }

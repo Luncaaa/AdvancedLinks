@@ -30,6 +30,11 @@ public class MainCommand {
     public boolean onCommand(@NotNull MessageReceiver sender, @NotNull String[] args) {
         MessagesManager messagesManager = plugin.getMessagesManager();
 
+        if (!plugin.isEnabled()) {
+            messagesManager.sendColoredMessage(sender, "&cThe plugin is disabled! Check console for more information.", true);
+            return true;
+        }
+
         // If there are no arguments, show an error.
         if (args.length == 0) {
             messagesManager.sendColoredMessage(sender, "&cYou need to enter more arguments to run this command!", true);
@@ -48,7 +53,7 @@ public class MainCommand {
         Subcommand subCommand = subCommands.get(args[0]);
 
         // If the player who ran the command does not have the needed permissions, show an error.
-        if (subCommand.neededPermission() != null && !sender.hasPermission(subCommand.neededPermission())) {
+        if (subCommand.neededPermission() != null && !sender.hasPermission(subCommand.neededPermission()) && !sender.hasPermission("al.admin")) {
             messagesManager.sendColoredMessage(sender, "&cYou don't have permission to execute this command!", true);
             return true;
         }
@@ -73,7 +78,7 @@ public class MainCommand {
         // to be executed, complete it. If it needs a permission, check if the user has it and add more completions.
         if (args.length <= 1) {
             for (Map.Entry<String, Subcommand> entry : subCommands.entrySet()) {
-                if (entry.getValue().neededPermission() == null || sender.hasPermission(entry.getValue().neededPermission())) {
+                if (entry.getValue().neededPermission() == null || sender.hasPermission(entry.getValue().neededPermission()) || sender.hasPermission("al.admin")) {
                     completions.add(entry.getKey());
                 }
             }
@@ -81,7 +86,7 @@ public class MainCommand {
         } else {
             // Command's second argument.
             Subcommand subcommand = subCommands.get(args[0]);
-            if (subcommand != null && sender.hasPermission(subcommand.neededPermission())) {
+            if (subcommand != null && (sender.hasPermission(subcommand.neededPermission()) || sender.hasPermission("al.admin"))) {
                 completions = subCommands.get(args[0]).getTabCompletions(sender, args);
             }
         }

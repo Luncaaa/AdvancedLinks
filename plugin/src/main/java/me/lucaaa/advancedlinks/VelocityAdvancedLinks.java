@@ -2,6 +2,7 @@ package me.lucaaa.advancedlinks;
 
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.connection.PluginMessageEvent;
 import com.velocitypowered.api.event.player.ServerPostConnectEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
@@ -9,6 +10,8 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.proxy.ServerConnection;
+import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import com.velocitypowered.api.util.ServerLink;
 import me.lucaaa.advancedlinks.common.AdvancedLinks;
 import me.lucaaa.advancedlinks.common.managers.ConfigManager;
@@ -24,6 +27,7 @@ import me.lucaaa.advancedlinks.velocity.managers.VelocityLinksManager;
 import me.lucaaa.advancedlinks.velocity.tasks.VelocityTasksManager;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -44,6 +48,7 @@ public class VelocityAdvancedLinks implements IVelocityAdvancedLinks {
     private final ProxyServer server;
     private final Logger logger;
     private final Path dataDirectory;
+    private final MinecraftChannelIdentifier channelId = MinecraftChannelIdentifier.from(AdvancedLinks.CHANNEL_ID);
 
     @Inject
     public VelocityAdvancedLinks(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
@@ -85,22 +90,40 @@ public class VelocityAdvancedLinks implements IVelocityAdvancedLinks {
         // Registers the main command and adds tab completions.
         new VelocityMainCommand(this);
 
+        // Listen to the plugin messaging channel (to print a warning if it's present on both backend and proxy server)
+        getServer().getChannelRegistrar().register(channelId);
+
         messagesManager.sendColoredMessage(getMessageReceiver(server.getConsoleCommandSource()), "&aThe plugin has been successfully enabled! &7Version: " + getVersion(), true);
     }
 
     @Subscribe
     public void onDisable(ProxyShutdownEvent event) {
         if (linksManager != null) linksManager.shutdown();
+
+        getServer().getChannelRegistrar().unregister(channelId);
     }
 
     @Subscribe
-    public void onPlayerConnect(ServerPostConnectEvent event) {
+    public void onPlayerPostConnect(ServerPostConnectEvent event) {
+        event.getPlayer().getCurrentServer().ifPresent(server -> {
+            boolean couldSend = server.sendPluginMessage(channelId, AdvancedLinks.INSTALLED_MSG.getBytes(StandardCharsets.UTF_8));
+            if (!couldSend) {
+                log(Level.WARNING, "Couldn't send a plugin message notifying the plugin is installed.");
+                log(Level.WARNING, "Player: " + event.getPlayer().getUsername() + " - Server: " + server.getServerInfo().getName());
+            }
+        });
+
         linksManager.sendLinks(new VelocityLinkReceiver(event.getPlayer()));
     }
 
     @Override
     public boolean supportsPapi() {
         return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return !getServer().isShuttingDown();
     }
 
     @Override
@@ -141,6 +164,26 @@ public class VelocityAdvancedLinks implements IVelocityAdvancedLinks {
     @Override
     public ProxyServer getServer() {
         return server;
+    }
+
+    @Subscribe
+    public void onPluginMessageFromBackend(PluginMessageEvent event) {
+        if (!channelId.equals(event.getIdentifier())) return;
+
+        event.setResult(PluginMessageEvent.ForwardResult.handled());
+
+        if (!(event.getSource() instanceof ServerConnection backend)) return;
+
+        String message = new String(event.getData(), StandardCharsets.UTF_8);
+        if (message.equals(AdvancedLinks.DISABLED_MSG)) {
+            log(Level.SEVERE, "AdvancedLinks is installed in both a backend and the proxy server, which may cause unwanted problems.");
+            log(Level.SEVERE, "Please remove it from either side. Keeping it on the proxy server is suggested for simplicity.");
+            log(Level.SEVERE, "AdvancedLinks has been disabled on server: " + backend.getServerInfo().getName());
+
+            // Reload links manager in case disabling the plugin in the backend server somehow broke the links.
+            if (linksManager != null) linksManager.shutdown();
+            linksManager = new VelocityLinksManager(this, true);
+        }
     }
 
     private String getVersion() {
