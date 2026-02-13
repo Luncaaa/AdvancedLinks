@@ -27,4 +27,5 @@ jobs:
         env:
           HANGAR_KEY: ${{ secrets.HANGAR_KEY }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
         run: ./gradlew publishAll --stacktrace

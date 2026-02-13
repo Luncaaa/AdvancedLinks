@@ -3,6 +3,7 @@ plugins {
     id("com.gradleup.shadow") version("latest.release")
     id("io.papermc.hangar-publish-plugin") version("latest.release")
     id("com.modrinth.minotaur") version("latest.release")
+    id("me.modmuss50.mod-publish-plugin") version("latest.release")
 }
 
 val maven_group: String by project
@@ -74,7 +75,7 @@ tasks {
         description = "Builds everything and publishes to all platforms."
 
         dependsOn(":plugin:publishToSites")
-        dependsOn(":mod:fabric:modrinth")
-        dependsOn(":mod:neoforge:modrinth")
+        dependsOn(":mod:fabric:publishMods")
+        dependsOn(":mod:neoforge:publishMods")
     }
 }

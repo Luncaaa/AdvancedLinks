@@ -1,5 +1,5 @@
 plugins {
-    id("com.modrinth.minotaur")
+    id("me.modmuss50.mod-publish-plugin")
 }
 
 architectury {
@@ -79,14 +79,27 @@ tasks {
 }
 
 val data = rootProject.extra["releaseInfo"] as ReleaseData
-modrinth {
-    token.set(System.getenv("MODRINTH_TOKEN"))
-    projectId.set(data.modrinthId)
-    versionNumber.set(project.version as String)
-    uploadFile.set(tasks.remapJar)
-    gameVersions.addAll(data.versions)
-    loaders.add("neoforge")
-
-    versionName = data.name
+publishMods {
+    file = tasks.remapJar.flatMap { it.archiveFile }
+    displayName = data.name
     changelog = data.body
+    type = STABLE
+    modLoaders.add("neoforge")
+
+    modrinth {
+        accessToken = System.getenv("MODRINTH_TOKEN")
+        projectId = data.modrinthId
+        minecraftVersions.addAll(data.versions)
+    }
+
+    curseforge {
+        accessToken = System.getenv("CURSEFORGE_TOKEN")
+        projectId = data.curseId
+        minecraftVersions.addAll(data.versions)
+
+        javaVersions.add(JavaVersion.VERSION_21)
+
+        clientRequired = false
+        serverRequired = true
+    }
 }

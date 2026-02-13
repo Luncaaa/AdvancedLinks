@@ -1,7 +1,7 @@
 import groovy.json.JsonSlurper
 import java.net.URI
 
-data class ReleaseData(val name: String, val body: String, val versions: List<String>, val modrinthId: String = "advancedlinks")
+data class ReleaseData(val name: String, val body: String, val versions: List<String>, val modrinthId: String = "gtWDB9au", val curseId: String = "1460993")
 
 fun getReleaseData(version: Any): ReleaseData {
     val supportedVersions = listOf(

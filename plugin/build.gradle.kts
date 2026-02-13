@@ -78,12 +78,7 @@ modrinth {
     versionNumber.set(project.version as String)
     uploadFile.set(tasks.shadowJar)
     gameVersions.addAll(data.versions)
-    loaders.add("spigot")
-    loaders.add("paper")
-    loaders.add("purpur")
-    loaders.add("folia")
-    loaders.add("bungeecord")
-    loaders.add("velocity")
+    loaders.addAll("spigot", "paper", "purpur", "folia", "bungeecord", "velocity")
 
     versionName = data.name
     changelog = data.body
