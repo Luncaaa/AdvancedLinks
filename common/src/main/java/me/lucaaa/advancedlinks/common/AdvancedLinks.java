@@ -10,7 +10,7 @@ import java.util.logging.Level;
 public interface AdvancedLinks<T, S extends Enum<S>> {
     String ID = "advancedlinks";
     String NAME = "AdvancedLinks";
-    String VERSION = "2.1";
+    String VERSION = "2.1.1";
     String CHANNEL_ID = ID + ":main";
     String INSTALLED_MSG = "al-installed"; // Used for backend-server plugin messaging.
     String DISABLED_MSG = "al-disabled"; // Used for backend-server plugin messaging.
