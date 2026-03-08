@@ -101,6 +101,7 @@ public class VelocityAdvancedLinks implements IVelocityAdvancedLinks {
         if (linksManager != null) linksManager.shutdown();
 
         getServer().getChannelRegistrar().unregister(channelId);
+        getServer().getEventManager().unregisterListeners(this);
     }
 
     @Subscribe

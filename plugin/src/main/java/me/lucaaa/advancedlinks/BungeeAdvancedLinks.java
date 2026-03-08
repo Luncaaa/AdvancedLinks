@@ -39,7 +39,7 @@ public class BungeeAdvancedLinks extends Plugin implements IBungeeAdvancedLinks,
 
     @Override
     public void reloadConfigs() {
-        getLogger().log(Level.INFO, "Detected platform: Velocity. Enabling support...");
+        getLogger().log(Level.INFO, "Detected platform: BungeeCord. Enabling support...");
         getLogger().log(Level.WARNING, "The proxy version of the plugin does not support PlaceholderAPI!");
 
         // Config file.
@@ -57,6 +57,14 @@ public class BungeeAdvancedLinks extends Plugin implements IBungeeAdvancedLinks,
     public void onEnable() {
         // Set up files and managers.
         reloadConfigs();
+
+        // The server is using Waterfall, which is not supported.
+        if (getProxy().getVersion().toLowerCase().contains("waterfall")) {
+            isEnabled = false;
+            messagesManager.sendColoredMessage(getMessageReceiver(getProxy().getConsole()), "&cWaterfall is not supported! Plugin will be disabled on the proxy server.", true);
+            onDisable();
+            return;
+        }
 
         // Look for updates.
         if (mainConfig.getOrDefault("updateChecker", true)) {
@@ -83,11 +91,13 @@ public class BungeeAdvancedLinks extends Plugin implements IBungeeAdvancedLinks,
         if (linksManager != null) linksManager.shutdown();
 
         getProxy().unregisterChannel(AdvancedLinks.CHANNEL_ID);
+        getProxy().getPluginManager().unregisterListeners(this);
+        getProxy().getPluginManager().unregisterCommands(this);
     }
 
     @EventHandler
     public void onPlayerConnect(ServerConnectedEvent event) {
-        isEnabled = false;
+        if (!isEnabled) return;
 
         event.getPlayer().getServer().sendData(AdvancedLinks.CHANNEL_ID, AdvancedLinks.INSTALLED_MSG.getBytes(StandardCharsets.UTF_8));
 
@@ -146,7 +156,7 @@ public class BungeeAdvancedLinks extends Plugin implements IBungeeAdvancedLinks,
 
     @EventHandler
     public void onPluginMessageReceived(PluginMessageEvent event) {
-        if (!AdvancedLinks.CHANNEL_ID.equals(event.getTag())) return;
+        if (!AdvancedLinks.CHANNEL_ID.equals(event.getTag()) || !isEnabled) return;
 
         if (!(event.getSender() instanceof Server backend)) return;
 

@@ -10,13 +10,13 @@ import java.util.*;
 import java.util.logging.Level;
 
 public class ModConfigManager extends ConfigManager {
-    private final AdvancedLinks plugin;
+    private final AdvancedLinks<?, ?> plugin;
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     private final File file;
     private JsonObject root;
 
-    public ModConfigManager(AdvancedLinks plugin, File file) {
+    public ModConfigManager(AdvancedLinks<?, ?> plugin, File file) {
         super(plugin, file);
 
         this.plugin = plugin;
@@ -25,6 +25,8 @@ public class ModConfigManager extends ConfigManager {
         String path = file.getAbsolutePath();
         JsonObject root;
         if (!file.exists()) {
+            file.mkdirs();
+
             try (InputStream is = getClass().getClassLoader().getResourceAsStream(file.getName())) {
                 if (is == null) {
                     plugin.log(Level.WARNING, "Couldn't find default in JAR resources. Creating empty config: " + path);
