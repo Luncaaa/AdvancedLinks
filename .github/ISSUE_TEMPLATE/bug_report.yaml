@@ -49,6 +49,11 @@ body:
     attributes:
       label: Server Software
       options:
+        - Fabric
+        - NeoForge
+        - Velocity
+        - BungeeCord
+        - Purpur
         - Paper
         - Spigot
         - Bukkit
