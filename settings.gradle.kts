@@ -12,12 +12,8 @@ include(
     "mod",
     "mod:mod_common",
     "mod:fabric",
-    "mod:neoforge",
+    "mod:neoforge"
     // "mod:forge" // TODO: Fix
-
-    "mod:versions",
-    "mod:versions:v1_21",
-    "mod:versions:v1_21_11"
 )
 
 pluginManagement {

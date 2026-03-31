@@ -36,13 +36,9 @@ dependencies {
     "modImplementation"("eu.pb4:placeholder-api:$placeholder_api_version")
 
     common(project(path = ":mod:mod_common")) { isTransitive = false }
-    common(project(path = ":mod:versions:v1_21")) { isTransitive = false }
-    common(project(path = ":mod:versions:v1_21_11")) { isTransitive = false }
 
     shadowBundle(project(":common"))
     shadowBundle(project(path = ":mod:mod_common", configuration = "transformProductionFabric"))
-    shadowBundle(project(path = ":mod:versions:v1_21", configuration = "transformProductionFabric"))
-    shadowBundle(project(path = ":mod:versions:v1_21_11", configuration = "transformProductionFabric"))
 }
 
 tasks {

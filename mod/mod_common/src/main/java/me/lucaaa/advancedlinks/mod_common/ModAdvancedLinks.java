@@ -128,7 +128,7 @@ public abstract class ModAdvancedLinks implements AdvancedLinks<ServerLinks.Untr
         }
 
         // Config file.
-        mainConfig = new ModConfigManager(this, configDir.resolve("advancedlinks.json").toFile());
+        mainConfig = new ModConfigManager(this, configDir.resolve("advancedlinks.json"));
 
         // Managers
         if (linksManager != null) linksManager.shutdown();

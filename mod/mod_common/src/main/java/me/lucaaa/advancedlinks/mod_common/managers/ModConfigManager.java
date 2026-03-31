@@ -6,6 +6,7 @@ import me.lucaaa.advancedlinks.common.managers.ConfigManager;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -16,36 +17,46 @@ public class ModConfigManager extends ConfigManager {
     private final File file;
     private JsonObject root;
 
-    public ModConfigManager(AdvancedLinks<?, ?> plugin, File file) {
-        super(plugin, file);
+    public ModConfigManager(AdvancedLinks<?, ?> plugin, Path path) {
+        super(plugin, path.toFile());
 
         this.plugin = plugin;
-        this.file = file;
 
-        String path = file.getAbsolutePath();
         JsonObject root;
-        if (!file.exists()) {
-            file.mkdirs();
-
-            try (InputStream is = getClass().getClassLoader().getResourceAsStream(file.getName())) {
-                if (is == null) {
-                    plugin.log(Level.WARNING, "Couldn't find default in JAR resources. Creating empty config: " + path);
-                    this.root = new JsonObject();
-                    save();
-                    return;
-                }
-
-                Files.copy(is, file.toPath());
-            } catch (IOException e) {
-                plugin.logError(Level.WARNING, "Couldn't copy config from JAR: " + path + ": ", e);
+        try {
+            if (path.getParent() != null) {
+                Files.createDirectories(path.getParent());
             }
+
+            if (!Files.exists(path)) {
+                try (InputStream is = getClass().getClassLoader().getResourceAsStream(path.toFile().getName())) {
+                    if (is == null) {
+                        plugin.log(Level.WARNING, "Couldn't find default in JAR resources. Creating empty config: " + path);
+                        this.root = new JsonObject();
+                        save();
+
+                    } else {
+                        Files.copy(is, path);
+                    }
+
+                } catch (IOException e) {
+                    plugin.logError(Level.SEVERE, "Couldn't copy config from JAR: " + path, e);
+                }
+            }
+
+        } catch (IOException e) {
+            plugin.logError(Level.SEVERE, "Couldn't create or find log file!", e);
+            this.file = null;
+            return;
         }
+
+        this.file = path.toFile();
 
         try (FileReader reader = new FileReader(file)) {
             JsonElement element = JsonParser.parseReader(reader);
             root = element.isJsonObject() ? element.getAsJsonObject() : new JsonObject();
         } catch (IOException e) {
-            plugin.logError(Level.WARNING, "Couldn't load config: " + path + ": ", e);
+            plugin.logError(Level.SEVERE, "Couldn't load config: " + path, e);
             root = new JsonObject();
         }
 

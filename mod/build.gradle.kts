@@ -2,7 +2,7 @@ import net.fabricmc.loom.api.LoomGradleExtensionAPI
 
 plugins {
     id("dev.architectury.loom") version("latest.release") apply false
-    id("architectury-plugin") version("3.4-SNAPSHOT")
+    id("architectury-plugin") version("3.5-SNAPSHOT")
 }
 
 val minecraft_version: String by project

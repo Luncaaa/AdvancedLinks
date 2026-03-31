@@ -2,10 +2,12 @@ package me.lucaaa.advancedlinks.mod_common.data;
 
 import me.lucaaa.advancedlinks.common.data.MessageReceiver;
 import me.lucaaa.advancedlinks.common.data.Parsers;
-import me.lucaaa.advancedlinks.versions.v1_21.OldPermissionChecker;
-import me.lucaaa.advancedlinks.versions.v1_21_11.NewPermissionChecker;
 import me.lucaaa.advancedlinks.mod_common.ModAdvancedLinks;
 import net.minecraft.commands.CommandSourceStack;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.logging.Level;
 
 public class ModMessageReceiver implements MessageReceiver {
     private final ModAdvancedLinks plugin;
@@ -24,9 +26,34 @@ public class ModMessageReceiver implements MessageReceiver {
     @Override
     public boolean hasPermission(String permission) {
         if (plugin.getServer().getServerVersion().equals("1.21.11")) {
-            return NewPermissionChecker.hasPermission(sender);
+            // Use reflection: return sender.permissions().hasPermission(Permissions.COMMANDS_OWNER);
+            return hasPermissionsNew();
         } else {
-            return OldPermissionChecker.hasPermission(sender);
+            return sender.hasPermission(4);
+        }
+    }
+
+    private boolean hasPermissionsNew() {
+        try {
+            // permissions() method from the sender's class, which returns a PermissionSet instance.
+            Method permissionsMethod = sender.getClass().getMethod("method_75037");
+            Object permissionSet = permissionsMethod.invoke(sender);
+
+            // Permissions class and its field COMMANDS_OWNER.
+            Class<?> permissionsClass = Class.forName("net.minecraft.class_12099");
+            Field commandsOwnerField = permissionsClass.getField("field_63212");
+            Object commandsOwnerPermission = commandsOwnerField.get(null);
+
+            // hasPermission method (which has Permission as a param) from the PermissionSet class.
+            Class<?> permissionSetClass = Class.forName("net.minecraft.class_12096");
+            Class<?> permissionClass = Class.forName("net.minecraft.class_12087");
+            Method hasPermissionMethod = permissionSetClass.getMethod("hasPermission", permissionClass);
+
+            // Invoke the hasPermission method from the PermissionSet class passing COMMANDS_OWNER.
+            return (boolean) hasPermissionMethod.invoke(permissionSet, commandsOwnerPermission);
+        } catch (ReflectiveOperationException e) {
+            plugin.logError(Level.SEVERE, "Couldn't get a user's permission level!", e);
+            return false;
         }
     }
 }
