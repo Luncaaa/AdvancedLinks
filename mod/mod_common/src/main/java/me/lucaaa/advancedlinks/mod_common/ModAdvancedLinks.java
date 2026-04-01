@@ -58,10 +58,10 @@ public abstract class ModAdvancedLinks implements AdvancedLinks<ServerLinks.Untr
         // Look for updates.
         if (mainConfig.getOrDefault("updateChecker", true)) {
             UpdateManager updateManager = new UpdateManager(this);
-            updateManager.getVersion(v -> updateManager.sendStatus(new ModMessageReceiver(this, console), v, version));
+            updateManager.getVersion(v -> updateManager.sendStatus(getMessageReceiver(console), v, version));
         }
 
-        messagesManager.sendColoredMessage(new ModMessageReceiver(this, console), "&aThe plugin has been successfully enabled! &7Version: " + version, true);
+        messagesManager.sendColoredMessage(getMessageReceiver(console), "&aThe plugin has been successfully enabled! &7Version: " + version, true);
     }
 
     public void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -72,7 +72,7 @@ public abstract class ModAdvancedLinks implements AdvancedLinks<ServerLinks.Untr
                             String remaining = cmdContext.getInput().substring(builder.getStart());
                             String[] args = remaining.split(" ", -1);
 
-                            List<String> suggestions = mainCommand.onTabComplete(new ModMessageReceiver(this, cmdContext.getSource()), args);
+                            List<String> suggestions = mainCommand.onTabComplete(getMessageReceiver(cmdContext.getSource()), args);
 
                             if (suggestions != null) {
                                 int lastSpaceIndex = remaining.lastIndexOf(' ');
@@ -92,7 +92,7 @@ public abstract class ModAdvancedLinks implements AdvancedLinks<ServerLinks.Untr
                             String fullArgs = StringArgumentType.getString(cmdContext, "arguments");
                             String[] args = fullArgs.split(" ");
                             try {
-                                return mainCommand.onCommand(new ModMessageReceiver(this, cmdContext.getSource()), args) ? 1 : 0;
+                                return mainCommand.onCommand(getMessageReceiver(cmdContext.getSource()), args) ? 1 : 0;
                             } catch (Exception e) {
                                 logError(Level.WARNING, "Error while running command \"al\": ", e);
                                 return 0;
@@ -101,7 +101,7 @@ public abstract class ModAdvancedLinks implements AdvancedLinks<ServerLinks.Untr
                 )
                 .executes(cmdContext -> {
                     try {
-                        return mainCommand.onCommand(new ModMessageReceiver(this, cmdContext.getSource()), new String[0]) ? 1 : 0;
+                        return mainCommand.onCommand(getMessageReceiver(cmdContext.getSource()), new String[0]) ? 1 : 0;
                     } catch (Exception e) {
                         logError(Level.WARNING, "Error while running command \"al\": ", e);
                         return 0;
@@ -204,6 +204,8 @@ public abstract class ModAdvancedLinks implements AdvancedLinks<ServerLinks.Untr
     }
 
     public abstract ModLinkReceiver getLinkReceiver(ServerPlayer player);
+
+    public abstract ModMessageReceiver getMessageReceiver(CommandSourceStack sender);
 
     public abstract String getPlatformName();
 }

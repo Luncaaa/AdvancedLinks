@@ -4,6 +4,8 @@ import me.lucaaa.advancedlinks.common.AdvancedLinks;
 import me.lucaaa.advancedlinks.common.data.Parsers;
 import me.lucaaa.advancedlinks.mod_common.ModAdvancedLinks;
 import me.lucaaa.advancedlinks.mod_common.data.ModLinkReceiver;
+import me.lucaaa.advancedlinks.mod_common.data.ModMessageReceiver;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -54,6 +56,11 @@ public class NeoForgeAdvancedLinks extends ModAdvancedLinks {
                 return text.replace("%player_name%", Parsers.legacySectionSerializer.serialize(asAdventure(player.getName())));
             }
         };
+    }
+
+    @Override
+    public ModMessageReceiver getMessageReceiver(CommandSourceStack sender) {
+        return new NeoForgeMessageReceiver(this, sender);
     }
 
     @Override

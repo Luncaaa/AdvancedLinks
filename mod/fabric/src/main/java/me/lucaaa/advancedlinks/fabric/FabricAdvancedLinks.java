@@ -7,11 +7,13 @@ import me.lucaaa.advancedlinks.common.AdvancedLinks;
 import me.lucaaa.advancedlinks.common.data.Parsers;
 import me.lucaaa.advancedlinks.mod_common.ModAdvancedLinks;
 import me.lucaaa.advancedlinks.mod_common.data.ModLinkReceiver;
+import me.lucaaa.advancedlinks.mod_common.data.ModMessageReceiver;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.level.ServerPlayer;
 
 public class FabricAdvancedLinks extends ModAdvancedLinks implements ModInitializer {
@@ -65,6 +67,11 @@ public class FabricAdvancedLinks extends ModAdvancedLinks implements ModInitiali
                 }
             }
         };
+    }
+
+    @Override
+    public ModMessageReceiver getMessageReceiver(CommandSourceStack sender) {
+        return new FabricMessageReceiver(this, sender);
     }
 
     @Override
