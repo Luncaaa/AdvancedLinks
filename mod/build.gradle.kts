@@ -26,6 +26,6 @@ subprojects {
 
         implementation(project(":common"))
 
-        implementation("net.kyori:adventure-text-serializer-gson:4.26.1")
+        implementation("net.kyori:adventure-text-serializer-gson:5.0.1")
     }
 }

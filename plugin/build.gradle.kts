@@ -27,9 +27,8 @@ tasks {
         }
 
         minimize()
-        relocate("org.spongepowered.configurate", "me.lucaaa.libs.configurate")
         archiveClassifier.set("")
-        destinationDirectory.set(file("../build/libs"))
+        destinationDirectory.set(rootProject.layout.buildDirectory.dir("libs"))
     }
 
     assemble {
