@@ -2,12 +2,11 @@ package me.lucaaa.advancedlinks.bungeecord.data;
 
 import me.lucaaa.advancedlinks.common.data.MessageReceiver;
 import me.lucaaa.advancedlinks.common.data.Parsers;
-import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class BungeeMessageReceiver implements MessageReceiver {
     private final CommandSender sender;
-    private static final BungeeComponentSerializer bungeeSerializer = BungeeComponentSerializer.get();
 
     public BungeeMessageReceiver(CommandSender sender) {
         this.sender = sender;
@@ -15,7 +14,7 @@ public class BungeeMessageReceiver implements MessageReceiver {
 
     @Override
     public void sendMessage(String message) {
-        sender.sendMessage(bungeeSerializer.serialize(Parsers.parseMessage(message)));
+        sender.sendMessage(TextComponent.fromLegacy(Parsers.legacySectionSerializer.serialize(Parsers.parseMessage(message))));
     }
 
     @Override

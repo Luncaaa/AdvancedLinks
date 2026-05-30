@@ -94,7 +94,7 @@ publishMods {
 
         javaVersions.add(JavaVersion.VERSION_21)
 
-        clientRequired = false
-        serverRequired = true
+        client = false
+        server = true
     }
 }
