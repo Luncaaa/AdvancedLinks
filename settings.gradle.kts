@@ -1,6 +1,6 @@
 rootProject.name = "AdvancedLinks"
-include("common")
 include(
+    "common",
     "plugin",
     "platform",
     "platform:spigot",
@@ -10,10 +10,14 @@ include(
     "platform:velocity",
 
     "mod",
-    "mod:mod_common",
-    "mod:fabric",
-    "mod:neoforge"
-    // "mod:forge" // TODO: Fix
+    /*"mod:v1_21",
+    "mod:v1_21:mod_common",
+    "mod:v1_21:fabric",
+    "mod:v1_21:neoforge",*/
+    "mod:v26_1",
+    "mod:v26_1:mod_common",
+    "mod:v26_1:fabric",
+    "mod:v26_1:neoforge"
 )
 
 pluginManagement {

@@ -1,13 +1,17 @@
 import groovy.json.JsonSlurper
 import java.net.URI
 
-data class ReleaseData(val name: String, val body: String, val versions: List<String>, val modrinthId: String = "gtWDB9au", val curseId: String = "1460993")
+data class ReleaseData(val name: String, val body: String, val versions: List<String>, val versions26: List<String>, val modrinthId: String = "gtWDB9au", val curseId: String = "1460993")
 
 fun getReleaseData(version: Any): ReleaseData {
     val supportedVersions = listOf(
         "1.21", "1.21.1", "1.21.2", "1.21.3", "1.21.4",
         "1.21.5", "1.21.6", "1.21.7", "1.21.8", "1.21.9",
         "1.21.10", "1.21.11"
+    )
+
+    val supportedVersions26 = listOf(
+        "26.1", "26.1.1", "26.1.2"
     )
 
     try {
@@ -22,8 +26,8 @@ fun getReleaseData(version: Any): ReleaseData {
             .replace("\r", "\n")
             .replace("\n", "  \n")
 
-        return ReleaseData(name, "# $name\n$formattedBody", supportedVersions)
+        return ReleaseData(name, "# $name\n$formattedBody", supportedVersions, supportedVersions26)
     } catch (_: Exception) {
-        return ReleaseData("Release $version", "Changelog not found for tag: $version", supportedVersions)
+        return ReleaseData("Release $version", "Changelog not found for tag: $version", supportedVersions, supportedVersions26)
     }
 }

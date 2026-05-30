@@ -21,7 +21,7 @@ allprojects {
 
     java {
         toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
+            languageVersion = JavaLanguageVersion.of(25)
         }
     }
 
@@ -53,6 +53,7 @@ subprojects {
         implementation("net.kyori:adventure-api:5.1.1")
         implementation("net.kyori:adventure-text-minimessage:5.1.1")
         implementation("net.kyori:adventure-text-serializer-legacy:5.1.1")
+        implementation("net.kyori:adventure-text-serializer-gson:5.1.1")
     }
 }
 

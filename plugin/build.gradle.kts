@@ -55,7 +55,7 @@ hangarPublish {
         platforms {
             paper {
                 jar = tasks.shadowJar.flatMap { it.archiveFile }
-                platformVersions = listOf("1.21.x")
+                platformVersions = listOf("1.21.x", "26.1.x")
                 dependencies {
                     hangar("PlaceholderAPI") {
                         required = false
@@ -77,6 +77,7 @@ modrinth {
     versionNumber.set(project.version as String)
     uploadFile.set(tasks.shadowJar)
     gameVersions.addAll(data.versions)
+    gameVersions.addAll(data.versions26)
     loaders.addAll("spigot", "paper", "purpur", "folia", "bungeecord", "velocity")
 
     versionName = data.name

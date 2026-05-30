@@ -16,5 +16,5 @@ If you have an issue, found a bug or want to suggest something, you can do it he
 - Contact me on Discord: Lucaaa#6268 / luncaaa
 
 ## How to compile
-The plugin is compiled using Gradle and Java 21.
+The plugin is compiled using Gradle and Java 25, although it can run on Java 21 on 1.21.x.
 Build the jar running the Gradle command "./gradlew build" in the root folder.

@@ -78,8 +78,9 @@ public class PlatformManager {
         String[] versionParts = plugin.getServer().getBukkitVersion().split("-")[0].split("\\.");
         int major = Integer.parseInt(versionParts[1]);
         int minor = (versionParts.length > 2) ? Integer.parseInt(versionParts[2]) : 0;
+        boolean oldVersioning = Integer.parseInt(versionParts[0]) == 1;
 
-        if (platform == Platform.SPIGOT || (major <= 21 && minor < 4)) {
+        if (platform == Platform.SPIGOT || (oldVersioning && major <= 21 && minor < 4)) {
             new SpigotMainCommand(plugin);
         } else {
             new PaperMainCommand(plugin, sender -> plugin.getPlatformManager().getMessageReceiver(sender));
