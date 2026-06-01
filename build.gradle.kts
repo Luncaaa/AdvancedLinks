@@ -10,7 +10,7 @@ val maven_group: String by project
 val mod_name: String by project
 val mod_version: String by project
 
-val releaseInfo by extra { getReleaseData(rootProject.version) }
+val releaseInfo by extra { getReleaseData(mod_version) }
 
 allprojects {
     apply(plugin = "java")
@@ -75,7 +75,8 @@ tasks {
         description = "Builds everything and publishes to all platforms."
 
         dependsOn(":plugin:publishToSites")
-        dependsOn(":mod:fabric:publishMods")
-        dependsOn(":mod:neoforge:publishMods")
+        dependsOn(":mod:v1_21:fabric:publishMods")
+        dependsOn(":mod:v1_21:neoforge:publishMods")
+        dependsOn(":mod:v26_1:publishMods")
     }
 }
