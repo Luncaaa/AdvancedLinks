@@ -10,14 +10,12 @@ include(
     "platform:velocity",
 
     "mod",
-    /*"mod:v1_21",
+    "mod:v1_21",
     "mod:v1_21:mod_common",
     "mod:v1_21:fabric",
-    "mod:v1_21:neoforge",*/
-    "mod:v26_1",
-    "mod:v26_1:mod_common",
-    "mod:v26_1:fabric",
-    "mod:v26_1:neoforge"
+    "mod:v1_21:neoforge",
+
+    "mod:v26_1"
 )
 
 pluginManagement {

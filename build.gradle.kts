@@ -7,10 +7,10 @@ plugins {
 }
 
 val maven_group: String by project
-val mod_version: String by project
 val mod_name: String by project
+val mod_version: String by project
 
-val releaseInfo by extra { getReleaseData(mod_version) }
+val releaseInfo by extra { getReleaseData(rootProject.version) }
 
 allprojects {
     apply(plugin = "java")
