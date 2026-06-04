@@ -26,7 +26,9 @@ tasks {
             )
         }
 
-        minimize()
+        minimize {
+            exclude(dependency("me.lucaaa:.*"))
+        }
         archiveClassifier.set("")
         destinationDirectory.set(rootProject.layout.buildDirectory.dir("libs"))
     }

@@ -6,6 +6,7 @@ author: Lucaaa
 prefix: AL
 api-version: "1.21"
 folia-supported: true
+bootstrapper: me.lucaaa.advancedlinks.paper.data.AdvancedLinksBootstrapper
 
 dependencies:
   server:
