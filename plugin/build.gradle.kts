@@ -29,6 +29,8 @@ tasks {
         minimize {
             exclude(dependency("me.lucaaa:.*"))
         }
+
+        exclude("com/google/**", "org/jspecify/**")
         archiveClassifier.set("")
         destinationDirectory.set(rootProject.layout.buildDirectory.dir("libs"))
     }
