@@ -36,19 +36,28 @@ public class AdvancedLinksBootstrapper implements PluginBootstrap {
         }
 
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-        String external = config.getString("pauseText", "<red>Missing setting in config: \"pauseText\"");
-        String title = config.getString("title", "<red>Missing setting in config: \"title\"");
+        String title = config.getString("title");
+        String external = config.getString("pauseText");
+
+        if (title == null) {
+            context.getLogger().warn("Missing \"title\" setting in config: custom Server Links screen title and pause screen button feature will be disabled.");
+            return;
+        }
+
+        DialogBase.Builder builder = DialogBase.builder(Parsers.parseMessage(title));
+
+        if (external != null) {
+            builder.externalTitle(Parsers.parseMessage(external));
+        } else {
+            context.getLogger().warn("Missing \"pauseText\" setting in config: Server Links pause screen button won't be changed.");
+        }
 
         try {
             context.getLifecycleManager().registerEventHandler(
                     RegistryEvents.DIALOG.entryAdd().newHandler(event -> {
                         if (!event.key().equals(DialogKeys.SERVER_LINKS)) return;
 
-                        event.builder().base(
-                                DialogBase.builder(Parsers.parseMessage(title))
-                                        .externalTitle(Parsers.parseMessage(external))
-                                        .build()
-                        );
+                        event.builder().base(builder.build());
                     })
             );
         } catch (NoSuchFieldError | Exception e) {
