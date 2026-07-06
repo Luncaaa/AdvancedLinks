@@ -1,4 +1,4 @@
-package me.lucaaa.advancedlinks.v26_1.data;
+package me.lucaaa.advancedlinks.v26_x.data;
 
 import com.mojang.datafixers.util.Either;
 import eu.pb4.placeholders.api.Placeholders;
@@ -7,7 +7,7 @@ import eu.pb4.placeholders.api.node.TextNode;
 import me.lucaaa.advancedlinks.common.data.LinkReceiver;
 import me.lucaaa.advancedlinks.common.data.ParsedLink;
 import me.lucaaa.advancedlinks.common.data.Parsers;
-import me.lucaaa.advancedlinks.v26_1.ModAdvancedLinks;
+import me.lucaaa.advancedlinks.v26_x.ModAdvancedLinks;
 import net.minecraft.network.protocol.common.ClientboundServerLinksPacket;
 import net.minecraft.server.ServerLinks;
 import net.minecraft.server.level.ServerPlayer;

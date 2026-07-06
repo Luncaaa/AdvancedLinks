@@ -18,7 +18,7 @@
   "environment": "server",
   "entrypoints": {
     "main": [
-      "me.lucaaa.advancedlinks.v26_1.FabricAdvancedLinks"
+      "me.lucaaa.advancedlinks.v26_x.FabricAdvancedLinks"
     ]
   },
 

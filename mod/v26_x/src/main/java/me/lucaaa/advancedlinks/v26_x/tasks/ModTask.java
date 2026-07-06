@@ -1,4 +1,4 @@
-package me.lucaaa.advancedlinks.v26_1.tasks;
+package me.lucaaa.advancedlinks.v26_x.tasks;
 
 import me.lucaaa.advancedlinks.common.tasks.ITask;
 

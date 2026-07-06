@@ -1,4 +1,4 @@
-package me.lucaaa.advancedlinks.v26_1;
+package me.lucaaa.advancedlinks.v26_x;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -14,11 +14,11 @@ import me.lucaaa.advancedlinks.common.managers.ConfigManager;
 import me.lucaaa.advancedlinks.common.managers.MessagesManager;
 import me.lucaaa.advancedlinks.common.managers.UpdateManager;
 import me.lucaaa.advancedlinks.common.tasks.ITasksManager;
-import me.lucaaa.advancedlinks.v26_1.data.ModLinkReceiver;
-import me.lucaaa.advancedlinks.v26_1.data.ModMessageReceiver;
-import me.lucaaa.advancedlinks.v26_1.managers.ModConfigManager;
-import me.lucaaa.advancedlinks.v26_1.managers.ModLinksManager;
-import me.lucaaa.advancedlinks.v26_1.tasks.ModTaskManager;
+import me.lucaaa.advancedlinks.v26_x.data.ModLinkReceiver;
+import me.lucaaa.advancedlinks.v26_x.data.ModMessageReceiver;
+import me.lucaaa.advancedlinks.v26_x.managers.ModConfigManager;
+import me.lucaaa.advancedlinks.v26_x.managers.ModLinksManager;
+import me.lucaaa.advancedlinks.v26_x.tasks.ModTaskManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.commands.CommandSourceStack;

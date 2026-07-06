@@ -68,7 +68,7 @@ publishMods {
     displayName = data.name
     changelog = data.body
     type = STABLE
-    modLoaders.add("fabric")
+    modLoaders.addAll("fabric", "quilt")
 
     modrinth {
         accessToken = System.getenv("MODRINTH_TOKEN")

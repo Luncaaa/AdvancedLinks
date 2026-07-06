@@ -1,4 +1,4 @@
-package me.lucaaa.advancedlinks.v26_1;
+package me.lucaaa.advancedlinks.v26_x;
 
 import me.lucaaa.advancedlinks.common.AdvancedLinks;
 import net.fabricmc.api.ModInitializer;

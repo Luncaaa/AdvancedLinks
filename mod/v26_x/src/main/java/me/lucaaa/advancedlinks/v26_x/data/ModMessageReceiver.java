@@ -1,8 +1,8 @@
-package me.lucaaa.advancedlinks.v26_1.data;
+package me.lucaaa.advancedlinks.v26_x.data;
 
 import me.lucaaa.advancedlinks.common.data.MessageReceiver;
 import me.lucaaa.advancedlinks.common.data.Parsers;
-import me.lucaaa.advancedlinks.v26_1.ModAdvancedLinks;
+import me.lucaaa.advancedlinks.v26_x.ModAdvancedLinks;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.permissions.Permissions;
 

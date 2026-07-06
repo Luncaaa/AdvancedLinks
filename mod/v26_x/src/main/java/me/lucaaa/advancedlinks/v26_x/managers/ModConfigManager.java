@@ -1,4 +1,4 @@
-package me.lucaaa.advancedlinks.v26_1.managers;
+package me.lucaaa.advancedlinks.v26_x.managers;
 
 import com.google.gson.*;
 import me.lucaaa.advancedlinks.common.AdvancedLinks;

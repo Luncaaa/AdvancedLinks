@@ -76,6 +76,6 @@ tasks {
         dependsOn(":plugin:publishToSites")
         dependsOn(":mod:v1_21:fabric:publishMods")
         dependsOn(":mod:v1_21:neoforge:publishMods")
-        dependsOn(":mod:v26_1:publishMods")
+        dependsOn(":mod:v26_x:publishMods")
     }
 }

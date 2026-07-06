@@ -1,9 +1,9 @@
-package me.lucaaa.advancedlinks.v26_1.managers;
+package me.lucaaa.advancedlinks.v26_x.managers;
 
 import com.mojang.datafixers.util.Either;
 import me.lucaaa.advancedlinks.common.data.ParsedLink;
 import me.lucaaa.advancedlinks.common.managers.LinksManager;
-import me.lucaaa.advancedlinks.v26_1.ModAdvancedLinks;
+import me.lucaaa.advancedlinks.v26_x.ModAdvancedLinks;
 import net.minecraft.server.ServerLinks;
 import net.minecraft.server.level.ServerPlayer;
 

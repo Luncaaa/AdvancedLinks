@@ -15,7 +15,7 @@ include(
     "mod:v1_21:fabric",
     "mod:v1_21:neoforge",
 
-    "mod:v26_1"
+    "mod:v26_x"
 )
 
 pluginManagement {

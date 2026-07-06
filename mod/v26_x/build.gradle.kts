@@ -16,7 +16,7 @@ val papiVersion = project.property("placeholder_api_version") as String
 val neoVersion = project.property("neo_version") as String
 
 base {
-    archivesName.set("${modName}-mod-26.1.x")
+    archivesName.set("${modName}-mod-26.x")
 }
 
 sourceSets {
@@ -132,7 +132,7 @@ publishMods {
     displayName = data.name
     changelog = data.body
     type = STABLE
-    modLoaders.addAll("fabric", "neoforge")
+    modLoaders.addAll("fabric", "quilt", "neoforge")
 
     modrinth {
         accessToken = System.getenv("MODRINTH_TOKEN")
