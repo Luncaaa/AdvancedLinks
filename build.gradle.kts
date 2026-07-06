@@ -50,10 +50,10 @@ subprojects {
 
     dependencies {
         compileOnly("me.clip:placeholderapi:2.12.2")
-        implementation("net.kyori:adventure-api:5.1.1")
-        implementation("net.kyori:adventure-text-minimessage:5.1.1")
-        implementation("net.kyori:adventure-text-serializer-legacy:5.1.1")
-        implementation("net.kyori:adventure-text-serializer-gson:5.1.1")
+        implementation("net.kyori:adventure-api:5.2.0")
+        implementation("net.kyori:adventure-text-minimessage:5.2.0")
+        implementation("net.kyori:adventure-text-serializer-legacy:5.2.0")
+        implementation("net.kyori:adventure-text-serializer-gson:5.2.0")
     }
 }
 
