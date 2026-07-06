@@ -1,28 +1,16 @@
-plugins {
-    id("me.modmuss50.mod-publish-plugin")
-}
-
 architectury {
     platformSetupLoomIde()
     fabric()
 }
 
-val mod_id: String by project
-val mod_name: String by project
-val fabric_loader_version: String by project
-val fabric_version: String by project
-val minecraft_version_range: String by project
-val placeholder_api_version: String by project
-
-val shadowBundle by configurations.creating {
-    isCanBeResolved = true
-    isCanBeConsumed = false
-}
-
-val common by configurations.creating {
-    isCanBeResolved = true
-    isCanBeConsumed = false
-}
+val modId = project.property("mod_id") as String
+val modName = project.property("mod_name") as String
+val modDescription = project.property("mod_description") as String
+val modLicense = project.property("mod_license") as String
+val fabricLoaderVersion = project.property("fabric_loader_version") as String
+val fabricVersion = project.property("fabric_version") as String
+val mcVersionRange = project.property("minecraft_version_range") as String
+val papiVersion = project.property("placeholder_api_version") as String
 
 configurations {
     getByName("compileClasspath").extendsFrom(common)
@@ -31,9 +19,9 @@ configurations {
 }
 
 dependencies {
-    "modImplementation"("net.fabricmc:fabric-loader:${fabric_loader_version}")
-    "modImplementation"("net.fabricmc.fabric-api:fabric-api:${fabric_version}")
-    "modImplementation"("eu.pb4:placeholder-api:$placeholder_api_version")
+    "modImplementation"("net.fabricmc:fabric-loader:${fabricLoaderVersion}")
+    "modImplementation"("net.fabricmc.fabric-api:fabric-api:${fabricVersion}")
+    "modImplementation"("eu.pb4:placeholder-api:$papiVersion")
 
     common(project(path = ":mod:v1_21:mod_common")) { isTransitive = false }
 
@@ -49,19 +37,21 @@ tasks {
             expand(
                 mapOf(
                     "version" to inputs.properties["version"],
-                    "loader_version" to fabric_loader_version,
-                    "fabric_version" to fabric_version,
-                    "minecraft_version_range" to minecraft_version_range,
-                    "placeholder_api_version" to placeholder_api_version,
-                    "mod_id" to mod_id,
-                    "mod_name" to mod_name
+                    "loader_version" to fabricLoaderVersion,
+                    "fabric_version" to fabricVersion,
+                    "minecraft_version_range" to mcVersionRange,
+                    "placeholder_api_version" to papiVersion,
+                    "mod_id" to modId,
+                    "mod_name" to modName,
+                    "mod_description" to modDescription,
+                    "mod_license" to modLicense
                 )
             )
         }
     }
 
     shadowJar {
-        configurations = listOf(shadowBundle)
+        configurations = listOf(project.configurations.named("shadowBundle").get())
         exclude("com/google/**", "org/jspecify/**")
         archiveClassifier.set("dev-shadow")
     }
@@ -72,7 +62,7 @@ tasks {
     }
 }
 
-val data = rootProject.extra["releaseInfo"] as ReleaseData
+val data = rootProject.extra.get("releaseInfo") as ReleaseData
 publishMods {
     file = tasks.remapJar.flatMap { it.archiveFile }
     displayName = data.name

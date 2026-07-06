@@ -1,24 +1,26 @@
 plugins {
     id("net.neoforged.moddev") version("latest.release")
     id("me.modmuss50.mod-publish-plugin")
+    id("com.gradleup.shadow")
 }
 
-val mod_id: String by project
-val mod_name: String by project
-val mod_license: String by project
-val fabric_loader_version: String by project
-val fabric_version: String by project
-val minecraft_version: String by project
-val minecraft_version_range: String by project
-val placeholder_api_version: String by project
-val neo_version: String by project
+val modId = project.property("mod_id") as String
+val modName = project.property("mod_name") as String
+val modDescription = project.property("mod_description") as String
+val modLicense = project.property("mod_license") as String
+val fabricLoaderVersion = project.property("fabric_loader_version") as String
+val fabricVersion = project.property("fabric_version") as String
+val mcVersion = project.property("minecraft_version") as String
+val mcVersionRange = project.property("minecraft_version_range") as String
+val papiVersion = project.property("placeholder_api_version") as String
+val neoVersion = project.property("neo_version") as String
 
 base {
-    archivesName.set("${mod_name}-mod-26.1.x")
+    archivesName.set("${modName}-mod-26.1.x")
 }
 
 sourceSets {
-    val main by getting
+    val main = getByName("main")
 
     create("fabric") {
         compileClasspath += main.output
@@ -35,21 +37,16 @@ sourceSets {
     }
 }
 
-val shadowBundle by configurations.creating {
-    isCanBeResolved = true
-    isCanBeConsumed = false
-}
-
 repositories {
     maven("https://maven.fabricmc.net/")
     maven("https://maven.neoforged.net/releases")
 }
 
 neoForge {
-    version = neo_version
+    version = neoVersion
 
     mods {
-        create(mod_id) {
+        create(modId) {
             sourceSet(sourceSets.main.get())
             sourceSet(sourceSets["neoforge"])
         }
@@ -61,12 +58,12 @@ dependencies {
     "fabricImplementation"(project(":common"))
     "neoforgeImplementation"(project(":common"))
 
-    compileOnly("net.fabricmc:fabric-loader:$fabric_loader_version")
-    compileOnly("net.fabricmc.fabric-api:fabric-api:$fabric_version")
-    "fabricImplementation"("net.fabricmc:fabric-loader:$fabric_loader_version")
-    "fabricImplementation"("net.fabricmc.fabric-api:fabric-api:$fabric_version")
+    compileOnly("net.fabricmc:fabric-loader:$fabricLoaderVersion")
+    compileOnly("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
+    "fabricImplementation"("net.fabricmc:fabric-loader:$fabricLoaderVersion")
+    "fabricImplementation"("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
 
-    implementation("eu.pb4:placeholder-api:${placeholder_api_version}")
+    implementation("eu.pb4:placeholder-api:${papiVersion}")
 
     shadowBundle(project(":common"))
 }
@@ -79,14 +76,15 @@ tasks {
             expand(
                 mapOf(
                     "version" to inputs.properties["version"],
-                    "mod_id" to mod_id,
-                    "mod_name" to mod_name,
-                    "mod_license" to mod_license,
-                    "neo_version" to neo_version,
-                    "minecraft_version_range" to minecraft_version_range,
-                    "loader_version" to fabric_loader_version,
-                    "fabric_version" to fabric_version,
-                    "placeholder_api_version" to placeholder_api_version,
+                    "loader_version" to fabricLoaderVersion,
+                    "fabric_version" to fabricVersion,
+                    "neo_version" to neoVersion,
+                    "minecraft_version_range" to mcVersionRange,
+                    "placeholder_api_version" to papiVersion,
+                    "mod_id" to modId,
+                    "mod_name" to modName,
+                    "mod_description" to modDescription,
+                    "mod_license" to modLicense
                 )
             )
         }
@@ -104,16 +102,16 @@ tasks {
         from(sourceSets["fabric"].output)
         from(commonProject.sourceSets["main"].output)
         archiveClassifier.set("raw")
-        from("LICENSE") { rename { "${it}_$mod_id" } }
+        from("LICENSE") { rename { "${it}_$modId" } }
         manifest {
-            attributes("Automatic-Module-Name" to "$group.$mod_id")
+            attributes("Automatic-Module-Name" to "$group.$modId")
         }
     }
 
     shadowJar {
         dependsOn(jar)
         from(zipTree(jar.flatMap { it.archiveFile }))
-        configurations = listOf(shadowBundle)
+        configurations = listOf(project.configurations.named("shadowBundle").get())
 
         exclude("com/google/**", "org/jspecify/**")
         mergeServiceFiles()
@@ -128,7 +126,7 @@ tasks {
     }
 }
 
-val data = rootProject.extra["releaseInfo"] as ReleaseData
+val data = rootProject.extra.get("releaseInfo") as ReleaseData
 publishMods {
     file = tasks.shadowJar.flatMap { it.archiveFile }
     displayName = data.name

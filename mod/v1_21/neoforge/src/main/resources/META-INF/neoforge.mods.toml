@@ -9,7 +9,7 @@ version="${version}"
 displayName="${mod_name}"
 authors = "Lucaaa"
 description = '''
-Create server links in the links menu!
+${mod_description}
 '''
 displayURL="https://modrinth.com/plugin/advancedlinks" #optional
 logoFile = "assets/advancedlinks/icon.png"

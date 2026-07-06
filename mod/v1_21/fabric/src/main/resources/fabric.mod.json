@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "${mod_name}",
-  "description": "Create server links in the links menu!",
+  "description": "${mod_description}",
   "authors": ["Lucaaa"],
   "contact": {
     "homepage": "https://modrinth.com/plugin/advancedlinks",
@@ -12,7 +12,7 @@
     "sources": "https://github.com/Luncaaa/AdvancedLinks"
   },
 
-  "license": "GPL-3.0",
+  "license": "${mod_license}",
   "icon": "assets/advancedlinks/icon.png",
 
   "environment": "server",

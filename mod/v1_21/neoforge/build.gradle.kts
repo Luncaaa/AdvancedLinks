@@ -1,27 +1,14 @@
-plugins {
-    id("me.modmuss50.mod-publish-plugin")
-}
-
 architectury {
     platformSetupLoomIde()
     neoForge()
 }
 
-val neo_version: String by project
-val minecraft_version_range: String by project
-val mod_license: String by project
-val mod_id: String by project
-val mod_name: String by project
-
-val shadowBundle by configurations.creating {
-    isCanBeResolved = true
-    isCanBeConsumed = false
-}
-
-val common by configurations.creating {
-    isCanBeResolved = true
-    isCanBeConsumed = false
-}
+val modId = project.property("mod_id") as String
+val modName = project.property("mod_name") as String
+val modDescription = project.property("mod_description") as String
+val modLicense = project.property("mod_license") as String
+val neoVersion = project.property("neo_version") as String
+val mcVersionRange = project.property("minecraft_version_range") as String
 
 configurations {
     getByName("compileClasspath").extendsFrom(common)
@@ -34,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    "neoForge"("net.neoforged:neoforge:${neo_version}")
+    "neoForge"("net.neoforged:neoforge:${neoVersion}")
 
     common(project(path = ":mod:v1_21:mod_common")) { isTransitive = false }
 
@@ -50,18 +37,19 @@ tasks {
             expand(
                 mapOf(
                     "version" to inputs.properties["version"],
-                    "neo_version" to neo_version,
-                    "minecraft_version_range" to minecraft_version_range,
-                    "mod_license" to mod_license,
-                    "mod_id" to mod_id,
-                    "mod_name" to mod_name
+                    "neo_version" to neoVersion,
+                    "minecraft_version_range" to mcVersionRange,
+                    "mod_id" to modId,
+                    "mod_name" to modName,
+                    "mod_description" to modDescription,
+                    "mod_license" to modLicense
                 )
             )
         }
     }
 
     shadowJar {
-        configurations = listOf(shadowBundle)
+        configurations = listOf(project.configurations.named("shadowBundle").get())
         exclude("com/google/**", "org/jspecify/**")
         archiveClassifier.set("dev-shadow")
     }
@@ -72,7 +60,7 @@ tasks {
     }
 }
 
-val data = rootProject.extra["releaseInfo"] as ReleaseData
+val data = rootProject.extra.get("releaseInfo") as ReleaseData
 publishMods {
     file = tasks.remapJar.flatMap { it.archiveFile }
     displayName = data.name

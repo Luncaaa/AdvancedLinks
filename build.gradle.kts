@@ -1,23 +1,26 @@
 plugins {
     id("java")
-    id("com.gradleup.shadow") version("latest.release")
-    id("io.papermc.hangar-publish-plugin") version("latest.release")
-    id("com.modrinth.minotaur") version("latest.release")
-    id("me.modmuss50.mod-publish-plugin") version("latest.release")
+    id("shared")
+    id("com.gradleup.shadow") version("latest.release") apply false
+    id("dev.architectury.loom") version("latest.release") apply false
+    id("architectury-plugin") version("3.5-SNAPSHOT") apply false
+    id("io.papermc.hangar-publish-plugin") version("latest.release") apply false
+    id("com.modrinth.minotaur") version("latest.release") apply false
+    id("me.modmuss50.mod-publish-plugin") version("latest.release") apply false
 }
 
-val maven_group: String by project
-val mod_name: String by project
-val mod_version: String by project
+val mavenGroup = project.property("maven_group") as String
+val modName = project.property("mod_name") as String
+val modVersion = project.property("mod_version") as String
 
-val releaseInfo by extra { getReleaseData(mod_version) }
+extra.set("releaseInfo", getReleaseData(modVersion))
 
 allprojects {
-    apply(plugin = "java")
-    apply(plugin = "com.gradleup.shadow")
+    plugins.apply("java")
+    plugins.apply("shared")
 
-    group = maven_group
-    version = mod_version
+    group = mavenGroup
+    version = modVersion
 
     java {
         toolchain {
@@ -35,7 +38,7 @@ allprojects {
 
 subprojects {
     base {
-        archivesName.set("${mod_name}-${project.name}")
+        archivesName.set("${modName}-${project.name}")
     }
 
     repositories {
@@ -63,10 +66,6 @@ tasks {
     }
 
     jar {
-        enabled = false
-    }
-
-    shadowJar {
         enabled = false
     }
 

@@ -1,7 +1,11 @@
 plugins {
+    id("com.gradleup.shadow")
     id("io.papermc.hangar-publish-plugin")
     id("com.modrinth.minotaur")
 }
+
+val modName = project.property("mod_name") as String
+val modDescription = project.property("mod_description") as String
 
 dependencies {
     implementation(project(":common"))
@@ -17,6 +21,20 @@ dependencies {
 }
 
 tasks {
+    processResources {
+        inputs.property("version", project.version)
+
+        filesMatching(listOf("plugin.yml", "paper-plugin.yml")) {
+            expand(
+                mapOf(
+                    "version" to inputs.properties["version"],
+                    "name" to modName,
+                    "description" to modDescription
+                )
+            )
+        }
+    }
+
     shadowJar {
         manifest {
             attributes(
@@ -45,7 +63,7 @@ tasks {
     }
 }
 
-val data = rootProject.extra["releaseInfo"] as ReleaseData
+val data = rootProject.extra.get("releaseInfo") as ReleaseData
 
 hangarPublish {
     publications.register("plugin") {

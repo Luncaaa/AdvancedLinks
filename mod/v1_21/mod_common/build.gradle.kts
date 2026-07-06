@@ -1,5 +1,5 @@
-val enabled_platforms: String by project
+val enabledPlatforms = project.property("enabled_platforms") as String
 
 architectury {
-    common(enabled_platforms.split(","))
+    common(enabledPlatforms.split(","))
 }

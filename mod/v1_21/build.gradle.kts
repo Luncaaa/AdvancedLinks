@@ -1,23 +1,24 @@
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
 
 plugins {
-    id("dev.architectury.loom") version("latest.release") apply false
-    id("architectury-plugin") version("3.5-SNAPSHOT")
+    id("architectury-plugin")
 }
 
-val mod_name: String by project
-val minecraft_version: String by project
+val modName = project.property("mod_name") as String
+val minecraftVersion = project.property("minecraft_version") as String
 
 architectury {
-    minecraft = minecraft_version
+    minecraft = minecraftVersion
 }
 
 subprojects {
-    apply(plugin = "dev.architectury.loom")
-    apply(plugin = "architectury-plugin")
+    plugins.apply("com.gradleup.shadow")
+    plugins.apply("dev.architectury.loom")
+    plugins.apply("architectury-plugin")
+    plugins.apply("me.modmuss50.mod-publish-plugin")
 
     base {
-        archivesName.set("${mod_name}-${project.name}-1.21.x")
+        archivesName.set("${modName}-${project.name}-1.21.x")
     }
 
     configure<LoomGradleExtensionAPI> {
@@ -25,7 +26,7 @@ subprojects {
     }
 
     dependencies {
-        "minecraft"("net.minecraft:minecraft:${minecraft_version}")
+        "minecraft"("net.minecraft:minecraft:${minecraftVersion}")
         val loom = project.extensions.getByName<LoomGradleExtensionAPI>("loom")
         "mappings"(loom.officialMojangMappings())
 

@@ -1,7 +1,7 @@
 main: me.lucaaa.advancedlinks.SpigotAdvancedLinks
-description: "Create server links in the links menu!"
-name: "AdvancedLinks"
-version: 2.2
+description: "${description}"
+name: "${name}"
+version: ${version}
 softdepend: [PlaceholderAPI]
 author: Lucaaa
 prefix: AL
