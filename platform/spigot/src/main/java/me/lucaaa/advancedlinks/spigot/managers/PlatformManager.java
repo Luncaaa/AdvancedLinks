@@ -16,6 +16,7 @@ import org.bukkit.ServerLinks;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.logging.Level;
 
 @SuppressWarnings("UnstableApiUsage")
@@ -75,10 +76,12 @@ public class PlatformManager {
     }
 
     public void registerMainCommand() {
-        String[] versionParts = plugin.getServer().getBukkitVersion().split("-")[0].split("\\.");
-        int major = Integer.parseInt(versionParts[1]);
-        int minor = (versionParts.length > 2) ? Integer.parseInt(versionParts[2]) : 0;
+        String[] versionParts = Arrays.stream(plugin.getServer().getBukkitVersion().split("-")[0].split("\\."))
+                .filter(part -> part.matches("\\d+")) // Keep only numeric parts, experimental Paper versions contain non-numeric values (e.g. "build")
+                .toArray(String[]::new);
         boolean oldVersioning = Integer.parseInt(versionParts[0]) == 1;
+        int major = Integer.parseInt(versionParts[1]);
+        int minor = (oldVersioning && versionParts.length > 2) ? Integer.parseInt(versionParts[2]) : 0;
 
         if (platform == Platform.SPIGOT || (oldVersioning && major <= 21 && minor < 4)) {
             new SpigotMainCommand(plugin);
