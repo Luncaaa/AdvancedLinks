@@ -2,6 +2,7 @@ package me.lucaaa.advancedlinks.paper.commands;
 
 import io.papermc.paper.command.brigadier.BasicCommand;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import me.lucaaa.advancedlinks.common.AdvancedLinks;
 import me.lucaaa.advancedlinks.common.commands.MainCommand;
 import me.lucaaa.advancedlinks.common.data.MessageReceiver;
@@ -11,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.NonNull;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.function.Function;
 
 @SuppressWarnings("UnstableApiUsage")
@@ -20,10 +22,9 @@ public class PaperMainCommand {
     public PaperMainCommand(AdvancedLinks<ServerLinks.ServerLink, ServerLinks.Type> plugin, Function<CommandSender, MessageReceiver> getReceiver) {
         this.mainCommand = new MainCommand(plugin, ServerLinks.Type.class);
 
-        ((JavaPlugin) plugin).registerCommand(
-                "al",
-                "Main command.",
-                new BasicCommand() {
+        ((JavaPlugin) plugin).getLifecycleManager().registerEventHandler(
+                LifecycleEvents.COMMANDS,
+                event -> event.registrar().register("al", "Main command.", Collections.emptyList(), new BasicCommand() {
                     @Override
                     public void execute(@NonNull CommandSourceStack commandSourceStack, String @NonNull [] args) {
                         mainCommand.onCommand(getReceiver.apply(commandSourceStack.getSender()), args);
@@ -34,7 +35,7 @@ public class PaperMainCommand {
                     public Collection<String> suggest(@NonNull CommandSourceStack commandSourceStack, String @NonNull [] args) {
                         return mainCommand.onTabComplete(getReceiver.apply(commandSourceStack.getSender()), args);
                     }
-                }
+                })
         );
     }
 }

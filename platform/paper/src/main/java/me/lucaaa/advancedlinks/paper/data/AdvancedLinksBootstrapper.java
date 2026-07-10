@@ -1,5 +1,6 @@
 package me.lucaaa.advancedlinks.paper.data;
 
+import io.papermc.paper.ServerBuildInfo;
 import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 import io.papermc.paper.plugin.bootstrap.PluginBootstrap;
 import io.papermc.paper.registry.data.dialog.DialogBase;
@@ -13,11 +14,24 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 @SuppressWarnings({"unused", "UnstableApiUsage"})
 public class AdvancedLinksBootstrapper implements PluginBootstrap {
     @Override
     public void bootstrap(@NonNull BootstrapContext context) {
+        String[] versionParts = Arrays.stream(ServerBuildInfo.buildInfo().minecraftVersionId().split("\\."))
+                .filter(part -> part.matches("\\d+"))
+                .toArray(String[]::new);
+        boolean oldVersioning = Integer.parseInt(versionParts[0]) == 1;
+        int major = Integer.parseInt(versionParts[1]);
+        int minor = (oldVersioning && versionParts.length > 2) ? Integer.parseInt(versionParts[2]) : 0;
+
+        if (oldVersioning && (major < 21 || (major == 21 && minor < 7))) {
+            context.getLogger().warn("Server is running a version older than 1.21.7, where Paper didn't have the Dialog API yet. - Custom Server Links screen title and custom pause screen button text features will be disabled.");
+            return;
+        }
+
         File file = new File(context.getDataDirectory().toAbsolutePath() + File.separator + "config.yml");
 
         if (!file.exists()) {
