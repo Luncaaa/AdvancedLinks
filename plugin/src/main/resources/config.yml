@@ -4,12 +4,13 @@ prefix: "&7[&6AL&7]"
 # Whether the plugin should check for updates or not.
 updateChecker: true
 
-### THESE 2 SETTINGS ARE 1.21.7+ FEATURES ONLY ###
+##### THESE 2 SETTINGS ARE 1.21.7+ FEATURES ONLY #####
+# You'll have to reload the server for these settings to apply.
 # The "Server Links" button text in the pause screen
 pauseText: "<gold>Server Links"
 # The Server Links screen title
 title: "<gold>Server Links"
-##################################################
+#######################################################
 
 # If set to any value higher than 0, the links will update every x ticks (they will be removed and set again parsing the placeholders).
 # If set to 0, they will not update. It is not recommended to change this value unless you have placeholders which may change.

@@ -40,7 +40,7 @@ public class AdvancedLinksBootstrapper implements PluginBootstrap {
         String external = config.getString("pauseText");
 
         if (title == null) {
-            context.getLogger().warn("Missing \"title\" setting in config: custom Server Links screen title and pause screen button feature will be disabled.");
+            context.getLogger().warn("Missing \"title\" setting in config: custom Server Links screen title and custom pause screen button text features will be disabled.");
             return;
         }
 
@@ -49,7 +49,7 @@ public class AdvancedLinksBootstrapper implements PluginBootstrap {
         if (external != null) {
             builder.externalTitle(Parsers.parseMessage(external));
         } else {
-            context.getLogger().warn("Missing \"pauseText\" setting in config: Server Links pause screen button won't be changed.");
+            context.getLogger().warn("Missing \"pauseText\" setting in config: Server Links custom pause screen button text won't be changed.");
         }
 
         try {
