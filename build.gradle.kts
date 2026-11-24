@@ -52,7 +52,7 @@ subprojects {
     }
 
     dependencies {
-        compileOnly("me.clip:placeholderapi:2.12.2")
+        compileOnly("me.clip:placeholderapi:2.12.3")
         implementation("net.kyori:adventure-api:5.2.0")
         implementation("net.kyori:adventure-text-minimessage:5.2.0")
         implementation("net.kyori:adventure-text-serializer-legacy:5.2.0")

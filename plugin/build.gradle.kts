@@ -16,8 +16,8 @@ dependencies {
 
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
     compileOnly("net.md-5:bungeecord-api:1.21-R0.5-SNAPSHOT")
-    compileOnly("com.velocitypowered:velocity-api:3.5.0-SNAPSHOT")
-    annotationProcessor("com.velocitypowered:velocity-api:3.5.0-SNAPSHOT")
+    compileOnly("com.velocitypowered:velocity-api:4.3.2-SNAPSHOT")
+    annotationProcessor("com.velocitypowered:velocity-api:4.3.2-SNAPSHOT")
 }
 
 tasks {
@@ -77,7 +77,7 @@ hangarPublish {
         platforms {
             paper {
                 jar = tasks.shadowJar.flatMap { it.archiveFile }
-                platformVersions = listOf("1.21.x", "26.1.x")
+                platformVersions = listOf("1.21.x", "26.1.x", "26.2", "26.3")
                 dependencies {
                     hangar("PlaceholderAPI") {
                         required = false
@@ -87,7 +87,7 @@ hangarPublish {
 
             velocity {
                 jar = tasks.shadowJar.flatMap { it.archiveFile }
-                platformVersions = listOf("3.5")
+                platformVersions = listOf("4.3.2")
             }
         }
     }
